@@ -15,8 +15,8 @@ export function SearchAI({ language }) {
   const [searchResults, setSearchResults] = useState<Array<any> | boolean>(false) // @to  < Array || false >
   const [creativeSearch, setCreativeSearch] = useState(false)
   const [showExamples, setShowExamples] = useState(true)
-
   const [typeFilterValue, setTypeFilterValue] = useState('WFS & WMS')
+  const [similarSearchText, setSimilarSearchText] = useState('')
 
   async function getSearchResults(inputText) {
     let data
@@ -28,7 +28,7 @@ export function SearchAI({ language }) {
         `/api/get-embeddings/?messages=${inputText}&matchthreshold=${
           // creativeSearch ? 0.3 : 0.78
           // 0.3
-          0.78
+          0.3
         }`,
         {
           cache: process.env.NODE_ENV === 'development' ? 'no-store' : 'default',
@@ -46,6 +46,13 @@ export function SearchAI({ language }) {
       return data
     }
   }
+
+  useEffect(() => {
+    if (similarSearchText) {
+      setInputText(similarSearchText)
+      searchForEmbedding(similarSearchText)
+    }
+  }, [similarSearchText])
 
   async function searchForEmbedding(inputText) {
     if (isLoading || inputText === '') {
@@ -130,9 +137,9 @@ export function SearchAI({ language }) {
               <table className="w-full">
                 <tbody className="">
                   <tr className="border-b-[1px] text-lg text-left">
-                    <th className="p-4 w-2/5">Datensatztitel</th>
-                    <th className="p-4 w-2/5">Übereinstimmung</th>
-                    <th className="w-1/5"></th>
+                    <th className="p-4">Datensatztitel</th>
+                    <th className="p-4">Übereinstimmung</th>
+                    <th className=""></th>
                   </tr>
                   {searchResults.map((result) => (
                     <React.Fragment key={result.id}>
@@ -140,6 +147,7 @@ export function SearchAI({ language }) {
                         result={result}
                         inputText={inputText}
                         typeFilterValue={typeFilterValue}
+                        setSimilarSearchText={setSimilarSearchText}
                       ></DatasetInfoRow>
                     </React.Fragment>
                   ))}

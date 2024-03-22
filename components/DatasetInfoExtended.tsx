@@ -7,13 +7,15 @@ import Typewriter from './Typewriter'
 import { LoaderIcon } from '@/components/ui/icons/loader'
 import { AiText } from '@/components/AiText'
 import { AttributeTable } from '@/components/AttributeTable'
+import { SearchIcon } from '@/components/ui/icons/search'
 
-export function DatasetInfoExtended({ contentDataset, inputText }) {
+export function DatasetInfoExtended({ contentDataset, inputText, setSimilarSearchText }) {
   const { copyToClipboard, hasCopied } = useCopyToClipboard()
 
   console.log('contentDataset', contentDataset)
 
-  const buttonClass = 'w-max flex bg-odis-light !text-white p-2 mr-2 rounded-md hover:bg-active '
+  const buttonClass =
+    'align-center w-max flex bg-odis-light !text-white p-2 mr-2 rounded-md hover:bg-active '
 
   return (
     <div>
@@ -87,6 +89,22 @@ export function DatasetInfoExtended({ contentDataset, inputText }) {
             {!hasCopied ? contentDataset['Typ'] + ' kopieren' : 'kopiert!'}
           </div>
         </button>
+        <button
+          onClick={() => setSimilarSearchText(contentDataset['Titel'])}
+          className={buttonClass}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            className="mr-2"
+            viewBox="0 0 16 16"
+          >
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+          </svg>
+          ähnlichen Daten
+        </button>
       </div>
 
       {contentDataset['Fisbroker URL'] && (
@@ -98,6 +116,7 @@ export function DatasetInfoExtended({ contentDataset, inputText }) {
           . Hier erhälst du Detailinformationen wie letzte Aktualisierungen, Granularität, etc.
         </div>
       )}
+
       {contentDataset['Attribute'] && <AttributeTable contentDataset={contentDataset} />}
 
       <AiText content={contentDataset.rawContent} inputText={inputText} />

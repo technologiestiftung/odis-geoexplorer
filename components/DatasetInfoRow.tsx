@@ -37,7 +37,7 @@ function parseEmbeddingContent(text) {
 }
 
 export function DatasetInfoRow(props) {
-  const { result, inputText, typeFilterValue } = props
+  const { result, inputText, typeFilterValue, setSimilarSearchText } = props
 
   const [showExtraInfo, setShowExtraInfo] = useState<boolean>(false)
   let content = result && result.content ? parseEmbeddingContent(result.content) : {}
@@ -79,7 +79,11 @@ export function DatasetInfoRow(props) {
       {showExtraInfo && (
         <tr colSpan={3}>
           <td colSpan={3} className="">
-            <DatasetInfoExtended contentDataset={content} inputText={inputText} />
+            <DatasetInfoExtended
+              contentDataset={content}
+              inputText={inputText}
+              setSimilarSearchText={setSimilarSearchText}
+            />
           </td>
         </tr>
       )}
