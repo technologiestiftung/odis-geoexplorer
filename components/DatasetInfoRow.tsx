@@ -8,6 +8,7 @@ import { SimilarityRating } from '@/components/SimilarityRating'
 function parseEmbeddingContent(text) {
   text = text.replaceAll('\\', '')
   const splitted = text.split('$$$\n')
+
   const parsedInfo = {}
   splitted.map((d, i) => {
     let key
@@ -15,7 +16,7 @@ function parseEmbeddingContent(text) {
 
     if (i === 0) {
       key = 'Titel'
-      value = d.split('- Titel: ')[1]
+      value = d.split('Titel: ')[1]
     } else {
       key = d.split(': ')[0].replace('*   ', '').trim()
       value = d
@@ -65,9 +66,9 @@ export function DatasetInfoRow(props) {
                   setShowExtraInfo(!showExtraInfo)
                 }}
                 type="submit"
-                className="text-white text-xs  rounded-md w-20 px-1 py-1 hover:bg-active bg-odis-light "
+                className="text-white text-xs  rounded-md w-24 px-1 py-1 hover:bg-active bg-odis-light hover:text-odis-dark"
               >
-                Mehr Infos
+                {showExtraInfo ? 'Weniger Infos' : 'Mehr Infos'}
               </button>
             </td>
           </tr>

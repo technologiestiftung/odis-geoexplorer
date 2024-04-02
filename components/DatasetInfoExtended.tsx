@@ -15,7 +15,7 @@ export function DatasetInfoExtended({ contentDataset, inputText, setSimilarSearc
   console.log('contentDataset', contentDataset)
 
   const buttonClass =
-    'align-center w-max flex bg-odis-light !text-white p-2 mr-2 rounded-md hover:bg-active '
+    'align-center w-max flex bg-odis-light !text-white p-2 mr-2 rounded-md hover:bg-active hover:!text-odis-dark'
 
   return (
     <div>
@@ -27,40 +27,13 @@ export function DatasetInfoExtended({ contentDataset, inputText, setSimilarSearc
               target="_blank"
               href={`${
                 contentDataset['Service URL']
-              }?service=WFS&version=1.1.0&request=GetFeature&typeName=senstadt:${
-                contentDataset['Service URL'].split('/')[
-                  contentDataset['Service URL'].split('/').length - 1
-                ]
-              }&outputFormat=application/json`}
+              }?service=WFS&version=1.1.0&request=GetFeature&typeName=${contentDataset[
+                'Layer Name'
+              ].replace('Type', '')}&outputFormat=application/json&CRS=CRS:84`}
               className={buttonClass}
             >
               <DownloadIcon />
               <span className="pl-2">JSON Download</span>
-            </a>
-
-            <a
-              target="_blank"
-              href={'https://wfs-analyser.netlify.app/?wfs=' + contentDataset['Service URL']}
-              className={buttonClass}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                viewBox="0 0 16 16"
-                className="mr-2 overflow-visible"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"
-                />
-                <path
-                  fillRule="evenodd"
-                  d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"
-                />
-              </svg>
-              WFS analysieren
             </a>
           </>
         )}

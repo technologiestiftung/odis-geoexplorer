@@ -28,7 +28,7 @@ export default function Home() {
         <LogoHeader />
         <div className="md:w-3/4 bg-white p-8 sm:p-12 rounded border border-input mt-8 max-w-4xl self-center">
           <div className="w-full text-right">
-            <InfoModal />
+            <InfoModal language={language} />
           </div>
           <IntroText language={language} />
           <SearchAI language={language} />

@@ -10,8 +10,11 @@ import {
 } from '@/components/ui/dialog'
 
 import { InfoIcon } from '@/components/ui/icons/info'
+import { text } from '@/lib/text'
 
-export function InfoModal() {
+import { LoaderCrossIcon } from '@/components/ui/icons/loaderCross'
+
+export function InfoModal({ language }) {
   // Return the JSX for your component
   return (
     <Dialog>
@@ -23,7 +26,21 @@ export function InfoModal() {
       </DialogTrigger>
       <DialogContent className="h-full sm:h-max">
         <DialogHeader>
-          <DialogTitle>GeoExplore Berlin</DialogTitle>
+          <DialogTitle>
+            {' '}
+            <div className="text-center text-odis-dark mb-2">
+              <h1 className="text-2xl font-bold">
+                Geo<span className="text-odis-light">Explore</span>
+              </h1>
+              <h2 className="font-robot text-sm">
+                {text[language].subHeading || text['de'].subHeading}
+              </h2>
+              <span className="inline-block text-odis-dark my-2">
+                {' '}
+                <LoaderCrossIcon animate={false} />
+              </span>
+            </div>
+          </DialogTitle>
           <DialogDescription className="text-black text-md">
             Entdecke Berlins Geodaten mit GeoExplore Berlin. Mit diesem Prototyp kannst du spielend
             leicht Daten aus mehr als 650 Geodatensätze aus dem{' '}

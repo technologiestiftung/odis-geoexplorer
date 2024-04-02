@@ -1,0 +1,180 @@
+# Installierte Leistung der Photovoltaikanlagen pro Bezirk - Öffentliche Hand [MWp]
+- Titel: Installierte Leistung der Photovoltaikanlagen pro Bezirk - Öffentliche Hand [MWp] $$$
+- Service URL: https://gdi.berlin.de/services/wfs/ua_solaranlagen_pv $$$
+- Typ: WFS $$$
+- Name: solaranlagen-photovoltaik-umweltatlas-wfs-dfb86f73 $$$
+- Stichworte: Berlin,Bezirk,Deckungsrate,Energie,Energieatlas,Generatorleistung,Geodaten,Gesamtleistung,Kleinanlagen,Klimaschutz,Mieterstromanlagen,Mieterstromprojekte,PLZ,PV-Anlagen,Photovoltaik,Postleitzahl,Reserve,Sachdaten,Standort,Stromeinspeisung,Umweltatlas,alternative Energien,installierte Leistung,potenzielle Leistung,regenerative Energie,ungenutzte Leistung,öffentliche Hand $$$
+- Anmerkung: Standort- und flächenbezogene Informationen zu Photovoltaikanlagen in Bezug auf die Parameter installierte Leistung, Stromeinspeisung und relative Deckungsrate. Zusätzlich wird das Dachflächenpotenzial für Photovoltaik (PV) angegeben (nur in einem Maßstabsbereich von 1 : 500 bis 1 : 20.000 sichtbar). $$$
+- Fisbroker URL: null $$$
+- Autor: Senatsverwaltung für Wirtschaft, Energie und Betriebe Berlin $$$
+- Beschreibung URL: https://fbinter.stadt-berlin.de/fb_daten/beschreibung/umweltatlas/datenformatbeschreibung/Datenformatbeschreibung_08_09_1SolarPV2023.html $$$
+- Teildatensatz von: Solaranlagen - Photovoltaik (Umweltatlas) $$$
+- Attribute: id_bezirk,bezirk,anzahl,inst_leistung,stadt_ges_anzahl,stadt_ges_inst_leistung,geom $$$
+- Layer Name: ua_solaranlagen_pv:h_sp08_09_1pvsummebez_oeh $$$
+- Beschreibung: Technische Beschreibung 
+
+Solaranlagen - Photovoltaik (Umweltatlas)
+
+Es werden mehrere Themenschwerpunkte in unterschiedlichen Raumeinheiten dargestellt:
+
+* PV-Standorte bis 30 kWp (nicht lagetreu),
+* PV-Standorte größer 30 kWp,
+* PV-Standorte der öffentlichen Hand,
+* PV-Standorte Mieterstromanlagen bis 30 kWp,
+* PV-Standorte Mieterstromanlagen größer 30 kWp,
+* Installierte PV-Leistung pro Bezirk und PLZ,
+* Installierte PV-Leistung pro Bezirk der öffentlichen Hand,
+* Installierte PV-Leistung der PV-Mieterstromanlagen pro Bezirk,
+* PV-Stromeinspeisung pro Bezirk und PLZ,
+* PV-Deckungsrate pro Bezirk,
+* PV-Potenzial der Gebäudeflächen,
+* PV-Potenzial der Dachflächen.
+
+Die folgende Tabelle beschreibt die Attribute der PV-Standorte bis 30 kWp (nicht lagetreu):
+
+| **Feldname**   | **Beschreibung**                                           |
+| -------------- | ---------------------------------------------------------- |
+| plz            | Postleitzahl                                               |
+| anzahl         | Summe der Anlagen bis 30 kWp innerhalb eines PLZ-Bereiches |
+| inst\_leistung | Installierte Leistung \[kW\]                               |
+
+Die folgende Tabelle beschreibt die Attribute der PV-Standorte größer 30 kWp:
+
+| **Feldname**          | **Beschreibung**              |
+| --------------------- | ----------------------------- |
+| strasse\_flur\_lang   | Adresse oder Flurstück        |
+| plz                   | Postleitzahl                  |
+| ort\_gemark           | Ort oder Gemarkung            |
+| inst\_leistung        | Installierte Leistung \[kWp\] |
+| enh\_anzahlmodule     | Anzahl der Module             |
+| enh\_hauptausrichtung | Hauptausrichtung              |
+| enh\_einspeisungsart  | Einspeisungsart               |
+| inbetriebnahme        | Datum der Inbetriebnahme      |
+
+Die folgende Tabelle beschreibt die Attribute der PV-Standorte der öffentlichen Hand:
+
+| **Feldname**        | **Beschreibung**              |
+| ------------------- | ----------------------------- |
+| strasse\_flur\_lang | Adresse                       |
+| plz                 | Postleitzahl                  |
+| ort\_gemark         | Ort                           |
+| institution         | Institution                   |
+| inst\_leistung      | Installierte Leistung \[kWp\] |
+| enh\_anzahlmodule   | Anzahl der Module             |
+| hauptausrichtung    | Hauptausrichtung              |
+| einspeisungsart     | Einspeisungsart               |
+| inbetriebnahme      | Inbetriebnahmejahr            |
+
+Die folgende Tabelle beschreibt die Attribute der PV-Standorte Mieterstromanlagen bis 30 kWp (nicht lagetreu):
+
+| **Feldname**   | **Beschreibung**                                           |
+| -------------- | ---------------------------------------------------------- |
+| plz            | Postleitzahl                                               |
+| anzahl         | Summe der Anlagen bis 30 kWp innerhalb eines PLZ-Bereiches |
+| inst\_leistung | Installierte Leistung \[kWp\]                              |
+
+Die folgende Tabelle beschreibt die Attribute der PV-Standorte Mieterstromanlagen größer 30 kWp:
+
+| **Feldname**          | **Beschreibung**              |
+| --------------------- | ----------------------------- |
+| strasse\_flur\_lang   | Adresse oder Flurstück        |
+| plz                   | Postleitzahl                  |
+| inst\_leistung        | Installierte Leistung \[kWp\] |
+| enh\_anzahlmodule     | Anzahl der Module             |
+| enh\_hauptausrichtung | Hauptausrichtung              |
+| enh\_einspeisungsart  | Einspeisungsart               |
+| inbetriebnahme        | Datum der Inbetriebnahme      |
+
+Die folgende Tabelle beschreibt die Attribute der  Installierten PV-Leistung pro Bezirk und PLZ:
+
+| **Feldname**               | **Beschreibung**                                                                  |
+| -------------------------- | --------------------------------------------------------------------------------- |
+| id\_bezirk                 | Bezirksnummer (nur bei Raumeinheit Bezirk)                                        |
+| bezirk                     | Bezirksname (nur bei Raumeinheit Bezirk)                                          |
+| plz                        | Postleitzahl (nur bei Raumeinheit PLZ)                                            |
+| anzahl                     | Summe der Anlagen                                                                 |
+| inst\_leistung             | Installierte Leistung \[MWp\] (Raumeinheit Bezirk) bzw. \[kWp\] (Raumeinheit PLZ) |
+| stadt\_ges\_anzahl         | Summe der Anlagen in Berlin gesamt                                                |
+| stadt\_ges\_inst\_leistung | Summe der installierten Leistung in Berlin gesamt \[MWp\]                         |
+
+Die folgende Tabelle beschreibt die Attribute der Installierten PV-Leistung pro Bezirk der öffentlichen Hand:
+
+| **Feldname**               | **Beschreibung**                                          |
+| -------------------------- | --------------------------------------------------------- |
+| id\_bezirk                 | Bezirksnummer                                             |
+| bezirk                     | Bezirksname                                               |
+| anzahl                     | Anzahl der Anlagen                                        |
+| inst\_leistung             | Installierte Leistung \[MWp\]                             |
+| stadt\_ges\_anzahl         | Summe der Anlagen in Berlin gesamt                        |
+| stadt\_ges\_inst\_leistung | Summe der installierten Leistung in Berlin gesamt \[MWp\] |
+
+Die folgende Tabelle beschreibt die Attribute der  Installierten Leistung der PV-Mieterstromanlagen pro Bezirk:
+
+| **Feldname**               | **Beschreibung**                                          |
+| -------------------------- | --------------------------------------------------------- |
+| id\_bezirk                 | Bezirksnummer (nur bei Raumeinheit Bezirk)                |
+| bezirk                     | Bezirksname (nur bei Raumeinheit Bezirk)                  |
+| anzahl                     | Summe der Anlagen                                         |
+| inst\_leistung             | Installierte Leistung \[MWp\]                             |
+| stadt\_ges\_anzahl         | Summe der Anlagen in Berlin gesamt                        |
+| stadt\_ges\_inst\_leistung | Summe der installierten Leistung in Berlin gesamt \[MWp\] |
+
+Die folgende Tabelle beschreibt die Attribute der PV-Stromeinspeisung pro Bezirk und PLZ:
+
+| **Feldname**      | **Beschreibung**                            |
+| ----------------- | ------------------------------------------- |
+| id\_bezirk        | Bezirksnummer (nur bei Raumeinheit Bezirk)  |
+| bezirk            | Bezirksname (nur bei Raumeinheit Bezirk)    |
+| plz               | Postleitzahl (nur bei Raumeinheit PLZ)      |
+| j2012m            | Stromeinspeisung 2012 \[MWh\]               |
+| j2013m            | Stromeinspeisung 2013 \[MWh\]               |
+| j2014m            | Stromeinspeisung 2014 \[MWh\]               |
+| j2015m            | Stromeinspeisung 2015 \[MWh\]               |
+| j2016m            | Stromeinspeisung 2016 \[MWh\]               |
+| j2017m            | Stromeinspeisung 2017 \[MWh\]               |
+| j2018m            | Stromeinspeisung 2018 \[MWh\]               |
+| stadt\_ges\_2012g | Stromeinspeisung Berlin gesamt 2012 \[GWh\] |
+| stadt\_ges\_2013g | Stromeinspeisung Berlin gesamt 2013 \[GWh\] |
+| stadt\_ges\_2014g | Stromeinspeisung Berlin gesamt 2014 \[GWh\] |
+| stadt\_ges\_2015g | Stromeinspeisung Berlin gesamt 2015 \[GWh\] |
+| stadt\_ges\_2016g | Stromeinspeisung Berlin gesamt 2016 \[GWh\] |
+| stadt\_ges\_2017g | Stromeinspeisung Berlin gesamt 2017 \[GWh\] |
+| stadt\_ges\_2018g | Stromeinspeisung Berlin gesamt 2018 \[GWh\] |
+
+Die folgende Tabelle beschreibt die Attribute der Angaben der  PV-Deckungsrate pro Bezirk:
+
+| **Feldname**                | **Beschreibung**                                                       |
+| --------------------------- | ---------------------------------------------------------------------- |
+| id                          | Bezirksnummer                                                          |
+| bezirk                      | Bezirksname                                                            |
+| ausbau\_proz                | Deckungsrate (Verhältnis installierter zu potenzieller Leistung) \[%\] |
+| leist\_bestand              | Installierte Leistung \[kWp\]                                          |
+| leist\_potenzial            | Potenzielle Leistung \[kWp\]                                           |
+| leist\_potenzial\_ungenutzt | Potenziell ungenutzte Leistung \[kWp\]                                 |
+
+Die folgende Tabelle beschreibt die Attribute des PV-Potenzials der Gebäudeflächen:
+
+| **Feldname**    | **Beschreibung**                    |
+| --------------- | ----------------------------------- |
+| id              | Schlüssel                           |
+| geb\_id         | Gebäude-ID                          |
+| lage\_          | Adresse                             |
+| geb\_funktion   | Gebäudefunktion                     |
+| sum\_kw\_19\_5  | Installierbare Leistung \[kWP\]     |
+| sum\_anzahl\_0  | Anzahl Standardmodule               |
+| sum\_modarea    | Geeignete Brutto-Dachfläche \[m²\]  |
+| sum\_str\_19\_5 | Möglicher Ertrag pro Jahr \[kWh/a\] |
+| sum\_co2\_19\_5 | CO2-Einsparung pro Jahr \[kg/a\]    |
+
+Die folgende Tabelle beschreibt die Attribute des PV-Potenzials der Dachflächen:
+
+| **Feldname** | **Beschreibung**                                                                                                                                  |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| radabs       | mittlere jährliche Globalstrahlung pro m² in kWh/(m²\*a); bei Flachdächern ist die eintreffende Strahlung auf die aufgeständerte Fläche angegeben |
+
+Solarpotential - Einstrahlung (Umweltatlas)
+
+Die Einstrahlungskarte wird im Format GEOTIFF abgegeben. Die Einstrahlung wird in Kilowattstunden pro Quadratmeter und Jahr \[kWh/(m²/a)\] angegeben.
+
+Ausführliche Informationen finden Sie in den Begleittexten der im Umweltatlas Berlin veröffentlichten Karte 08.09.  
+Internet: https://www.berlin.de/umweltatlas/energie/solaranlagen/fortlaufend-aktualisiert/zusammenfassung/ $$$

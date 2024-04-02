@@ -20,7 +20,7 @@ module.exports = {
         'odis-light': '#4c68c7', // #263C89
         'odis-light-2': '#e8ebf8',
         'odis-extra-light': '#F7F8FD',
-        active: '#b3bf56',
+        active: '#B3F2E0',
         'warning-100': '#fff1f0',
         'warning-200': '#ffa39e',
         'warning-300': '#f5222d',

@@ -28,7 +28,7 @@ export function SearchAI({ language }) {
         `/api/get-embeddings/?messages=${inputText}&matchthreshold=${
           // creativeSearch ? 0.3 : 0.78
           // 0.3
-          0.3
+          0.78
         }`,
         {
           cache: process.env.NODE_ENV === 'development' ? 'no-store' : 'default',

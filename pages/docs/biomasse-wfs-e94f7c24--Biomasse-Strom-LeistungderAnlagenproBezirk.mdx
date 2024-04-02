@@ -1,0 +1,86 @@
+# Biomasse - Strom-Leistung der Anlagen pro Bezirk
+- Titel: Biomasse - Strom-Leistung der Anlagen pro Bezirk $$$
+- Service URL: https://gdi.berlin.de/services/wfs/ea_biomasse $$$
+- Typ: WFS $$$
+- Name: biomasse-wfs-e94f7c24 $$$
+- Stichworte: Anlagen,Anzahl,Ausbaustand,Berlin,Bestand,Bezirk,Biomasse,Biomasseanlagen,Energieatlas,Geodaten,PLZ,Postleitzahl,Strom,Stromeinspeisung,Wärme,installierte Leistung $$$
+- Anmerkung: Standort- und flächenbezogene Informationen zu stromeinspeisenden Energieerzeugungsanlagen, die (bilanziell oder physikalisch vor Ort) mit Biomasse betrieben werden. Es werden Angaben zur Strom- und Wärme-Leistung sowie bezüglich der Stromeinspeisung in das öffentliche Netz dargestellt. $$$
+- Fisbroker URL: https://fbinter.stadt-berlin.de/fb?loginkey=alphaDataStart&alphaDataId=s_biom_anlbis30kw_gswfs@senstadt $$$
+- Autor: Senatsverwaltung für Wirtschaft, Energie und Betriebe Berlin $$$
+- Beschreibung URL: https://fbinter.stadt-berlin.de/fb_daten/beschreibung/datenformatbeschreibung/Datenformatbeschreibung_Biomasse.html $$$
+- Teildatensatz von: Biomasse $$$
+- Attribute: id,bezirk,anzahl,inst_leistung,stadt_ges_anzahl,stadt_ges_inst_leistung,geom $$$
+- Layer Name: ea_biomasse:biomasse_anlagen_strom_bez $$$
+- Attribute Beschreibung: Postleitzahl,Anzahl der Anlagen,Installierte Leistung [kW] $$$
+- Beschreibung: Technische Beschreibung 
+
+Biomasse
+
+Es werden mehrere Themenschwerpunkte in unterschiedlichen Raumeinheiten dargestellt:
+
+* Standorte der Anlagen bis 30 kW und größer 30 kW,
+* Strom-Leistung der Anlagen pro Bezirk und PLZ,
+* Wärme-Leistung der Anlagen pro Bezirk und PLZ,
+* Einspeisung des Biomassestroms pro Bezirk.
+
+Die folgende Tabelle beschreibt die Attribute der Standorte der Anlagen bis 30 kW:
+
+| **Feldname**   | **Beschreibung**             |
+| -------------- | ---------------------------- |
+| plz            | Postleitzahlenbereich        |
+| anzahl         | Anzahl der Anlagen           |
+| inst\_leistung | Installierte Leistung \[kW\] |
+
+Die folgende Tabelle beschreibt die Attribute der Standorte der Anlagen größer 30 kW:
+
+| **Feldname**        | **Beschreibung**             |
+| ------------------- | ---------------------------- |
+| vnb\_name           | Name des Netzbetreibers      |
+| ort\_gemark         | Ort oder Gemarkung           |
+| plz                 | Postleitzahlenbereich        |
+| strasse\_flur\_lang | Adresse oder Flurstück       |
+| inst\_leistung      | Installierte Leistung \[kW\] |
+| inbetriebnahme      | Zeitpunkt der Inbetriebnahme |
+
+Die folgende Tabelle beschreibt die Attribute der  Strom-Leistung der Anlagen pro Bezirk und PLZ:
+
+| **Feldname**               | **Beschreibung**                                         |
+| -------------------------- | -------------------------------------------------------- |
+| bezirk                     | Bezirksname (nur bei Raumeinheit Bezirk)                 |
+| plz                        | Postleitzahl (nur bei Raumeinheit PLZ)                   |
+| anzahl                     | Summe der Anlagen                                        |
+| inst\_leistung             | Installierte Leistung \[kW\]                             |
+| stadt\_ges\_anzahl         | Summe der Anlagen in Berlin gesamt                       |
+| stadt\_ges\_inst\_leistung | Summe der installierten Leistung in Berlin gesamt \[MW\] |
+
+Die folgende Tabelle beschreibt die Attribute der Wärme-Leistung der Anlagen pro Bezirk und PLZ:
+
+| **Feldname**                | **Beschreibung**                              |
+| --------------------------- | --------------------------------------------- |
+| bezirk                      | Bezirksname (nur bei Raumeinheit Bezirk)      |
+| plz                         | Postleitzahl (nur bei Raumeinheit PLZ)        |
+| jahr                        | Jahr des Datenstandes                         |
+| gesamtzahl                  | Summe der Anlagen                             |
+| gesamtleistung              | Installierte Leistung \[kW\]                  |
+| gesamtzahl\_stadtgesamt     | Anlagen in Berlin gesamt                      |
+| gesamtleistung\_stadtgesamt | Installierte Leistung in Berlin gesamt \[MW\] |
+
+Die folgende Tabelle beschreibt die Attribute der Angaben der  Einspeisung des Biomassestroms pro Bezirk:
+
+| **Feldname**      | **Beschreibung**                            |
+| ----------------- | ------------------------------------------- |
+| bezirk            | Bezirksname                                 |
+| j2012m            | Stromeinspeisung 2012 \[MWh\]               |
+| j2013m            | Stromeinspeisung 2013 \[MWh\]               |
+| j2014m            | Stromeinspeisung 2014 \[MWh\]               |
+| j2015m            | Stromeinspeisung 2015 \[MWh\]               |
+| j2016m            | Stromeinspeisung 2016 \[MWh\]               |
+| j2017m            | Stromeinspeisung 2017 \[MWh\]               |
+| j2018m            | Stromeinspeisung 2018 \[MWh\]               |
+| stadt\_ges\_2012g | Stromeinspeisung Berlin gesamt 2012 \[GWh\] |
+| stadt\_ges\_2013g | Stromeinspeisung Berlin gesamt 2013 \[GWh\] |
+| stadt\_ges\_2014g | Stromeinspeisung Berlin gesamt 2014 \[GWh\] |
+| stadt\_ges\_2015g | Stromeinspeisung Berlin gesamt 2015 \[GWh\] |
+| stadt\_ges\_2016g | Stromeinspeisung Berlin gesamt 2016 \[GWh\] |
+| stadt\_ges\_2017g | Stromeinspeisung Berlin gesamt 2017 \[GWh\] |
+| stadt\_ges\_2018g | Stromeinspeisung Berlin gesamt 2018 \[GWh\] | $$$

@@ -1,0 +1,43 @@
+# Fließgeschwindigkeit (seltenes Ereignis)
+- Titel: Fließgeschwindigkeit (seltenes Ereignis) $$$
+- Service URL: https://gdi.berlin.de/services/wfs/ua_srgk $$$
+- Typ: WFS $$$
+- Name: starkregengefahrenkarte-wfs-1aa4f1ef $$$
+- Stichworte: Abfluss,Bauleitplanung,Berlin,Flash Flood,Geländetiefpunkt,Hochwasser,Kanalnetz,Karten,Naturgefahren,Niederschlag,Regen,Regenwasser,Schauer,Senken,Starkniederschlag,Starkregen,Starkregen-Gefahrenkarte,Starkregen-Hinweiskarte,Starkregengefahren,Starkregengefahrenkarte,Starkregenhinweiskarte,Starkregenrisiko,Starkregenvorsorge,Sturzflut,Sturzfluten,Umweltatlas,Unwetter,infoFeatureAccessService,inspireidentifiziert,Überflutung,Überschwemmung,Überstau $$$
+- Anmerkung: Die Starkregengefahrenkarte zeigt die räumliche Ausdehnung von Überflutungen, den Überflutungstiefen und die Fließgeschwindigkeit eines Hochwassers bei verschiedenen Starkregenszenarien (seltenes, außergewöhnliches und extremes Ereignis). In Berlin wird die Starkregengefahrenkarte auf Basis eines gekoppelten 1D-Kanalnetz- und eines 2D-Oberflächenabflussmodells (1D/2D gekoppeltes Modell) durchgeführt, wobei aktuelle Daten der Topographie, des Bodens, der Gebäude, der Versiegelung und des Kanalnetzes in der Berechnung berücksichtigt werden. $$$
+- Fisbroker URL: null $$$
+- Autor: Senatsverwaltung für Mobilität, Verkehr, Klimaschutz und Umwelt Berlin $$$
+- Beschreibung URL: https://fbinter.stadt-berlin.de/fb_daten/beschreibung/umweltatlas/datenformatbeschreibung/Datenformatbeschreibung_02_24_2srgk2023.html $$$
+- Teildatensatz von: Starkregengefahrenkarte $$$
+- Attribute: gisid,geom,fid,speed,ut,angle_deg,event,depth,angle,layer,gebiet $$$
+- Layer Name: ua_srgk:ba_fliessgeschwindigkeit_selten $$$
+- Beschreibung: Technische Beschreibung 
+
+Starkregengefahrenkarte (Umweltatlas)
+
+Es werden mehrere Kartenebenen in unterschiedlichen Raumeinheiten dargestellt:
+
+* Modellgebiete,
+* Fließgeschwindigkeit,
+* Wasserstand, verschiedene Ereignisse.
+
+Die folgende Tabelle beschreibt die Attribute der Ebene Modellgebiete:
+
+| **Feldname** | **Beschreibung**       |
+| ------------ | ---------------------- |
+| gisid        | ID                     |
+| layer        | Name des Modellgebiets |
+| jahr         | Erstellungsjahr        |
+
+Die folgende Tabelle beschreibt die Attribute der Ebenen Fließgeschwindigkeit:
+
+| **Feldname** | **Beschreibung**            |
+| ------------ | --------------------------- |
+| gisid        | ID                          |
+| speed        | Fließgeschwindikeit \[m/s\] |
+| angle\_deg   | Fließrichtung \[Grad\]      |
+
+Die Ebenen Wasserstand, verschiedene Ereignisse werden als Atom-FEED als tiff-Dateien abgegeben.
+
+Ausführliche Informationen finden Sie in den Begleittexten der im Umweltatlas Berlin veröffentlichten Karte 02.24.  
+Internet: https://www.berlin.de/umweltatlas/wasser/starkregen/fortlaufend-aktualisiert/zusammenfassung/ $$$
