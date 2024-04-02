@@ -29,7 +29,7 @@ export function DatasetInfoExtended({ contentDataset, inputText, setSimilarSearc
                 contentDataset['Service URL']
               }?service=WFS&version=1.1.0&request=GetFeature&typeName=${contentDataset[
                 'Layer Name'
-              ].replace('Type', '')}&outputFormat=application/json&CRS=CRS:84`}
+              ].replace('Type', '')}&outputFormat=application/json`}
               className={buttonClass}
             >
               <DownloadIcon />

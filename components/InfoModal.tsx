@@ -24,7 +24,7 @@ export function InfoModal({ language }) {
       <DialogTrigger className="text-gray-500 dark:text-gray-100">
         <InfoIcon />
       </DialogTrigger>
-      <DialogContent className="h-full sm:h-max">
+      <DialogContent className="h-full sm:h-max bg-active">
         <DialogHeader>
           <DialogTitle>
             {' '}

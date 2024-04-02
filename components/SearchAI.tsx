@@ -114,8 +114,7 @@ export function SearchAI({ language }) {
                 key={index}
                 className="rounded-full px-3 py-1 m-1 ml-0
                   bg-odis-light-2 
-                  hover:active hover:bg-active hover:text-white
-                  border border-slate-200 dark:border-slate-600
+                  hover:active hover:bg-active text-odis-dark
                   transition-colors"
                 onClick={() => {
                   setInputText(item)

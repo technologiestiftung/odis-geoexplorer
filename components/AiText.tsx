@@ -62,7 +62,7 @@ export function AiText({ content, inputText }) {
       <button
         disabled={isLoading || message !== ''}
         onClick={() => getExtraInfo(inputText, content)}
-        className="text-odis-light pb-2 hover:text-active flex items-center"
+        className="text-odis-light pb-2 hover:text-odis-dark flex items-center"
       >
         K.I.-generierte Antwort anzeigen
         {isLoading && (
