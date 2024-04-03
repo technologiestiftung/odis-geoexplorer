@@ -11,11 +11,14 @@ import { TypeFilter } from '@/components/TypeFilter'
 
 export function SearchAI({ language }) {
   const [inputText, setInputText] = useState<string>('')
+  const [searchText, setSearchText] = useState<string>('')
+
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [searchResults, setSearchResults] = useState<Array<any> | boolean>(false) // @to  < Array || false >
+  const [searchResults, setSearchResults] = useState<Array<object>>([]) // @to  < Array<any> || false >
   const [creativeSearch, setCreativeSearch] = useState(false)
   const [showExamples, setShowExamples] = useState(true)
   const [typeFilterValue, setTypeFilterValue] = useState(['WFS', 'WMS'])
+  const [hasSearched, setHasSearched] = useState(false)
 
   const [similarSearchText, setSimilarSearchText] = useState('')
 
@@ -55,13 +58,21 @@ export function SearchAI({ language }) {
     }
   }, [similarSearchText])
 
+  useEffect(() => {
+    if (inputText === '') {
+      setSearchResults([])
+      setHasSearched(false)
+    }
+  }, [inputText])
+
   async function searchForEmbedding(inputText) {
     if (isLoading || inputText === '') {
       return
     }
     const { embeddings } = await getSearchResults(inputText)
     console.log('embeddings: ', embeddings)
-
+    setSearchText(inputText)
+    setHasSearched(true)
     setSearchResults(embeddings)
   }
 
@@ -158,9 +169,9 @@ export function SearchAI({ language }) {
         </>
       )}
       {/* If no results found */}
-      {searchResults && searchResults.length == 0 && (
-        <div className=" bg-warning-100 text-warning-300 border-warning-200 mt-8 overflow-auto rounded-md border border-input p-4">
-          Leider wurde zu "<span className="font-bold">{`${inputText}`}</span>" keine Datensätze
+      {hasSearched && inputText !== '' && searchResults && searchResults.length == 0 && (
+        <div className=" bg-odis-extra-light text-odis-light border-odis-light mt-8 overflow-auto rounded-md border border-input p-4">
+          Leider wurde zu "<span className="font-bold">{`${searchText}`}</span>" keine Datensätze
           gefunden.
         </div>
       )}
