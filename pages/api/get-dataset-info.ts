@@ -50,7 +50,8 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
       promptUser = codeBlock`${oneLine`*Beschreibung*: ${contentDataset}`}.`
     }
 
-    console.log(promptSystem)
+    console.log('promptSystem: ', promptSystem)
+    console.log('promptUser: ', promptUser)
     // const prompt = codeBlock`
     //   ${oneLine`
     //     Du bist ein Mitarbeiter der Servicestelle für Offene Daten Berlin, der es liebt, Menschen dabei zu helfen offene Datensätze (WFS-Dienste) zu erklären. Wenn dir eine Frage gestellt wird, beantworte diese auf Grundlage der inhhaltlichen Beschreibung des folgenden Datensatzes: ${oneLine`Beschreibung: ${contentDataset}`} ${oneLine`Frage:${initialQuestion}`}. Erkläre, warum die vorliegenden Daten für die gestellte Frage relevant sind oder relevant sein könnte, indem du die Frage in deiner Antwort wiederholst. Wenn du unsicher bist und die Antwort nicht explizit in der Beschreibung steht, versuche eine logische Erklärung zu finden, warum der gefundene Datensatz für die Frage relevant sein könnte. Danach stelle die fünf für die Frage relevantesten Datenattribute ausschließlich auf Grundlage der Beschreibung mit Kürzel und Kurzbeschreibung als Markdowntabelle dar. Erfinde NIEMALS Datenattribute!
