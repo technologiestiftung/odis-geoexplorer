@@ -15,7 +15,8 @@ export function SearchAI({ language }) {
   const [searchResults, setSearchResults] = useState<Array<any> | boolean>(false) // @to  < Array || false >
   const [creativeSearch, setCreativeSearch] = useState(false)
   const [showExamples, setShowExamples] = useState(true)
-  const [typeFilterValue, setTypeFilterValue] = useState('WFS & WMS')
+  const [typeFilterValue, setTypeFilterValue] = useState(['WFS', 'WMS'])
+
   const [similarSearchText, setSimilarSearchText] = useState('')
 
   async function getSearchResults(inputText) {
@@ -129,7 +130,7 @@ export function SearchAI({ language }) {
 
       {searchResults && searchResults?.length > 0 && (
         <>
-          <TypeFilter selectedValue={typeFilterValue} setSelectedValue={setTypeFilterValue} />
+          <TypeFilter selectedValues={typeFilterValue} setSelectedValues={setTypeFilterValue} />
 
           <div className="mt-2 overflow-auto rounded-md border border-input text-sm [&_ul]:list-disc [&_li]:ml-4 [&_a]:text-blue-500">
             <div>

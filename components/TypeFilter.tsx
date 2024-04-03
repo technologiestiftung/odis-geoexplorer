@@ -1,30 +1,32 @@
-import React from 'react'
+import { CheckIcon } from '@/components/ui/icons/CheckIcon'
 
-export function TypeFilter({ selectedValue, setSelectedValue }) {
+export function TypeFilter({ selectedValues, setSelectedValues }) {
   // Filter values
-  const filterValues = ['WFS & WMS', 'WFS', 'WMS']
+  const filterValues = ['WFS', 'WMS']
 
   return (
     <div className="flex pt-4 text-sm">
       <label htmlFor="filter" className="">
-        Folgendes Format anzeigen:
+        Format:
       </label>
       <div className="flex">
         {filterValues.map((value, index) => (
-          <div className="flex items-center pl-2 font-light" key={index}>
-            <input
-              type="radio"
-              id={`option${index + 1}`}
-              name="filter"
-              value={value}
-              onChange={() => setSelectedValue(value)}
-              className=" focus:ring-active text-active ring-active focus:bg-active bg-active"
-              defaultChecked={selectedValue === value}
-            />
-            <label className="pl-1" htmlFor={`option${index + 1}`}>
-              {value}
-            </label>
-          </div>
+          <button
+            key={'filter-' + index}
+            className="flex pl-2"
+            onClick={() => {
+              let newVals = JSON.parse(JSON.stringify(selectedValues))
+              if (newVals.includes(value)) {
+                newVals.splice(newVals.indexOf(value), 1)
+              } else {
+                newVals.push(value)
+              }
+              setSelectedValues(newVals)
+            }}
+          >
+            <span className="pr-2">{value}</span>
+            <CheckIcon active={selectedValues.includes(value)} />
+          </button>
         ))}
       </div>
     </div>
