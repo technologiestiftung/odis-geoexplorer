@@ -188,7 +188,7 @@ export function DatasetInfoExtended({ contentDataset, inputText, setSimilarSearc
             className={
               buttonClass +
               (error === 'download' ? ' pointer-events-none !bg-gray-300' : '') +
-              (contentDataset['Typ'] ? ' pointer-events-none !bg-gray-300' : '') +
+              (contentDataset['Typ'] === 'WMS' ? ' pointer-events-none !bg-gray-300' : '') +
               (isLoading === 'download' ? ' pointer-events-none !bg-gray-300 animate-pulse' : '')
             }
             disabled={
@@ -203,7 +203,7 @@ export function DatasetInfoExtended({ contentDataset, inputText, setSimilarSearc
             className={
               buttonClass +
               (error === 'map' ? ' pointer-events-none !bg-gray-300 ' : '') +
-              (contentDataset['Typ'] ? ' pointer-events-none !bg-gray-300' : '') +
+              (contentDataset['Typ'] === 'WMS' ? ' pointer-events-none !bg-gray-300' : '') +
               (isLoading === 'map' ? ' pointer-events-none !bg-gray-300 animate-pulse' : '')
             }
             disabled={error === 'map' || isLoading === 'map' || contentDataset['Typ'] === 'WMS'}
