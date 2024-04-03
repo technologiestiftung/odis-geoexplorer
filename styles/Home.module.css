@@ -4,9 +4,12 @@
   min-height: 100vh;
   padding: 2rem 18rem;
   background-image: url('/images/vector.svg');
-  background-repeat: no-repeat;
+  /* background-repeat: no-repeat;
   background-size: cover;
-  background-position: center;
+  background-position: center; */
+
+  background-size: cover !important;
+  background-attachment: fixed !important;
 }
 
 /* Mobile */

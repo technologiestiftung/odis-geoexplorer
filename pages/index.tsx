@@ -21,7 +21,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main
-        className="bg-odis-light-2 flex flex-col min-h-screen bg-cover bg-center bg-no-repeat py-8 px-10 text-odis-dark"
+        className="bg-cover bg-fixed  bg-odis-light-2 flex flex-col min-h-screen 
+         py-8 px-10 text-odis-dark"
         style={{ backgroundImage: "url('/images/vector.svg')" }}
       >
         <LanguageSwitcher setLanguage={setLanguage} language={language} />

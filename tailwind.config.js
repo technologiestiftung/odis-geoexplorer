@@ -10,6 +10,7 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
+      nunito: ['Nunito Sans', 'Arial'],
       robot: ['IBMPlexMono-Regular', 'Arial'],
       'robot-bold': ['IBMPlexMono-Bold', 'Arial'],
       'robot-light': ['IBMPlexMono-Light', 'Arial'],
@@ -21,6 +22,8 @@ module.exports = {
         'odis-light-2': '#e8ebf8',
         'odis-extra-light': '#F7F8FD',
         active: '#B3F2E0',
+        'active-light': '#e9fbf6',
+        'active-dark': '#25735d',
         'warning-100': '#fff1f0',
         'warning-200': '#ffa39e',
         'warning-300': '#f5222d',
