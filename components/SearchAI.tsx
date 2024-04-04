@@ -17,12 +17,13 @@ export function SearchAI({ language }) {
   const [searchResults, setSearchResults] = useState<Array<object>>([]) // @to  < Array<any> || false >
   const [creativeSearch, setCreativeSearch] = useState(false)
   const [showExamples, setShowExamples] = useState(true)
-  const [typeFilterValue, setTypeFilterValue] = useState(['WFS', 'WMS'])
+  const [typeFilterValue, setTypeFilterValue] = useState(['WFS'])
   const [hasSearched, setHasSearched] = useState(false)
 
   const [similarSearchText, setSimilarSearchText] = useState('')
 
   async function getSearchResults(inputText) {
+    inputText = inputText + ' WFS' // push WFS
     let data
     setIsLoading(true)
     try {

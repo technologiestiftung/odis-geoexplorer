@@ -64,9 +64,9 @@ export function AiText({ content, inputText }) {
         onClick={() => getExtraInfo(inputText, content)}
         className="text-odis-light pb-2 hover:text-odis-dark flex items-center"
       >
-        K.I.-generierte Antwort anzeigen
+        Mit K.I. Antwort generieren
         {isLoading && (
-          <span className="pl-2 w-6">
+          <span className="pl-2 w-6 scale-50">
             <LoaderIcon />
           </span>
         )}

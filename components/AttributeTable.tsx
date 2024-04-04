@@ -82,7 +82,7 @@ export function AttributeTable({ contentDataset }) {
           <th className="p-2 pl-4">Datenattribut</th>
           <th className="p-2 pl-4 flex items-center">
             Beschreibung
-            {!hasFullDescription ? (
+            {/* {!hasFullDescription ? (
               <>
                 <button
                   onClick={() => generateDescriptions(contentDataset['rawContent'])}
@@ -91,12 +91,32 @@ export function AttributeTable({ contentDataset }) {
                   }`}
                   disabled={aiGeneratedDescriptions}
                 >
-                  {aiGeneratedDescriptions ? 'generiert' : 'generieren'}
+                  {aiGeneratedDescriptions ? (
+                    <span onClick={() => generateDescriptions(contentDataset['rawContent'])}>
+                      Antwort mit K.I. generieren
+                    </span>
+                  ) : (
+                    ''
+                  )}
+
                   {isLoading && <LoaderIcon />}
                 </button>
               </>
             ) : (
               ''
+            )} */}
+            {!hasFullDescription && !aiGeneratedDescriptions && (
+              <button
+                className="font-normal pl-2 text-odis-light  hover:text-odis-dark flex items-center"
+                onClick={() => generateDescriptions(contentDataset['rawContent'])}
+              >
+                mit K.I. generieren
+                {isLoading && (
+                  <span className="scale-50">
+                    <LoaderIcon />
+                  </span>
+                )}
+              </button>
             )}
           </th>
         </tr>
