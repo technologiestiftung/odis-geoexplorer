@@ -96,12 +96,13 @@ export function SearchAI({ language }) {
         </button>
       </form>
 
-      <div className="suggestions mt-4 text-xs text-gray-500 dark:text-gray-100">
+      <div className="suggestions mt-4 text-xs text-odis-dark dark:text-gray-100">
         <button
           className="flex align-center"
           onClick={() => {
             setShowExamples(!showExamples)
           }}
+          style={{ alignItems: 'center' }}
         >
           <span className="pr-2"> {text[language].exampleText}</span>
           <svg
