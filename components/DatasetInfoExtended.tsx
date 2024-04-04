@@ -135,7 +135,7 @@ export function DatasetInfoExtended({ contentDataset, inputText, setSimilarSearc
   console.log('contentDataset', contentDataset)
 
   const buttonClass =
-    'w-max flex bg-odis-light !text-white p-2 mr-2 rounded-md hover:bg-active hover:!text-odis-dark items-center'
+    'text-center w-48 flex bg-odis-light !text-white p-2 mr-2 rounded-md hover:bg-active hover:!text-odis-dark items-center'
 
   return (
     <div>
@@ -166,6 +166,49 @@ export function DatasetInfoExtended({ contentDataset, inputText, setSimilarSearc
             {!hasCopied ? contentDataset['Typ'] + ' kopieren' : 'kopiert!'}
           </div>
         </button>
+
+        <button
+          onClick={() => getGeoData('download', contentDataset['Titel'])}
+          className={
+            buttonClass +
+            (error === 'download' ? ' pointer-events-none !bg-gray-300' : '') +
+            (contentDataset['Typ'] === 'WMS' ? ' pointer-events-none !bg-gray-300' : '') +
+            (isLoading === 'download' ? ' pointer-events-none !bg-gray-300 animate-pulse' : '')
+          }
+          disabled={
+            error === 'download' || isLoading === 'download' || contentDataset['Typ'] === 'WMS'
+          }
+        >
+          <DownloadIcon />
+          <span className="pl-2">JSON Download</span>
+        </button>
+      </div>
+      <div className="px-4 flex pt-2 ">
+        <button
+          onClick={() => getGeoData('map', contentDataset['Titel'])}
+          className={
+            buttonClass +
+            (error === 'map' ? ' pointer-events-none !bg-gray-300 ' : '') +
+            (contentDataset['Typ'] === 'WMS' ? ' pointer-events-none !bg-gray-300' : '') +
+            (isLoading === 'map' ? ' pointer-events-none !bg-gray-300 animate-pulse' : '')
+          }
+          disabled={error === 'map' || isLoading === 'map' || contentDataset['Typ'] === 'WMS'}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            viewBox="0 0 16 16"
+            className="mr-2"
+          >
+            <path
+              fillRule="evenodd"
+              d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.5.5 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103M10 1.91l-4-.8v12.98l4 .8zm1 12.98 4-.8V1.11l-4 .8zm-6-.8V1.11l-4 .8v12.98z"
+            />
+          </svg>
+          Kartenvorschau
+        </button>
         <button
           onClick={() => setSimilarSearchText(contentDataset['Titel'])}
           className={buttonClass}
@@ -182,48 +225,6 @@ export function DatasetInfoExtended({ contentDataset, inputText, setSimilarSearc
           </svg>
           ähnlichen Daten
         </button>
-        <>
-          <button
-            onClick={() => getGeoData('download', contentDataset['Titel'])}
-            className={
-              buttonClass +
-              (error === 'download' ? ' pointer-events-none !bg-gray-300' : '') +
-              (contentDataset['Typ'] === 'WMS' ? ' pointer-events-none !bg-gray-300' : '') +
-              (isLoading === 'download' ? ' pointer-events-none !bg-gray-300 animate-pulse' : '')
-            }
-            disabled={
-              error === 'download' || isLoading === 'download' || contentDataset['Typ'] === 'WMS'
-            }
-          >
-            <DownloadIcon />
-            <span className="pl-2">JSON Download</span>
-          </button>
-          <button
-            onClick={() => getGeoData('map', contentDataset['Titel'])}
-            className={
-              buttonClass +
-              (error === 'map' ? ' pointer-events-none !bg-gray-300 ' : '') +
-              (contentDataset['Typ'] === 'WMS' ? ' pointer-events-none !bg-gray-300' : '') +
-              (isLoading === 'map' ? ' pointer-events-none !bg-gray-300 animate-pulse' : '')
-            }
-            disabled={error === 'map' || isLoading === 'map' || contentDataset['Typ'] === 'WMS'}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              viewBox="0 0 16 16"
-              className="mr-2"
-            >
-              <path
-                fillRule="evenodd"
-                d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.5.5 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103M10 1.91l-4-.8v12.98l4 .8zm1 12.98 4-.8V1.11l-4 .8zm-6-.8V1.11l-4 .8v12.98z"
-              />
-            </svg>
-            Kartenvorschau
-          </button>
-        </>
       </div>
 
       {showMap && (
@@ -246,7 +247,7 @@ export function DatasetInfoExtended({ contentDataset, inputText, setSimilarSearc
       <AiText content={contentDataset.rawContent} inputText={inputText} />
 
       {contentDataset['Fisbroker URL'] && (
-        <div className="px-4  font-light border-y-[1px] border-odis-dark py-4">
+        <div className="px-4  font-light border-t-[1px] border-gray-300 py-4">
           Du findest diesen Datensatz auch im{' '}
           <a className="!text-odis-light" target="_blank" href={contentDataset['Fisbroker URL']}>
             Fis Broker

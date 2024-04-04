@@ -21,13 +21,13 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main
-        className="bg-cover bg-fixed  bg-odis-light-2 flex flex-col min-h-screen 
+        className="bg-cover bg-fixed bg-odis-light-2 flex flex-col min-h-screen 
          py-8 px-10 text-odis-dark"
         style={{ backgroundImage: "url('/images/vector.svg')" }}
       >
         {/* <LanguageSwitcher setLanguage={setLanguage} language={language} /> */}
         <LogoHeader />
-        <div className="md:w-3/4 bg-white p-8 sm:p-12 rounded border border-input mt-8 max-w-4xl self-center">
+        <div className="md:w-3/4 bg-white p-8 sm:p-12 rounded shadow-lg mt-8 max-w-4xl self-center">
           <div className="w-full text-right">
             <InfoModal language={language} />
           </div>

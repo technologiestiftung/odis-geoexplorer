@@ -76,7 +76,7 @@ export function AttributeTable({ contentDataset }) {
   aiGeneratedDescriptions
 
   return (
-    <table className="my-2 w-full border-y-[1px] border-odis-dark">
+    <table className="my-2 mt-4 w-full border-b-[1px] border-gray-300">
       <tbody>
         <tr className="border-b-[1px] text-md font-normal text-left">
           <th className="p-2 pl-4">Datenattribut</th>
