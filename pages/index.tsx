@@ -25,7 +25,7 @@ export default function Home() {
          py-8 px-10 text-odis-dark"
         style={{ backgroundImage: "url('/images/vector.svg')" }}
       >
-        <LanguageSwitcher setLanguage={setLanguage} language={language} />
+        {/* <LanguageSwitcher setLanguage={setLanguage} language={language} /> */}
         <LogoHeader />
         <div className="md:w-3/4 bg-white p-8 sm:p-12 rounded border border-input mt-8 max-w-4xl self-center">
           <div className="w-full text-right">
