@@ -91,12 +91,12 @@ export function SearchAI({ language }) {
           className="flex h-10 w-full rounded-full border border-input bg-white px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-60 pl-4 pr-[45px] "
           placeholder={text[language].searchPlaceholder}
         />
-        <button className="absolute right-4 top-2 text-gray-500 dark:text-gray-100" type="submit">
+        <button className="absolute right-4 top-2 text-gray-500 " type="submit">
           {isLoading ? <LoaderCrossIcon animate={isLoading} /> : <SearchIcon />}
         </button>
       </form>
 
-      <div className="suggestions mt-4 text-xs text-odis-dark dark:text-gray-100">
+      <div className="suggestions mt-4 text-xs text-odis-dark ">
         <button
           className="flex align-center"
           onClick={() => {
