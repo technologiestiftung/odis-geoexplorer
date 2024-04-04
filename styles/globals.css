@@ -25,3 +25,8 @@ body {
   font-family: 'Nunito Sans', sans-serif;
   /* Verwenden Sie die gewünschte Schriftfamilie */
 }
+
+li {
+  list-style-type: none;
+  margin-left: 0px !important;
+}

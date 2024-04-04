@@ -73,9 +73,7 @@ export function AiText({ content, inputText }) {
       </button>
 
       {message && (
-        <div className="font-light bg-odis-extra-light p-4 font-robot">
-          {message && <Typewriter sentence={message} />}
-        </div>
+        <div className="font-light font-robot">{message && <Typewriter sentence={message} />}</div>
       )}
     </div>
   )

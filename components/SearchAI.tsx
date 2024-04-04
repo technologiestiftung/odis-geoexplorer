@@ -146,25 +146,25 @@ export function SearchAI({ language }) {
 
           <div className="mt-2 overflow-auto rounded-md border border-input text-sm [&_ul]:list-disc [&_li]:ml-4 [&_a]:text-blue-500">
             <div>
-              <table className="w-full">
-                <tbody className="">
-                  <tr className="border-b-[1px] text-lg text-left">
-                    <th className="p-4">Datensatztitel</th>
-                    <th className="p-4">Übereinstimmung</th>
-                    <th className=""></th>
-                  </tr>
-                  {searchResults.map((result) => (
-                    <React.Fragment key={result.id}>
-                      <DatasetInfoRow
-                        result={result}
-                        inputText={inputText}
-                        typeFilterValue={typeFilterValue}
-                        setSimilarSearchText={setSimilarSearchText}
-                      ></DatasetInfoRow>
-                    </React.Fragment>
-                  ))}
-                </tbody>
-              </table>
+              {/* <table className="w-full"> */}
+              <ul className="w-full">
+                <li className="border-b-[1px] text-lg text-left flex font-bold">
+                  <div className="basis-3/5 m-4">Datensatztitel</div>
+                  <div className="basis-1/5  m-4">Übereinstimmung</div>
+                  <div className="basis-1/5 m-4"></div>
+                </li>
+                {searchResults.map((result) => (
+                  <React.Fragment key={result.id}>
+                    <DatasetInfoRow
+                      result={result}
+                      inputText={inputText}
+                      typeFilterValue={typeFilterValue}
+                      setSimilarSearchText={setSimilarSearchText}
+                    ></DatasetInfoRow>
+                  </React.Fragment>
+                ))}
+              </ul>
+              {/* </table> */}
             </div>
           </div>
         </>

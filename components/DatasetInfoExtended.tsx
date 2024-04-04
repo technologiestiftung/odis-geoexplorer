@@ -226,16 +226,6 @@ export function DatasetInfoExtended({ contentDataset, inputText, setSimilarSearc
         </>
       </div>
 
-      {contentDataset['Fisbroker URL'] && (
-        <div className="px-4 mt-4 font-light">
-          Du findest diesen Datensatz auch im{' '}
-          <a className="!text-odis-light" target="_blank" href={contentDataset['Fisbroker URL']}>
-            Fis Broker
-          </a>
-          . Hier erhälst du Detailinformationen wie letzte Aktualisierungen, Granularität, etc.
-        </div>
-      )}
-
       {showMap && (
         <MapComponent
           geojsonData={geoJSON}
@@ -254,6 +244,16 @@ export function DatasetInfoExtended({ contentDataset, inputText, setSimilarSearc
       {contentDataset['Attribute'] && <AttributeTable contentDataset={contentDataset} />}
 
       <AiText content={contentDataset.rawContent} inputText={inputText} />
+
+      {contentDataset['Fisbroker URL'] && (
+        <div className="px-4  font-light border-y-[1px] border-odis-dark py-4">
+          Du findest diesen Datensatz auch im{' '}
+          <a className="!text-odis-light" target="_blank" href={contentDataset['Fisbroker URL']}>
+            Fis Broker
+          </a>
+          . Hier erhälst du Detailinformationen wie letzte Aktualisierungen, Granularität, etc.
+        </div>
+      )}
     </div>
   )
 }

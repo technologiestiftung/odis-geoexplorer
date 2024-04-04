@@ -47,20 +47,20 @@ export function DatasetInfoRow(props) {
   return (
     <>
       {typeFilterValue.includes(content['Typ']) && (
-        <>
-          <tr key={result.id}>
-            <td className="flex p-4 pl-6">
+        <li className={showExtraInfo ? 'bg-odis-extra-light' : ''}>
+          <div key={result.id} className="flex">
+            <div className="flex basis-3/5 m-4">
               <div className=" font-bold  border !border-odis-dark rounded-full p-1 px-2 h-max mr-4 self-center text-xs">
                 {content['Typ']}
               </div>
               <span className="">
                 {content['Titel'].replace(' - \\[WMS]', '').replace(' - \\[WFS]', '')}
               </span>
-            </td>
-            <td className="p-4">
+            </div>
+            <div className="m-4 basis-1/5">
               <SimilarityRating similarity={result.similarity}></SimilarityRating>
-            </td>
-            <td className="p-4">
+            </div>
+            <div className="m-4 basis-1/5">
               <button
                 onClick={() => {
                   setShowExtraInfo(!showExtraInfo)
@@ -70,22 +70,22 @@ export function DatasetInfoRow(props) {
               >
                 {showExtraInfo ? 'Weniger Infos' : 'Mehr Infos'}
               </button>
-            </td>
-          </tr>
+            </div>
+          </div>
 
           {showExtraInfo && (
-            <tr colSpan={3}>
-              <td colSpan={3} className="">
+            <div>
+              <div className="">
                 <DatasetInfoExtended
                   contentDataset={content}
                   inputText={inputText}
                   setSimilarSearchText={setSimilarSearchText}
                 />
-              </td>
-            </tr>
+              </div>
+            </div>
           )}
-          <tr className="border-b-[1px]" colSpan={3}></tr>
-        </>
+          <div className="border-b-[1px]"></div>
+        </li>
       )}
     </>
   )

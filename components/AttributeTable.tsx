@@ -76,7 +76,7 @@ export function AttributeTable({ contentDataset }) {
   aiGeneratedDescriptions
 
   return (
-    <table className="my-2 w-full">
+    <table className="my-2 w-full border-y-[1px] border-odis-dark">
       <tbody>
         <tr className="border-b-[1px] text-md font-normal text-left">
           <th className="p-2 pl-4">Datenattribut</th>
@@ -102,7 +102,7 @@ export function AttributeTable({ contentDataset }) {
         </tr>
 
         {attr?.map((attr, index) => (
-          <tr key={attr} className={index % 2 === 1 ? 'bg-odis-extra-light w-full' : 'w-full'}>
+          <tr key={attr} className={index % 2 === 1 ? 'bg-odis-light-2 w-full' : 'w-full'}>
             <td className="p-2 pl-4 font-light">{attr}</td>
             {hasFullDescription ? (
               <td className="p-2 pl-4 font-light">{attrDesc[index]}</td>
