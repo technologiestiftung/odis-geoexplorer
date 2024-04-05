@@ -1,7 +1,8 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import reproject from 'reproject'
+import { useDimensions } from '@/lib/useDimensions'
 
 import { DownloadIcon } from '@/components/ui/icons/download'
 import { useCopyToClipboard } from '@/lib/useCopyToClipboard'
@@ -11,6 +12,7 @@ import { AiText } from '@/components/AiText'
 import { AttributeTable } from '@/components/AttributeTable'
 import { SearchIcon } from '@/components/ui/icons/search'
 import { MapComponent } from '@/components/Map'
+import { Scatterplot } from '@/components/Scatterplot'
 
 export const listOfProjection = {
   'EPSG:25833': '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
@@ -46,15 +48,22 @@ async function getWFSFeature(url, typeName, purpose) {
     })
 }
 
-export function DatasetInfoExtended({ contentDataset, inputText, setSimilarSearchText }) {
-  const [showMap, setShowMap] = useState<boolean>(false) // @to  < Array<any> || false >
-  const [geoJSON, setGeoJSON] = useState<object | boolean>(false) // @to  < Array<any> || false >
-  const [isLoading, setIsLoading] = useState<string>('') // @to  < Array<any> || false >
+export function DatasetInfoExtended({
+  contentDataset,
+  inputText,
+  setSimilarSearchText,
+  scatterPlotData,
+}) {
+  const [showMap, setShowMap] = useState<boolean>(false)
+  const [geoJSON, setGeoJSON] = useState<object | boolean>(false)
+  const [showScatterplot, setShowScatterplot] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<string>('')
 
-  // const [error, setError] = useState<boolean>(false) // @to  < Array<any> || false >
-  const [error, setError] = useState('') // @to  < Array<any> || false >
+  const [error, setError] = useState('')
 
   const { copyToClipboard, hasCopied } = useCopyToClipboard()
+  const ref = useRef<HTMLDivElement>(null)
+  const visDimensions = useDimensions(ref)
 
   function downloadData(jsonData, title) {
     const jsonString = JSON.stringify(jsonData)
@@ -83,6 +92,7 @@ export function DatasetInfoExtended({ contentDataset, inputText, setSimilarSearc
   }
 
   async function getGeoData(purpose, title) {
+    setShowScatterplot(false)
     if (purpose === 'map') {
       if (showMap) {
         setShowMap(false)
@@ -183,7 +193,7 @@ export function DatasetInfoExtended({ contentDataset, inputText, setSimilarSearc
           <span className="pl-2">JSON Download</span>
         </button>
       </div>
-      <div className="px-4 flex pt-2 ">
+      <div className="px-4 flex pt-2 " ref={ref}>
         <button
           onClick={() => getGeoData('map', contentDataset['Titel'])}
           className={
@@ -210,7 +220,10 @@ export function DatasetInfoExtended({ contentDataset, inputText, setSimilarSearc
           Kartenvorschau
         </button>
         <button
-          onClick={() => setSimilarSearchText(contentDataset['Titel'])}
+          onClick={() => {
+            setShowMap(false)
+            setShowScatterplot(!showScatterplot)
+          }}
           className={buttonClass}
         >
           <svg
@@ -223,7 +236,7 @@ export function DatasetInfoExtended({ contentDataset, inputText, setSimilarSearc
           >
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
           </svg>
-          ähnlichen Daten
+          ähnlich Datenpunkte
         </button>
       </div>
 
@@ -233,6 +246,17 @@ export function DatasetInfoExtended({ contentDataset, inputText, setSimilarSearc
           setShowMap={setShowMap}
           datasetTitle={contentDataset['Titel']}
           maxFeatures={MAXFEATURES}
+        />
+      )}
+
+      {showScatterplot && (
+        <Scatterplot
+          scatterPlotData={scatterPlotData}
+          width={visDimensions.width}
+          height={400}
+          setSimilarSearchText={setSimilarSearchText}
+          title={contentDataset['Titel']}
+          slug={contentDataset.slug}
         />
       )}
 

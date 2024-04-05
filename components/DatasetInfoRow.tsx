@@ -37,11 +37,12 @@ function parseEmbeddingContent(text) {
 }
 
 export function DatasetInfoRow(props) {
-  const { result, inputText, typeFilterValue, setSimilarSearchText } = props
+  const { result, inputText, typeFilterValue, setSimilarSearchText, scatterPlotData } = props
 
   const [showExtraInfo, setShowExtraInfo] = useState<boolean>(false)
   let content = result && result.content ? parseEmbeddingContent(result.content) : {}
   content['rawContent'] = result.content
+  content['slug'] = result.slug
 
   // Return the JSX for your component
   return (
@@ -80,6 +81,7 @@ export function DatasetInfoRow(props) {
                   contentDataset={content}
                   inputText={inputText}
                   setSimilarSearchText={setSimilarSearchText}
+                  scatterPlotData={scatterPlotData}
                 />
               </div>
             </div>

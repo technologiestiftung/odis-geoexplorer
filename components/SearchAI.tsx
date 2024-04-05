@@ -19,8 +19,33 @@ export function SearchAI({ language }) {
   const [showExamples, setShowExamples] = useState(true)
   const [typeFilterValue, setTypeFilterValue] = useState(['WFS'])
   const [hasSearched, setHasSearched] = useState(false)
-
   const [similarSearchText, setSimilarSearchText] = useState('')
+  const [scatterPlotData, setScatterPlotData] = useState([])
+
+  useEffect(() => {
+    fetch('./data/tsne_data_with_slug.csv')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok')
+        }
+        return response.text()
+      })
+      .then((csvData) => {
+        let rows = csvData.split('\n').map((row) => row.split(','))
+        rows.shift()
+        rows.pop()
+
+        rows.map((d) => {
+          d[0] = Number(d[0])
+          d[1] = Number(d[1])
+        })
+        // console.log(rows)
+        setScatterPlotData(rows)
+      })
+      .catch((error) => {
+        console.error('There was a problem with the fetch operation:', error)
+      })
+  }, [])
 
   async function getSearchResults(inputText) {
     inputText = inputText + ' WFS' // push WFS
@@ -161,6 +186,7 @@ export function SearchAI({ language }) {
                       inputText={inputText}
                       typeFilterValue={typeFilterValue}
                       setSimilarSearchText={setSimilarSearchText}
+                      scatterPlotData={scatterPlotData}
                     ></DatasetInfoRow>
                   </React.Fragment>
                 ))}
