@@ -119,6 +119,11 @@ export function InfoModal({ language }) {
             Impressum
           </a>
         </p>
+
+        <p className="text-sm text-gray-400">
+          Letzter Abgleich mit dem{' '}
+          <a href="https://daten.berlin.de/datensaetze">Berliner Datenportal</a>: 2. April 2024
+        </p>
       </DialogContent>
     </Dialog>
   )
