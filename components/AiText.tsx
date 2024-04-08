@@ -33,7 +33,7 @@ export function AiText({ content, inputText }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          contentDataset: contentDataset,
+          contentDataset: JSON.stringify({ contentDataset }),
           initialQuestion: initialQuestion,
           promptType: 'info',
         }),

@@ -22,7 +22,7 @@ export function AttributeTable({ contentDataset }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          contentDataset: contentDataset,
+          contentDataset: JSON.stringify({ contentDataset }),
           promptType: 'attrDescription',
         }),
         cache: process.env.NODE_ENV === 'development' ? 'no-store' : 'default',
@@ -37,12 +37,16 @@ export function AttributeTable({ contentDataset }) {
     } finally {
       setIsLoading(false)
 
+      console.log('datadatadatadata', data)
+
       data = JSON.parse(data.result.message.content)
 
-      if (data.attribute) {
+      console.log('datadata', data)
+
+      if (data) {
         // const descriptionArray = data.attribute.map((key) => aiGeneratedDescriptions[key] || '')
 
-        setAiGeneratedDescriptions(data.attribute)
+        setAiGeneratedDescriptions(data)
       }
     }
   }
@@ -108,7 +112,7 @@ export function AttributeTable({ contentDataset }) {
             {!hasFullDescription && !aiGeneratedDescriptions && (
               <button
                 className="font-normal pl-2 text-odis-light  hover:text-odis-dark flex items-center"
-                onClick={() => generateDescriptions(contentDataset['rawContent'])}
+                onClick={() => generateDescriptions(contentDataset)}
               >
                 mit K.I. generieren
                 {isLoading && (

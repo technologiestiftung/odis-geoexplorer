@@ -37,15 +37,16 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
     if (promptType === 'attrDescription') {
       promptSystem = oneLine`Deine Rolle ist es, Menschen zu offenen Daten in Berlin freundlich zu informieren.
       Du erhälts eine *Beschreibung* eines Datensatzes. 
-      Basierend auf der *Beschreibung* sollen die Kürzel der 'Attribute' 
+      Basierend auf der *Beschreibung* sollen die Kürzel der 'Attribute' aus der Beschreibung NICHT 'Attribute Beschreibung'
       mit einer Kurzbeschreibung versehrt werden aber NUR wo du dir sicher bist.
       Antworte im JSON Format!: {
-        'attribute':{
-          'Attribut 1':'Attribut Beschreibung 1',
-          'Attribut 2':'Attribut Beschreibung 2'
+        {
+          'Attribut Name 1':'Attribut Beschreibung 1',
+          'Attribut Name 2':'Attribut Beschreibung 2'
           ...
         }
       }
+      Nutze für die Attribut Namen die GLEICHEN wie aus der *Beschreibung*
       `
       promptUser = codeBlock`${oneLine`*Beschreibung*: ${contentDataset}`}.`
     }

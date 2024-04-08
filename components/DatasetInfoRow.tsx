@@ -41,7 +41,7 @@ export function DatasetInfoRow(props) {
 
   const [showExtraInfo, setShowExtraInfo] = useState<boolean>(false)
   let content = result && result.content ? parseEmbeddingContent(result.content) : {}
-  content['rawContent'] = result.content
+  // content['rawContent'] = result.content
   content['slug'] = result.slug
 
   // Return the JSX for your component

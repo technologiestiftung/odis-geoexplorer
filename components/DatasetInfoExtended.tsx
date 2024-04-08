@@ -268,7 +268,7 @@ export function DatasetInfoExtended({
 
       {contentDataset['Attribute'] && <AttributeTable contentDataset={contentDataset} />}
 
-      <AiText content={contentDataset.rawContent} inputText={inputText} />
+      <AiText content={contentDataset} inputText={inputText} />
 
       {contentDataset['Fisbroker URL'] && (
         <div className="px-4  font-light border-t-[1px] border-gray-300 py-4">
