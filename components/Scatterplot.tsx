@@ -56,7 +56,7 @@ export function Scatterplot({
     return (
       <circle
         key={i}
-        r={(d[2] === slug ? 22 : 12) / scaleFactor}
+        r={(d[2] === slug ? 22 : 8) / scaleFactor}
         cx={xScale(d[0])}
         cy={yScale(d[1])}
         stroke={d[2] === slug ? '#fff' : '#1d2c5d'}
@@ -65,10 +65,10 @@ export function Scatterplot({
         fillOpacity={d[2] === slug ? 1 : 0.1}
         onMouseEnter={() =>
           setHovered({
-            // xPos: xScale(d[0] * scaleFactor),
-            // yPos: yScale(d[1] * scaleFactor),
-            xPos: 10,
-            yPos: 10,
+            xPos: xScale(d[0]),
+            yPos: yScale(d[1]),
+            // xPos: 10,
+            // yPos: 10,
             name: d[2],
           })
         }
@@ -84,6 +84,14 @@ export function Scatterplot({
   return (
     <div style={{ position: 'relative' }} className="my-4 bg-odis-light-2 ">
       <svg width={width} height={height} fill="white">
+        <defs>
+          <radialGradient id="grad6" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+            <stop offset="0%" stop-color="#B3F2E0" stop-opacity="1" />
+            <stop offset="100%" stop-color="rgba(0,0,0,0)" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+        <ellipse cx={width / 2} cy={height / 2} rx={width} ry={height} fill="url(#grad6)" />
+
         <g transform={transform}>
           {' '}
           {/* Circles */}

@@ -43,7 +43,9 @@ async function getWFSFeature(url, typeName, purpose) {
       epsg = epsg.trim().split(':').pop()
       epsg = 'EPSG:' + epsg
       let geoData = reproject.reproject(geojson, epsg, 'EPSG:4326', listOfProjection)
-
+      if (geoData && geoData.crs && geoData.crs.properties) {
+        geoData.crs.properties.name = 'EPSG:4326'
+      }
       return geoData
     })
 }
