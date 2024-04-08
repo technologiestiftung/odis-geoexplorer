@@ -27,6 +27,7 @@ export function Scatterplot({
   slug,
 }: ScatterplotProps) {
   const [hovered, setHovered] = useState<InteractionData | null>(null)
+  const [searchText, setSearchText] = useState<string>('')
 
   const scaleFactor = 6
 
@@ -63,31 +64,70 @@ export function Scatterplot({
         strokeWidth={1 / scaleFactor}
         fill={d[2] === slug ? '#B3F2E0' : '#1d2c5d'}
         fillOpacity={d[2] === slug ? 1 : 0.1}
-        onMouseEnter={() =>
+        onMouseEnter={(e) => {
+          e.stopPropagation()
+          e.preventDefault()
           setHovered({
-            xPos: xScale(d[0]),
-            yPos: yScale(d[1]),
+            // xPos: xScale(d[0]),
+            // yPos: yScale(d[1]),
             // xPos: 10,
             // yPos: 10,
+            xPos: e.clientX + 10,
+            yPos: e.clientY + 10,
             name: d[2],
           })
-        }
+          e.stopPropagation()
+          e.preventDefault()
+        }}
         onMouseLeave={() => setHovered(null)}
-        onClick={() => {
-          setSimilarSearchText(d[2])
+        onClick={(e) => {
+          e.stopPropagation()
+          e.preventDefault()
+          setSearchText(d[2])
+          //   setSimilarSearchText(d[2])
         }}
         className={`cursor-pointer ${d[2] === slug ? '' : 'z-20'}`}
       />
     )
   })
 
+  const buttonClass =
+    'absolute m-2 text-center w-48 flex bg-odis-light !text-white p-2 mr-2 rounded-md hover:bg-active hover:!text-odis-dark items-center'
+
   return (
     <div style={{ position: 'relative' }} className="my-4 bg-odis-light-2 ">
-      <svg width={width} height={height} fill="white">
+      {searchText && (
+        <button
+          className={buttonClass}
+          onClick={(e) => {
+            setSimilarSearchText(searchText)
+          }}
+        >
+          {searchText}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            className="mr-2"
+            viewBox="0 0 16 16"
+          >
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+          </svg>
+        </button>
+      )}
+      <svg
+        width={width}
+        height={height}
+        fill="white"
+        onClick={() => {
+          setSearchText('')
+        }}
+      >
         <defs>
-          <radialGradient id="grad6" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+          <radialGradient id="grad6" cx="50%" cy="50%" r="30%" fx="50%" fy="50%">
             <stop offset="0%" stop-color="#B3F2E0" stop-opacity="1" />
-            <stop offset="100%" stop-color="rgba(0,0,0,0)" stop-opacity="0" />
+            <stop offset="100%" stop-color="rgba(230, 240, 247,0)" stop-opacity="0" />
           </radialGradient>
         </defs>
         <ellipse cx={width / 2} cy={height / 2} rx={width} ry={height} fill="url(#grad6)" />
@@ -102,7 +142,7 @@ export function Scatterplot({
       {hovered && (
         <div
           className={
-            'absolute p-1 rounded w-max text-xl z-20 px-2 ' +
+            'fixed p-1 rounded w-max text-xl z-20 px-2 ' +
             (hovered.name === slug ? 'bg-active text-odis-dark' : 'bg-odis-dark text-white')
           }
           style={{
@@ -113,8 +153,8 @@ export function Scatterplot({
           {hovered.name}
         </div>
       )}
-
       <p className="p-2">
+        {/* <p className="p-2 absolute bottom-0 pointer-events-none"> */}
         Die Positionen der Datenpunkte zueinander zeigen, wie ähnlich sie von der KI betrachtet
         werden.
       </p>

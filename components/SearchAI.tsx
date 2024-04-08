@@ -95,9 +95,13 @@ export function SearchAI({ language }) {
     if (isLoading || inputText === '') {
       return
     }
+    setSearchText(inputText)
+
+    setSearchResults([])
+    setHasSearched(false)
+
     const { embeddings } = await getSearchResults(inputText)
     console.log('embeddings: ', embeddings)
-    setSearchText(inputText)
     setHasSearched(true)
     setSearchResults(embeddings)
   }
