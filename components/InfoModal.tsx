@@ -77,9 +77,9 @@ export function InfoModal({ language }) {
             <p className="ml-6">
               Die auf dieser Website präsentierten Ergebnisse basieren auf einem Large Language
               Model und dienen ausschließlich zu Informationszwecken. Es ist wichtig zu beachten,
-              dass solche Modelle Fehler machen können und gelegentlich “halluzinieren”, d.h.
-              erdachte Informationen generieren können. Daher sollten die bereitgestellten
-              Informationen mit Vorsicht verwendet werden.
+              dass KI-Modelle gelegentlich Informationen ausgeben, die zwar plausibel klingen aber
+              dennoch falsch sein können. Daher sollten die bereitgestellten Informationen mit
+              Vorsicht betrachtet werden.
               <br />
               <br />
               Wir übernehmen keine Haftung für die Richtigkeit, Vollständigkeit oder Aktualität der

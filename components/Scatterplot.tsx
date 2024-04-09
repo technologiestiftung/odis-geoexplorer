@@ -95,7 +95,7 @@ export function Scatterplot({
     'absolute m-2 text-center w-48 flex bg-odis-light !text-white p-2 mr-2 rounded-md hover:bg-active hover:!text-odis-dark items-center'
 
   return (
-    <div style={{ position: 'relative' }} className="my-4 bg-odis-light-2 ">
+    <div style={{ position: 'relative' }} className="my-4 border-y ">
       {searchText && (
         <button
           className={buttonClass}
@@ -109,7 +109,7 @@ export function Scatterplot({
             width="16"
             height="16"
             fill="currentColor"
-            className="mr-2"
+            className="ml-2"
             viewBox="0 0 16 16"
           >
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />

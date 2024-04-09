@@ -13,6 +13,7 @@ import { AttributeTable } from '@/components/AttributeTable'
 import { SearchIcon } from '@/components/ui/icons/search'
 import { MapComponent } from '@/components/Map'
 import { Scatterplot } from '@/components/Scatterplot'
+import { WarningBox } from '@/components/WarningBox'
 
 export const listOfProjection = {
   'EPSG:25833': '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
@@ -262,13 +263,13 @@ export function DatasetInfoExtended({
         />
       )}
 
-      {error && (
-        <div className=" bg-active-light text-active-dark border-active-dark m-2 overflow-auto rounded-md border border-input p-4">
-          Kartendaten konnten leider nicht geladen werden
-        </div>
-      )}
+      {error && <WarningBox text={'Kartendaten konnten leider nicht geladen werden'} />}
 
-      {contentDataset['Attribute'] && <AttributeTable contentDataset={contentDataset} />}
+      {contentDataset['Attribute'] ? (
+        <AttributeTable contentDataset={contentDataset} />
+      ) : (
+        <WarningBox text={'  Es konnten keine Attribute gefunden werden'} />
+      )}
 
       <AiText content={contentDataset} inputText={inputText} />
 
