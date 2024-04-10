@@ -28,8 +28,30 @@ export function Scatterplot({
 }: ScatterplotProps) {
   const [hovered, setHovered] = useState<InteractionData | null>(null)
   const [searchText, setSearchText] = useState<string>('')
+  const [scaleFactor, setScaleFactor] = useState(6) // Initial scale factor
 
-  const scaleFactor = 6
+  const zoomIn = () => {
+    setScaleFactor(scaleFactor + 1)
+  }
+
+  const zoomOut = () => {
+    if (scaleFactor > 1) {
+      setScaleFactor(scaleFactor - 1)
+    }
+  }
+
+  //   const dragHandler = d3
+  //     .drag()
+  //     .on('start', function (event) {
+  //       console.log('ääää')
+
+  //       d3.select(this).raise()
+  //     })
+  //     .on('drag', function (event) {
+  //       console.log('dddd')
+
+  //       d3.select(this).attr('cx', event.x).attr('cy', event.y)
+  //     })
 
   // Scales
   const xVals = scatterPlotData.map((d) => Number(d[0]) ?? d[0])
@@ -47,7 +69,6 @@ export function Scatterplot({
 
   scatterPlotData = scatterPlotData.filter((d) => d[2] !== slug)
   scatterPlotData = [[...newCenter, slug, selectedName], ...scatterPlotData]
-  //   scatterPlotData.push([...newCenter, slug])
 
   const transform = `translate(${width / 2 - xScale(newCenter[0]) * scaleFactor}, ${
     height / 2 - yScale(newCenter[1]) * scaleFactor
@@ -58,7 +79,8 @@ export function Scatterplot({
     return (
       <circle
         key={i}
-        r={(d[2] === slug ? 22 : 8) / scaleFactor}
+        r={((d[2] === slug ? 2 : 1) * scaleFactor) / 2 / 4}
+        // r={(d[2] === slug ? 22 : 8) / scaleFactor}
         cx={xScale(d[0])}
         cy={yScale(d[1])}
         stroke={d[2] === slug ? '#fff' : '#1d2c5d'}
@@ -69,10 +91,6 @@ export function Scatterplot({
           e.stopPropagation()
           e.preventDefault()
           setHovered({
-            // xPos: xScale(d[0]),
-            // yPos: yScale(d[1]),
-            // xPos: 10,
-            // yPos: 10,
             xPos: e.clientX + 10,
             yPos: e.clientY + 10,
             name: d[3],
@@ -86,7 +104,6 @@ export function Scatterplot({
           e.stopPropagation()
           e.preventDefault()
           setSearchText(d[3])
-          //   setSimilarSearchText(d[2])
         }}
         className={`cursor-pointer ${d[2] === slug ? '' : 'z-20'}`}
       />
@@ -118,6 +135,34 @@ export function Scatterplot({
           {searchText}
         </button>
       )}
+
+      <div className="rounded-md absolute m-2 mt-2 right-0 z-10 inline-grid bg-white p-2 ">
+        <button className="mb-2" onClick={zoomIn} title="zoom in">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            viewBox="0 0 16 16"
+          >
+            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+          </svg>
+        </button>
+
+        <button onClick={zoomOut} title="zoom out">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            viewBox="0 0 16 16"
+          >
+            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+            <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8" />
+          </svg>
+        </button>
+      </div>
       <svg
         width={width}
         height={height}
@@ -134,9 +179,9 @@ export function Scatterplot({
         </defs>
         <ellipse cx={width / 2} cy={height / 2} rx={width} ry={height} fill="url(#grad6)" />
 
+        {/* <g transform={transform}> */}
         <g transform={transform}>
-          {' '}
-          {/* Circles */}
+          {/* <g transform={transform} ref={(node) => d3.select(node).call(dragHandler)}> */}
           {allShapes}
         </g>
       </svg>
