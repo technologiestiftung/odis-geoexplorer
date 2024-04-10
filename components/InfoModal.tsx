@@ -14,6 +14,12 @@ import { text } from '@/lib/text'
 import { LoaderCrossIcon } from '@/components/ui/icons/loaderCross'
 import { AttentionIcon } from '@/components/ui/icons/attention'
 
+import { CityLabLogo } from '@/components/Logos/CityLabLogo'
+import { OdisLogo } from '@/components/Logos/OdisLogo'
+import { BerlinLogo } from '@/components/Logos/BerlinLogo'
+import { TSBLogo } from '@/components/Logos/TSBLogo'
+import { SenInLogo } from '@/components/Logos/SenInLogo'
+
 export function InfoModal({ language }) {
   // Return the JSX for your component
   return (
@@ -119,7 +125,44 @@ export function InfoModal({ language }) {
             Impressum
           </a>
         </p>
-
+        <section className="mt-[19px] flex  gap-[24px] text-xs">
+          <div className="flex flex-1 flex-col gap-[16px]">
+            <div>Ein Projekt der</div>
+            <div className="h-[49px] w-auto">
+              <a href="https://www.technologiestiftung-berlin.de" target="_blank">
+                <TSBLogo />
+              </a>
+            </div>
+          </div>
+          <div className="flex flex-1  flex-col gap-[16px]">
+            <div>Durchgeführt von der</div>
+            <div className="h-[40px] w-auto">
+              <a href="https://odis-berlin.de" target="_blank">
+                <OdisLogo />
+              </a>
+            </div>
+          </div>
+          <div className="flex flex-1 flex-col gap-[16px]">
+            <div>in Zusammenarbeit mit</div>
+            <div className="flex gap-[16px]">
+              <div className="h-[34px] w-auto">
+                <a href="https://citylab-berlin.org/de/start/" target="_blank">
+                  <CityLabLogo />
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-1  flex-col gap-[16px]">
+            <div>Gefördert von </div>
+            <div className="flex gap-[16px]">
+              <div className="h-auto w-[160px]">
+                <a href="https://www.berlin.de/rbmskzl/" target="_blank">
+                  <BerlinLogo />
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
         <p className="text-sm text-gray-400">
           Letzter Abgleich mit dem{' '}
           <a href="https://daten.berlin.de/datensaetze">Berliner Datenportal</a>: 2. April 2024

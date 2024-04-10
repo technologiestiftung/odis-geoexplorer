@@ -176,8 +176,8 @@ export function SearchAI({ language }) {
             <div>
               {/* <table className="w-full"> */}
               <ul className="w-full">
-                <li className="border-b-[1px] text-lg text-left flex font-bold">
-                  <div className="basis-3/5 m-4">Datensatztitel</div>
+                <li className="border-b-[1px] sm:text-lg text-left flex font-bold">
+                  <div className="basis-3/5 m-4 ">Datensatztitel</div>
                   <div className="basis-1/5  m-4">Übereinstimmung</div>
                   <div className="basis-1/5 m-4"></div>
                 </li>

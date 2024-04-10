@@ -148,7 +148,7 @@ export function DatasetInfoExtended({
   console.log('contentDataset', contentDataset)
 
   const buttonClass =
-    'text-center w-48 flex bg-odis-light !text-white p-2 mr-2 rounded-md hover:bg-active hover:!text-odis-dark items-center'
+    'text-center  sm:w-48  flex bg-odis-light !text-white p-2 mr-2 rounded-md hover:bg-active hover:!text-odis-dark items-center'
 
   return (
     <div>

@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import { InfoIcon } from '@/components/ui/icons/info'
 
 import { DatasetInfoExtended } from '@/components/DatasetInfoExtended'
 import { SimilarityRating } from '@/components/SimilarityRating'
@@ -48,8 +49,14 @@ export function DatasetInfoRow(props) {
   return (
     <>
       {typeFilterValue.includes(content['Typ']) && (
-        <li className={showExtraInfo ? 'bg-odis-extra-light' : ''}>
-          <div key={result.id} className="flex">
+        <li className={' border-b-[1px] ' + (showExtraInfo ? ' bg-odis-extra-light' : '')}>
+          <div
+            onClick={() => {
+              setShowExtraInfo(!showExtraInfo)
+            }}
+            key={result.id}
+            className="flex cursor-pointer"
+          >
             <div className="flex basis-3/5 m-4">
               <div className=" font-bold  border !border-odis-dark rounded-full p-1 px-2 h-max mr-4 self-center text-xs">
                 {content['Typ']}
@@ -67,9 +74,15 @@ export function DatasetInfoRow(props) {
                   setShowExtraInfo(!showExtraInfo)
                 }}
                 type="submit"
-                className="text-white text-xs  rounded-md w-24 px-1 py-1 hover:bg-active bg-odis-light hover:text-odis-dark"
+                className="text-white text-xs  rounded-md md:w-24 px-1 py-1 md:hover:bg-active md:bg-odis-light md:hover:text-odis-dark"
               >
-                {showExtraInfo ? 'Weniger Infos' : 'Mehr Infos'}
+                <span className="md:block hidden">
+                  {showExtraInfo ? 'Weniger Infos' : 'Mehr Infos'}
+                </span>
+
+                {/* <span className=" md:hidden text-odis-light">
+                  <InfoIcon />
+                </span> */}
               </button>
             </div>
           </div>
@@ -86,7 +99,6 @@ export function DatasetInfoRow(props) {
               </div>
             </div>
           )}
-          <div className="border-b-[1px]"></div>
         </li>
       )}
     </>

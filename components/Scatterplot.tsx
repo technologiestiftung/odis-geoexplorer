@@ -26,6 +26,8 @@ export function Scatterplot({
   setSimilarSearchText,
   slug,
 }: ScatterplotProps) {
+  console.log('scatterPlotData', scatterPlotData)
+
   const [hovered, setHovered] = useState<InteractionData | null>(null)
   const [searchText, setSearchText] = useState<string>('')
 
@@ -42,10 +44,11 @@ export function Scatterplot({
   const xScale = d3.scaleLinear().domain(minMaxX).range([0, width])
 
   let newCenter = scatterPlotData.filter((d) => d[2] === slug)
+  let selectedName = newCenter[0][3]
   newCenter = [Number(newCenter[0][0]), Number(newCenter[0][1])]
 
   scatterPlotData = scatterPlotData.filter((d) => d[2] !== slug)
-  scatterPlotData = [[...newCenter, slug], ...scatterPlotData]
+  scatterPlotData = [[...newCenter, slug, selectedName], ...scatterPlotData]
   //   scatterPlotData.push([...newCenter, slug])
 
   const transform = `translate(${width / 2 - xScale(newCenter[0]) * scaleFactor}, ${
@@ -92,7 +95,7 @@ export function Scatterplot({
   })
 
   const buttonClass =
-    'absolute m-2 text-center w-48 flex bg-odis-light !text-white p-2 mr-2 rounded-md hover:bg-active hover:!text-odis-dark items-center'
+    'absolute m-2 text-center w-52 flex bg-odis-light !text-white p-2 mr-2 rounded-md hover:bg-active hover:!text-odis-dark items-center'
 
   return (
     <div style={{ position: 'relative' }} className="my-4 border-y ">
@@ -142,8 +145,8 @@ export function Scatterplot({
       {hovered && (
         <div
           className={
-            'fixed p-1 rounded w-max text-xl z-20 px-2 ' +
-            (hovered.name === slug ? 'bg-active text-odis-dark' : 'bg-odis-dark text-white')
+            'fixed p-1 rounded max-w-48 text-md z-20 px-2 border border-odis-dark ' +
+            (hovered.name === slug ? 'bg-active text-odis-dark' : 'bg-white text-odis-dark')
           }
           style={{
             left: hovered.xPos,
