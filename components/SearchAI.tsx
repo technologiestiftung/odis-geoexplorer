@@ -23,7 +23,7 @@ export function SearchAI({ language }) {
   const [scatterPlotData, setScatterPlotData] = useState([])
 
   useEffect(() => {
-    fetch('./data/tsne_data_with_slug.csv')
+    fetch('./data/tsne_data.csv')
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok')
@@ -34,12 +34,10 @@ export function SearchAI({ language }) {
         let rows = csvData.split('\n').map((row) => row.split(','))
         rows.shift()
         rows.pop()
-
         rows.map((d) => {
           d[0] = Number(d[0])
           d[1] = Number(d[1])
         })
-        // console.log(rows)
         setScatterPlotData(rows)
       })
       .catch((error) => {

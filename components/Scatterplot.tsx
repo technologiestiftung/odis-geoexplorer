@@ -74,7 +74,7 @@ export function Scatterplot({
             // yPos: 10,
             xPos: e.clientX + 10,
             yPos: e.clientY + 10,
-            name: d[2],
+            name: d[3],
           })
           e.stopPropagation()
           e.preventDefault()
@@ -83,7 +83,7 @@ export function Scatterplot({
         onClick={(e) => {
           e.stopPropagation()
           e.preventDefault()
-          setSearchText(d[2])
+          setSearchText(d[3])
           //   setSimilarSearchText(d[2])
         }}
         className={`cursor-pointer ${d[2] === slug ? '' : 'z-20'}`}
@@ -126,8 +126,8 @@ export function Scatterplot({
       >
         <defs>
           <radialGradient id="grad6" cx="50%" cy="50%" r="30%" fx="50%" fy="50%">
-            <stop offset="0%" stop-color="#B3F2E0" stop-opacity="1" />
-            <stop offset="100%" stop-color="rgba(230, 240, 247,0)" stop-opacity="0" />
+            <stop offset="0%" stopColor="#B3F2E0" stopOpacity="1" />
+            <stop offset="100%" stopColor="rgba(230, 240, 247,0)" stopOpacity="0" />
           </radialGradient>
         </defs>
         <ellipse cx={width / 2} cy={height / 2} rx={width} ry={height} fill="url(#grad6)" />
