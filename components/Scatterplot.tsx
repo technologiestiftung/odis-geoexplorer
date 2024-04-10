@@ -26,8 +26,6 @@ export function Scatterplot({
   setSimilarSearchText,
   slug,
 }: ScatterplotProps) {
-  console.log('scatterPlotData', scatterPlotData)
-
   const [hovered, setHovered] = useState<InteractionData | null>(null)
   const [searchText, setSearchText] = useState<string>('')
 
@@ -78,6 +76,7 @@ export function Scatterplot({
             xPos: e.clientX + 10,
             yPos: e.clientY + 10,
             name: d[3],
+            slugName: d[2],
           })
           e.stopPropagation()
           e.preventDefault()
@@ -95,28 +94,28 @@ export function Scatterplot({
   })
 
   const buttonClass =
-    'absolute m-2 text-center w-52 flex bg-odis-light !text-white p-2 mr-2 rounded-md hover:bg-active hover:!text-odis-dark items-center'
+    'absolute m-2 text-center w-48 bg-odis-light !text-white p-2 mr-2 rounded-md hover:bg-active hover:!text-odis-dark items-center w-40 truncate overflow-hidden'
 
   return (
     <div style={{ position: 'relative' }} className="my-4 border-y ">
       {searchText && (
         <button
-          className={buttonClass}
           onClick={(e) => {
             setSimilarSearchText(searchText)
           }}
+          className={buttonClass}
         >
-          {searchText}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
             height="16"
             fill="currentColor"
-            className="ml-2"
+            className="mr-2 inline"
             viewBox="0 0 16 16"
           >
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
           </svg>
+          {searchText}
         </button>
       )}
       <svg
@@ -146,7 +145,7 @@ export function Scatterplot({
         <div
           className={
             'fixed p-1 rounded max-w-48 text-md z-20 px-2 border border-odis-dark ' +
-            (hovered.name === slug ? 'bg-active text-odis-dark' : 'bg-white text-odis-dark')
+            (hovered.slugName === slug ? 'bg-active text-odis-dark' : 'bg-white text-odis-dark')
           }
           style={{
             left: hovered.xPos,
