@@ -1,6 +1,4 @@
 export function CheckIcon({ active }) {
-  console.log('activeactiveactive', active)
-
   return (
     <>
       {active ? (

@@ -2,6 +2,7 @@
 // import { text } from '@/lib/text'
 import React, { useState, useEffect } from 'react'
 import { LoaderIcon } from '@/components/ui/icons/loader'
+import { CodeIcon } from '@/components/ui/icons/CodeIcon'
 
 export function AttributeTable({ contentDataset }) {
   const [attr, setAttr] = useState(contentDataset['Attribute'])
@@ -114,6 +115,7 @@ export function AttributeTable({ contentDataset }) {
                 className="font-normal pl-2 text-odis-light  hover:text-odis-dark flex items-center"
                 onClick={() => generateDescriptions(contentDataset)}
               >
+                <CodeIcon /> <span className="pl-1"></span>
                 mit K.I. generieren
                 {isLoading && (
                   <span className="scale-50">

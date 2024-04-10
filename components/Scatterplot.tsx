@@ -2,7 +2,7 @@
 // import { text } from '@/lib/text'
 
 import * as d3 from 'd3'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 type ElementType = [number, number, string]
 
@@ -28,7 +28,68 @@ export function Scatterplot({
 }: ScatterplotProps) {
   const [hovered, setHovered] = useState<InteractionData | null>(null)
   const [searchText, setSearchText] = useState<string>('')
-  const [scaleFactor, setScaleFactor] = useState(6) // Initial scale factor
+  const [scaleFactor, setScaleFactor] = useState(0) // Initial scale factor
+  const gRef = useRef(null)
+
+  useEffect(() => {
+    // Define interpolation function
+    const interpolateScaleFactor = d3.interpolate(0, 7)
+
+    // Define timer function
+    const timer = d3.timer((elapsed) => {
+      // Calculate progress
+      const progress = Math.min(1, elapsed / 2000) // 2000ms duration for animation
+
+      // Update scaleFactor using interpolation function
+      setScaleFactor(interpolateScaleFactor(progress))
+
+      // Check if animation is complete
+      if (progress === 1) {
+        timer.stop() // Stop the timer
+      }
+    })
+
+    // Cleanup function
+    return () => {
+      timer.stop() // Stop the timer if component unmounts
+    }
+  }, []) // This effect runs only once on mount
+
+  //   useEffect(() => {
+  //     const dragHandler = d3.drag().on('drag', function (event) {
+  //       console.log('--------')
+
+  //       const currentTransform = d3.select(this).attr('transform')
+  //       const translate = currentTransform
+  //         .substring(currentTransform.indexOf('(') + 1, currentTransform.indexOf(')'))
+  //         .split(',')
+  //       const newX = parseInt(translate[0]) + event.dx
+  //       const newY = parseInt(translate[1]) + event.dy
+  //       d3.select(this).attr('transform', `translate(${newX},${newY})`)
+  //     })
+
+  //     console.log('ööölllll')
+
+  //     d3.select(gRef.current).call(dragHandler)
+  //   }, [])
+
+  useEffect(() => {
+    const svg = d3.select(gRef.current) // Ensure this selects the <g> element
+
+    const dragHandler = d3
+      .drag()
+      .on('start', function (event) {
+        // Optional: action on drag start
+      })
+      .on('drag', function (event) {
+        // Adjust the transform to move the element
+        d3.select(this).attr('transform', `translate(${event.x},${event.y})`)
+
+        console.log('ääää')
+      })
+
+    svg.call(dragHandler)
+  }, [])
 
   const zoomIn = () => {
     setScaleFactor(scaleFactor + 1)
@@ -39,19 +100,6 @@ export function Scatterplot({
       setScaleFactor(scaleFactor - 1)
     }
   }
-
-  //   const dragHandler = d3
-  //     .drag()
-  //     .on('start', function (event) {
-  //       console.log('ääää')
-
-  //       d3.select(this).raise()
-  //     })
-  //     .on('drag', function (event) {
-  //       console.log('dddd')
-
-  //       d3.select(this).attr('cx', event.x).attr('cy', event.y)
-  //     })
 
   // Scales
   const xVals = scatterPlotData.map((d) => Number(d[0]) ?? d[0])
@@ -77,36 +125,57 @@ export function Scatterplot({
   // Build the shapes
   const allShapes = scatterPlotData.map((d, i) => {
     return (
-      <circle
-        key={i}
-        r={((d[2] === slug ? 2 : 1) * scaleFactor) / 2 / 4}
-        // r={(d[2] === slug ? 22 : 8) / scaleFactor}
-        cx={xScale(d[0])}
-        cy={yScale(d[1])}
-        stroke={d[2] === slug ? '#fff' : '#1d2c5d'}
-        strokeWidth={1 / scaleFactor}
-        fill={d[2] === slug ? '#B3F2E0' : '#1d2c5d'}
-        fillOpacity={d[2] === slug ? 1 : 0.1}
-        onMouseEnter={(e) => {
-          e.stopPropagation()
-          e.preventDefault()
-          setHovered({
-            xPos: e.clientX + 10,
-            yPos: e.clientY + 10,
-            name: d[3],
-            slugName: d[2],
-          })
-          e.stopPropagation()
-          e.preventDefault()
-        }}
-        onMouseLeave={() => setHovered(null)}
-        onClick={(e) => {
-          e.stopPropagation()
-          e.preventDefault()
-          setSearchText(d[3])
-        }}
-        className={`cursor-pointer ${d[2] === slug ? '' : 'z-20'}`}
-      />
+      <g>
+        <circle
+          key={i}
+          points={`${xScale(d[0]) - 5},${yScale(d[1])} ${xScale(d[0])},${yScale(d[1]) - 5} ${
+            xScale(d[0]) + 5
+          },${yScale(d[1])} ${xScale(d[0])},${yScale(d[1]) + 5}`}
+          r={((d[2] === slug ? 2 : 1) * scaleFactor) / 2 / 4}
+          // r={(d[2] === slug ? 22 : 8) / scaleFactor}
+          cx={xScale(d[0])}
+          cy={yScale(d[1])}
+          stroke={d[2] === slug ? '#fff' : '#1d2c5d'}
+          strokeWidth={1 / scaleFactor}
+          fill={d[2] === slug ? '#B3F2E0' : '#1d2c5d'}
+          fillOpacity={d[2] === slug ? 1 : 0.1}
+          onMouseEnter={(e) => {
+            e.stopPropagation()
+            e.preventDefault()
+            setHovered({
+              xPos: e.clientX + 10,
+              yPos: e.clientY + 10,
+              name: d[3],
+              slugName: d[2],
+            })
+            e.stopPropagation()
+            e.preventDefault()
+          }}
+          onMouseLeave={() => setHovered(null)}
+          onClick={(e) => {
+            e.stopPropagation()
+            e.preventDefault()
+            setSearchText(d[3])
+          }}
+          className={`cursor-pointer ${d[2] === slug ? '' : 'z-20'}`}
+        />
+      </g>
+    )
+  })
+
+  const allLines = scatterPlotData.map((d, i) => {
+    return (
+      <g>
+        <line
+          x1={xScale(newCenter[0])}
+          y1={yScale(newCenter[1])}
+          x2={xScale(d[0])}
+          y2={yScale(d[1])}
+          stroke={'#B3F2E0'}
+          strokeWidth={0.5 / scaleFactor}
+          strokeOpacity={0.5}
+        />
+      </g>
     )
   })
 
@@ -171,17 +240,19 @@ export function Scatterplot({
           setSearchText('')
         }}
       >
-        <defs>
+        {/* <defs>
           <radialGradient id="grad6" cx="50%" cy="50%" r="30%" fx="50%" fy="50%">
             <stop offset="0%" stopColor="#B3F2E0" stopOpacity="1" />
             <stop offset="100%" stopColor="rgba(230, 240, 247,0)" stopOpacity="0" />
           </radialGradient>
         </defs>
-        <ellipse cx={width / 2} cy={height / 2} rx={width} ry={height} fill="url(#grad6)" />
+        <ellipse cx={width / 2} cy={height / 2} rx={width} ry={height} fill="url(#grad6)" /> */}
 
         {/* <g transform={transform}> */}
         <g transform={transform}>
           {/* <g transform={transform} ref={(node) => d3.select(node).call(dragHandler)}> */}
+          {allLines}
+
           {allShapes}
         </g>
       </svg>

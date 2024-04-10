@@ -5,6 +5,7 @@ import { DownloadIcon } from '@/components/ui/icons/download'
 import { useCopyToClipboard } from '@/lib/useCopyToClipboard'
 import Typewriter from './Typewriter'
 import { LoaderIcon } from '@/components/ui/icons/loader'
+import { CodeIcon } from '@/components/ui/icons/CodeIcon'
 
 export function AiText({ content, inputText }) {
   console.log('inputText', inputText)
@@ -64,7 +65,7 @@ export function AiText({ content, inputText }) {
         onClick={() => getExtraInfo(inputText, content)}
         className="text-odis-light pb-2 hover:text-odis-dark flex items-center"
       >
-        Mit K.I. Antwort generieren
+        <CodeIcon /> <span className="pl-1">Mit K.I. Antwort generieren</span>
         {isLoading && (
           <span className="pl-2 w-6 scale-50">
             <LoaderIcon />
