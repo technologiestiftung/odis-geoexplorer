@@ -49,7 +49,12 @@ export function DatasetInfoRow(props) {
   return (
     <>
       {typeFilterValue.includes(content['Typ']) && (
-        <li className={' border-b-[1px] ' + (showExtraInfo ? ' bg-odis-extra-light' : '')}>
+        <li
+          className={
+            'hover:bg-odis-extra-light border-b-[1px] ' +
+            (showExtraInfo ? ' bg-odis-extra-light' : '')
+          }
+        >
           <div
             onClick={() => {
               setShowExtraInfo(!showExtraInfo)
@@ -57,7 +62,7 @@ export function DatasetInfoRow(props) {
             key={result.id}
             className="flex cursor-pointer"
           >
-            <div className="flex basis-3/5 m-4">
+            <div className="flex basis-1/2 m-4">
               <div className=" font-bold  border !border-odis-dark rounded-full p-1 px-2 h-max mr-4 self-center text-xs">
                 {content['Typ']}
               </div>
@@ -65,24 +70,20 @@ export function DatasetInfoRow(props) {
                 {content['Titel'].replace(' - \\[WMS]', '').replace(' - \\[WFS]', '')}
               </span>
             </div>
-            <div className="m-4 basis-1/5">
-              <SimilarityRating similarity={result.similarity}></SimilarityRating>
-            </div>
-            <div className="m-4 basis-1/5">
+            <div className="m-4 basis-1/2 flex">
+              <span className="basis-1/2">
+                <SimilarityRating similarity={result.similarity}></SimilarityRating>
+              </span>
               <button
                 onClick={() => {
                   setShowExtraInfo(!showExtraInfo)
                 }}
                 type="submit"
-                className="text-white text-xs  rounded-md md:w-24 px-1 py-1 md:hover:bg-active md:bg-odis-light md:hover:text-odis-dark"
+                className="basis-1/2 text-white text-xs  rounded-md md:w-24 px-1 py-1 md:hover:bg-active md:bg-odis-light md:hover:text-odis-dark  absolute right-0 mr-4 mt-2"
               >
                 <span className="md:block hidden">
                   {showExtraInfo ? 'Weniger Infos' : 'Mehr Infos'}
                 </span>
-
-                {/* <span className=" md:hidden text-odis-light">
-                  <InfoIcon />
-                </span> */}
               </button>
             </div>
           </div>

@@ -18,15 +18,13 @@ import { CityLabLogo } from '@/components/Logos/CityLabLogo'
 import { OdisLogo } from '@/components/Logos/OdisLogo'
 import { BerlinLogo } from '@/components/Logos/BerlinLogo'
 import { TSBLogo } from '@/components/Logos/TSBLogo'
-import { SenInLogo } from '@/components/Logos/SenInLogo'
+
+import { Accordion } from '@/components/Accordion'
 
 export function InfoModal({ language }) {
   // Return the JSX for your component
   return (
     <Dialog>
-      {/* <DialogTrigger className="text-odis-light italic text-xs">
-        Was ist bei der Nutzung zu beachten?
-      </DialogTrigger> */}
       <DialogTrigger className="text-odis-light ">
         <InfoIcon />
       </DialogTrigger>
@@ -70,11 +68,10 @@ export function InfoModal({ language }) {
             <p className="pl-6">
               Bitte beachte, dass GeoExplore das KI-Modell von ChatGPT nutzt, d.h. Anfragen werden
               an OpenAI weitergeleitet, die das Unternehmen nach eigenen Datenschutzrichtlinien
-              verarbeitet. Darüber hinaus verbraucht jeden Anfrage Strom und kostet ca. x EUR, was
-              über Steuerabgaben finanziert wird.
+              verarbeitet. Darüber hinaus fallen bei jeder Abfrage Kosten an. Strom Verbrauch?
             </p>
           </div>
-          <div className="relative bg-odis-extra-light text-odis-light border-odis-light mt-8 overflow-auto rounded-md border border-input p-4">
+          <div className=" relative bg-odis-extra-light text-odis-light border-odis-light mt-8 overflow-auto rounded-md border border-input p-4">
             <span className="absolute">
               <AttentionIcon />
             </span>
@@ -94,8 +91,58 @@ export function InfoModal({ language }) {
               Quellen zurückzugreifen.
             </p>
           </div>
+          <Accordion
+            title="Weiter Infos"
+            content={
+              'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, veniam corporis. Quos deleniti non perspiciatis officiis ratione quod ducimus, at fuga praesentium rerum distinctio voluptatum! Doloribus nesciunt facilis odit a?'
+            }
+          />
+          <p className="mt-2">
+            Letzter Abgleich mit dem{' '}
+            <a className="text-odis-light" href="https://daten.berlin.de/datensaetze">
+              Berliner Datenportal
+            </a>
+            : 2. April 2024
+          </p>
         </div>
-
+        <section className="mt-[19px] flex  gap-[24px] text-xs flex-wrap justify-center ">
+          <div className="flex flex-1 flex-col w-1/2 ">
+            <div>Ein Projekt der</div>
+            <div className="h-[49px] w-auto">
+              <a href="https://www.technologiestiftung-berlin.de" target="_blank">
+                <TSBLogo />
+              </a>
+            </div>
+          </div>
+          <div className="flex flex-1  flex-col w-1/2 ">
+            <div>Durchgeführt von der</div>
+            <div className="h-[40px] w-auto">
+              <a href="https://odis-berlin.de" target="_blank">
+                <OdisLogo />
+              </a>
+            </div>
+          </div>
+          <div className="flex flex-1 flex-col w-1/2 ">
+            <div>in Zusammenarbeit mit</div>
+            <div className="flex gap-[16px]">
+              <div className="h-[34px] w-auto">
+                <a href="https://citylab-berlin.org/de/start/" target="_blank">
+                  <CityLabLogo />
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-1  flex-col w-1/2 ">
+            <div>Gefördert von </div>
+            <div className="flex gap-[16px]">
+              <div className="h-auto w-[120px]">
+                <a href="https://www.berlin.de/rbmskzl/" target="_blank">
+                  <BerlinLogo />
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
         <p className="flex justify-start gap-x-6 gap-y-3 flex-wrap font-bold text-odis-light">
           <a
             href="https://www.technologiestiftung-berlin.de/de/datenschutz/"
@@ -124,48 +171,6 @@ export function InfoModal({ language }) {
           >
             Impressum
           </a>
-        </p>
-        <section className="mt-[19px] flex  gap-[24px] text-xs">
-          <div className="flex flex-1 flex-col gap-[16px]">
-            <div>Ein Projekt der</div>
-            <div className="h-[49px] w-auto">
-              <a href="https://www.technologiestiftung-berlin.de" target="_blank">
-                <TSBLogo />
-              </a>
-            </div>
-          </div>
-          <div className="flex flex-1  flex-col gap-[16px]">
-            <div>Durchgeführt von der</div>
-            <div className="h-[40px] w-auto">
-              <a href="https://odis-berlin.de" target="_blank">
-                <OdisLogo />
-              </a>
-            </div>
-          </div>
-          <div className="flex flex-1 flex-col gap-[16px]">
-            <div>in Zusammenarbeit mit</div>
-            <div className="flex gap-[16px]">
-              <div className="h-[34px] w-auto">
-                <a href="https://citylab-berlin.org/de/start/" target="_blank">
-                  <CityLabLogo />
-                </a>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-1  flex-col gap-[16px]">
-            <div>Gefördert von </div>
-            <div className="flex gap-[16px]">
-              <div className="h-auto w-[160px]">
-                <a href="https://www.berlin.de/rbmskzl/" target="_blank">
-                  <BerlinLogo />
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-        <p className="text-sm text-gray-400">
-          Letzter Abgleich mit dem{' '}
-          <a href="https://daten.berlin.de/datensaetze">Berliner Datenportal</a>: 2. April 2024
         </p>
       </DialogContent>
     </Dialog>
