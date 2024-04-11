@@ -176,9 +176,11 @@ export function SearchAI({ language }) {
             <div>
               {/* <table className="w-full"> */}
               <ul className="w-full">
-                <li className="border-b-[1px] sm:text-lg text-left flex font-bold">
-                  <div className="basis-1/2 m-4 ">Datensatztitel</div>
-                  <div className="basis-1/2  m-4">Übereinstimmung</div>
+                <li className="border-b-[1px] md:text-lg text-left flex font-bold">
+                  <div className="md:basis-4/6 sm:basis-3/4 m-4 ">Datensatztitel</div>
+                  <div className="md:basis-2/6 sm:basis-1/4 m-4 hidden sm:block">
+                    Übereinstimmung
+                  </div>
                 </li>
                 {searchResults.map((result) => (
                   <React.Fragment key={result.id}>

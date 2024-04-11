@@ -152,7 +152,11 @@ export function InfoModal({ language }) {
           >
             Datenschutz
           </a>
-          <a href="" target="_blank" className="flex-1">
+          <a
+            href="https://citylabberlin.typeform.com/to/hEqorFLn"
+            target="_blank"
+            className="flex-1"
+          >
             Feedback
           </a>
           <a href="" target="_blank" className="flex-1">

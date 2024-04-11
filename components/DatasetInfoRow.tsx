@@ -51,7 +51,7 @@ export function DatasetInfoRow(props) {
       {typeFilterValue.includes(content['Typ']) && (
         <li
           className={
-            'hover:bg-odis-extra-light border-b-[1px] ' +
+            'hover:bg-odis-extra-light border-b-[1px] overflow-hidden ' +
             (showExtraInfo ? ' bg-odis-extra-light' : '')
           }
         >
@@ -60,18 +60,18 @@ export function DatasetInfoRow(props) {
               setShowExtraInfo(!showExtraInfo)
             }}
             key={result.id}
-            className="flex cursor-pointer"
+            className="sm:flex cursor-pointer"
           >
-            <div className="flex basis-1/2 m-4">
-              <div className=" font-bold  border !border-odis-dark rounded-full p-1 px-2 h-max mr-4 self-center text-xs">
+            <div className="flex md:basis-4/6 sm:basis-3/4 p-4 overflow-hidden">
+              <div className="w-12 font-bold  border !border-odis-dark rounded-full p-1 px-2 h-max mr-4 self-center text-xs">
                 {content['Typ']}
               </div>
               <span className="">
                 {content['Titel'].replace(' - \\[WMS]', '').replace(' - \\[WFS]', '')}
               </span>
             </div>
-            <div className="m-4 basis-1/2 flex">
-              <span className="basis-1/2">
+            <div className="m-4 md:basis-2/6 sm:basis-1/4 sm:flex hidden">
+              <span className="basis-1/2 ml-2">
                 <SimilarityRating similarity={result.similarity}></SimilarityRating>
               </span>
               <button
@@ -79,12 +79,16 @@ export function DatasetInfoRow(props) {
                   setShowExtraInfo(!showExtraInfo)
                 }}
                 type="submit"
-                className="basis-1/2 text-white text-xs  rounded-md md:w-24 px-1 py-1 md:hover:bg-active md:bg-odis-light md:hover:text-odis-dark  absolute right-0 mr-4 mt-2"
+                className="lg:block hidden basis-1/2 text-white text-xs  rounded-md md:w-24 px-1 py-1 md:hover:bg-active md:bg-odis-light md:hover:text-odis-dark  absolute right-0 mr-4 mt-2"
               >
                 <span className="md:block hidden">
                   {showExtraInfo ? 'Weniger Infos' : 'Mehr Infos'}
                 </span>
               </button>
+            </div>
+            <div className="sm:hidden w-full mx-4 mb-2 flex">
+              <span className="pr-2 ml-16">Übereinstimmung:</span>{' '}
+              <SimilarityRating similarity={result.similarity}></SimilarityRating>
             </div>
           </div>
 
