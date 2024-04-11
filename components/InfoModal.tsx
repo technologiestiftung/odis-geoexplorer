@@ -34,7 +34,7 @@ export function InfoModal({ language }) {
       >
         <div className="text-center text-odis-dak">
           <h1 className="text-2xl font-bold">
-            Geo<span className="text-odis-light">Explore</span>
+            Geo<span className="text-odis-light">Explorer</span>
           </h1>
           <h2 className="font-robot text-sm">
             {text[language].subHeading || text['de'].subHeading}
@@ -46,8 +46,8 @@ export function InfoModal({ language }) {
         </div>
         <div className="md:overflow-y-auto">
           <p className="text-lg font-bold leading-6 mb-4">
-            Entdecke Berlins Geodaten mit GeoExplore Berlin. Mit diesem Prototyp kannst du spielend
-            leicht Daten aus mehr als 1800 Geodatensätze aus dem{' '}
+            Entdecke Berlins Geodaten mit dem GeoExplorer Berlin. Mit diesem Prototyp kannst du
+            spielend leicht Daten aus mehr als 1800 Geodatensätze aus dem{' '}
             <a
               target="_blank"
               href="https://www.berlin.de/sen/sbw/stadtdaten/geoportal/"
@@ -66,9 +66,10 @@ export function InfoModal({ language }) {
             <p className="font-bold pl-6">Hinweis zum KI-Modell</p>
             <br />
             <p className="pl-6">
-              Bitte beachte, dass GeoExplore das KI-Modell von ChatGPT nutzt, d.h. Anfragen werden
-              an OpenAI weitergeleitet, die das Unternehmen nach eigenen Datenschutzrichtlinien
-              verarbeitet. Darüber hinaus fallen bei jeder Abfrage Kosten an. Strom Verbrauch?
+              Bitte beachte, dass der GeoExplorer das KI-Modell von ChatGPT nutzt, d.h. Anfragen
+              werden an OpenAI weitergeleitet, die das Unternehmen nach eigenen
+              Datenschutzrichtlinien verarbeitet. Darüber hinaus fallen bei jeder Abfrage Kosten an.
+              Strom Verbrauch?
             </p>
           </div>
           <div className=" relative bg-odis-extra-light text-odis-light border-odis-light mt-8 overflow-auto rounded-md border border-input p-4">
@@ -97,7 +98,7 @@ export function InfoModal({ language }) {
               'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, veniam corporis. Quos deleniti non perspiciatis officiis ratione quod ducimus, at fuga praesentium rerum distinctio voluptatum! Doloribus nesciunt facilis odit a?'
             }
           />
-          <p className="mt-2">
+          <p className="mt-6">
             Letzter Abgleich mit dem{' '}
             <a className="text-odis-light" href="https://daten.berlin.de/datensaetze">
               Berliner Datenportal
