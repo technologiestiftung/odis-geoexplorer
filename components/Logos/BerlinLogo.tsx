@@ -1,12 +1,12 @@
 export const BerlinLogo = () => {
   return (
     <svg
-      width="1134"
-      height="756"
+      width="120"
+      // height="20"
       viewBox="0 0 1134 756"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="h-full w-full"
+      className=" w-full sm:h-[80px] h-[100px]"
     >
       <g clipPath="url(#clip0_1_472)">
         <path

@@ -106,8 +106,8 @@ export function InfoModal({ language }) {
             : 2. April 2024
           </p>
         </div>
-        <section className="mt-[19px] flex  gap-[24px] text-xs flex-wrap justify-center ">
-          <div className="flex flex-1 flex-col w-1/2 ">
+        <section className="mt-[19px] flex  gap-[24px] text-xs flex-col sm:flex-row">
+          <div className="flex flex-1 flex-col  ">
             <div>Ein Projekt der</div>
             <div className="h-[49px] w-auto">
               <a href="https://www.technologiestiftung-berlin.de" target="_blank">
@@ -115,7 +115,7 @@ export function InfoModal({ language }) {
               </a>
             </div>
           </div>
-          <div className="flex flex-1  flex-col w-1/2 ">
+          <div className="flex flex-1  flex-col ">
             <div>Durchgeführt von der</div>
             <div className="h-[40px] w-auto">
               <a href="https://odis-berlin.de" target="_blank">
@@ -123,20 +123,20 @@ export function InfoModal({ language }) {
               </a>
             </div>
           </div>
-          <div className="flex flex-1 flex-col w-1/2 ">
+          <div className="flex flex-1 flex-col  ">
             <div>in Zusammenarbeit mit</div>
             <div className="flex gap-[16px]">
-              <div className="h-[34px] w-auto">
+              <div className="h-[34px] w-full">
                 <a href="https://citylab-berlin.org/de/start/" target="_blank">
                   <CityLabLogo />
                 </a>
               </div>
             </div>
           </div>
-          <div className="flex flex-1  flex-col w-1/2 ">
+          <div className="flex flex-1  flex-col  ">
             <div>Gefördert von </div>
             <div className="flex gap-[16px]">
-              <div className="h-auto w-[120px]">
+              <div className="h-auto w-full">
                 <a href="https://www.berlin.de/rbmskzl/" target="_blank">
                   <BerlinLogo />
                 </a>
