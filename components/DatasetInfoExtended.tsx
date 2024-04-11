@@ -267,8 +267,10 @@ export function DatasetInfoExtended({
 
       {contentDataset['Attribute'] ? (
         <AttributeTable contentDataset={contentDataset} />
+      ) : contentDataset['Typ'] === 'WFS' ? (
+        <WarningBox text={'Es konnten keine Attribute gefunden werden'} />
       ) : (
-        <WarningBox text={'  Es konnten keine Attribute gefunden werden'} />
+        <WarningBox text={'Attribute sind bei WMS nicht verfügbar'} />
       )}
 
       <AiText content={contentDataset} inputText={inputText} />
