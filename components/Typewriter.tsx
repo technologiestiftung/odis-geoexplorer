@@ -2,29 +2,25 @@ import { useState, useEffect } from 'react'
 
 const Typewriter = ({ sentence, delay = 100 }) => {
   const [words, setWords] = useState([])
+  const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      const sentenceArray = sentence.split(' ')
-      let currentIndex = 0
+    const sentenceArray = sentence.split(' ')
 
-      const interval = setInterval(() => {
-        if (currentIndex < sentenceArray.length) {
-          setWords((prevWords) => [...prevWords, sentenceArray[currentIndex]])
-          currentIndex++
-        } else {
-          clearInterval(interval)
-        }
-      }, delay)
-
-      return () => {
+    const interval = setInterval(() => {
+      if (currentIndex < sentenceArray.length) {
+        setWords((prevWords) => [...prevWords, sentenceArray[currentIndex]])
+        setCurrentIndex(currentIndex + 1)
+      } else {
         clearInterval(interval)
-        setWords([]) // Reset words state when component is unmounted
       }
-    }, 0) // Initial delay of 1 second before starting to type
+    }, delay)
 
-    return () => clearTimeout(timer)
-  }, [sentence, delay])
+    // Cleanup function to clear interval when component unmounts or updates
+    return () => {
+      clearInterval(interval)
+    }
+  }, [sentence, delay, currentIndex])
 
   return (
     <p>
