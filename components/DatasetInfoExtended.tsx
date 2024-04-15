@@ -112,6 +112,19 @@ export function DatasetInfoExtended({
             purpose
           )
 
+          // check if the data has geometries
+          if (data.type === 'FeatureCollection') {
+            if (!data.features[0]?.geometry) {
+              setError('map')
+              return
+            }
+          } else {
+            if (!data?.geometry) {
+              setError('map')
+              return
+            }
+          }
+
           setGeoJSON(data)
           setShowMap(true)
           setIsLoading('')
@@ -249,6 +262,7 @@ export function DatasetInfoExtended({
           setShowMap={setShowMap}
           datasetTitle={contentDataset['Titel']}
           maxFeatures={MAXFEATURES}
+          setError={setError}
         />
       )}
 
