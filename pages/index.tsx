@@ -25,13 +25,19 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <meta property="og:title" content="GeoExplorer Berlin" />
         <meta property="og:description" content="" />
-        <meta property="og:url" content="https://????.odis-berlin.de/" />
-        <meta property="og:site_name" content="?????.odis-berlin.de" />
+        <meta property="og:url" content="https://geoexplorer.odis-berlin.de/" />
+        <meta property="og:site_name" content="geoexplorer.odis-berlin.de" />
         <meta property="og:locale" content="de_DE" />
-        <meta property="og:image" content="https://?????.odis-berlin.de/open-graph-800x600.png" />
+        <meta
+          property="og:image"
+          content="https://geoexplorer.odis-berlin.de/open-graph-800x600.png"
+        />
         <meta property="og:image:width" content="800" />
         <meta property="og:image:height" content="600" />
-        <meta property="og:image" content="https://?????.odis-berlin.de/open-graph-1800x1600.png" />
+        <meta
+          property="og:image"
+          content="https://geoexplorer.odis-berlin.de/open-graph-1800x1600.png"
+        />
         <meta property="og:image:width" content="1800" />
         <meta property="og:image:height" content="1600" />
         <meta property="og:image:alt" content="Vorschau vom Berliner GeoExplorer" />
@@ -41,7 +47,7 @@ export default function Home() {
         <meta name="twitter:description" content="" />
         <meta
           name="twitter:image"
-          content="https://?????.odis-berlin.de/social-image-1280x640.png"
+          content="https://geoexplorer.odis-berlin.de/social-image-1280x640.png"
         />
       </Head>
       <main
