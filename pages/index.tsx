@@ -15,12 +15,12 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>GeoExplore Berlin</title>
+        <title>GeoExplorer Berlin</title>
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
         <meta name="description" content="" />
-        <meta name="keywords" content="ODIS,Technologiestiftung Berlin,CityLAB,Open Data" />
+        <meta name="keywords" content="ODIS,Technologiestiftung Berlin,CityLAB,Open Data,geo," />
         <meta name="theme-color" content="#4c68c7" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <meta property="og:title" content="GeoExplorer Berlin" />
@@ -43,7 +43,7 @@ export default function Home() {
         <meta property="og:image:alt" content="Vorschau vom Berliner GeoExplorer" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="GeoExplore Berlin" />
+        <meta name="twitter:title" content="GeoExplorer Berlin" />
         <meta name="twitter:description" content="" />
         <meta
           name="twitter:image"
