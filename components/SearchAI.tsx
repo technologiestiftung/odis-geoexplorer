@@ -9,6 +9,8 @@ import { DatasetInfoRow } from '@/components/DatasetInfoRow'
 import { text } from '@/lib/text'
 import { TypeFilter } from '@/components/TypeFilter'
 
+import { useMatomo } from '@/lib/useMatomo'
+
 export function SearchAI({ language }) {
   const [inputText, setInputText] = useState<string>('')
   const [searchText, setSearchText] = useState<string>('')
@@ -21,6 +23,8 @@ export function SearchAI({ language }) {
   const [hasSearched, setHasSearched] = useState(false)
   const [similarSearchText, setSimilarSearchText] = useState('')
   const [scatterPlotData, setScatterPlotData] = useState([])
+
+  useMatomo()
 
   useEffect(() => {
     fetch('./data/tsne_data.csv')
