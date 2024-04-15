@@ -273,7 +273,7 @@ export function Scatterplot({
       )}
       <p className="p-2">
         {/* <p className="p-2 absolute bottom-0 pointer-events-none"> */}
-        Die Positionen der Datenpunkte zueinander zeigen, wie ähnlich sie von der KI betrachtet
+        Die Positionen der Datensätze zueinander zeigen, wie ähnlich sie von der KI betrachtet
         werden.
       </p>
     </div>
