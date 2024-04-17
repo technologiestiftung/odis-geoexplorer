@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import Head from 'next/head'
 import { LogoHeader } from '@/components/LogoHeader'
 import { IntroText } from '@/components/IntroText'
-import { AboutText } from '@/components/AboutText'
 import { InfoModal } from '@/components/InfoModal'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 
@@ -63,7 +62,6 @@ export default function Home() {
           </div>
           <IntroText language={language} />
           <SearchAI language={language} />
-          <AboutText />
         </div>
       </main>
     </>

@@ -73,23 +73,23 @@ export function Scatterplot({
   //     d3.select(gRef.current).call(dragHandler)
   //   }, [])
 
-  useEffect(() => {
-    const svg = d3.select(gRef.current) // Ensure this selects the <g> element
+  // useEffect(() => {
+  //   const svg = d3.select(gRef.current) // Ensure this selects the <g> element
 
-    const dragHandler = d3
-      .drag()
-      .on('start', function (event) {
-        // Optional: action on drag start
-      })
-      .on('drag', function (event) {
-        // Adjust the transform to move the element
-        d3.select(this).attr('transform', `translate(${event.x},${event.y})`)
+  //   const dragHandler = d3
+  //     .drag()
+  //     .on('start', function (event) {
+  //       // Optional: action on drag start
+  //     })
+  //     .on('drag', function (event) {
+  //       // Adjust the transform to move the element
+  //       d3.select(this).attr('transform', `translate(${event.x},${event.y})`)
 
-        console.log('ääää')
-      })
+  //       console.log('ääää')
+  //     })
 
-    svg.call(dragHandler)
-  }, [])
+  //   svg.call(dragHandler)
+  // }, [])
 
   const zoomIn = () => {
     setScaleFactor(scaleFactor + 1)

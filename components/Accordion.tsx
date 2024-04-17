@@ -4,7 +4,7 @@ import React, { FC, useState, useEffect } from 'react'
 interface AccordionPropType {
   title: string
   titleClasses?: string
-  content: React.JSX.Element
+  content: React.ReactNode
   active?: boolean
 }
 

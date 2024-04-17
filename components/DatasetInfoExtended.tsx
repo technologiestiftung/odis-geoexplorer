@@ -6,11 +6,8 @@ import { useDimensions } from '@/lib/useDimensions'
 
 import { DownloadIcon } from '@/components/ui/icons/download'
 import { useCopyToClipboard } from '@/lib/useCopyToClipboard'
-// import Typewriter from './Typewriter'
-// import { LoaderIcon } from '@/components/ui/icons/loader'
 import { AiText } from '@/components/AiText'
 import { AttributeTable } from '@/components/AttributeTable'
-import { SearchIcon } from '@/components/ui/icons/search'
 import { MapComponent } from '@/components/Map'
 import { Scatterplot } from '@/components/Scatterplot'
 import { WarningBox } from '@/components/WarningBox'
@@ -262,7 +259,6 @@ export function DatasetInfoExtended({
           setShowMap={setShowMap}
           datasetTitle={contentDataset['Titel']}
           maxFeatures={MAXFEATURES}
-          setError={setError}
         />
       )}
 
@@ -272,7 +268,6 @@ export function DatasetInfoExtended({
           width={visDimensions.width}
           height={400}
           setSimilarSearchText={setSimilarSearchText}
-          title={contentDataset['Titel']}
           slug={contentDataset.slug}
         />
       )}
