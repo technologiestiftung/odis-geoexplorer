@@ -36,9 +36,7 @@ export function InfoModal({ language }) {
           <h1 className="text-2xl font-bold">
             Geo<span className="text-odis-light">Explorer</span>
           </h1>
-          <h2 className="font-robot text-sm">
-            {text[language].subHeading || text['de'].subHeading}
-          </h2>
+          <h2 className=" text-sm">{text[language].subHeading || text['de'].subHeading}</h2>
           <span className="inline-block text-odis-dark  scale-75">
             {' '}
             <LoaderCrossIcon animate={false} />
