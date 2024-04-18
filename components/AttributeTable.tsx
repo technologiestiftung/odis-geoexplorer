@@ -81,13 +81,14 @@ export function AttributeTable({ contentDataset }) {
   aiGeneratedDescriptions
 
   return (
-    <table className="my-2 mt-4 w-full border-b-[1px] border-gray-300">
-      <tbody>
-        <tr className="border-b-[1px] text-md font-normal text-left">
-          <th className="p-2 pl-4">Datenattribut</th>
-          <th className="p-2 pl-4  items-center block sm:flex">
-            Beschreibung
-            {/* {!hasFullDescription ? (
+    <>
+      <table className="my-2 mt-4 w-full border-b-[1px] border-gray-300">
+        <tbody>
+          <tr className="border-b-[1px] text-md font-normal text-left">
+            <th className="p-2 pl-4">Datenattribut</th>
+            <th className="p-2 pl-4  items-center block sm:flex">
+              Beschreibung
+              {/* {!hasFullDescription ? (
               <>
                 <button
                   onClick={() => generateDescriptions(contentDataset['rawContent'])}
@@ -110,38 +111,44 @@ export function AttributeTable({ contentDataset }) {
             ) : (
               ''
             )} */}
-            {!hasFullDescription && !aiGeneratedDescriptions && (
-              <button
-                className="font-normal pl-2 text-odis-light  hover:text-odis-dark flex items-center"
-                onClick={() => generateDescriptions(contentDataset)}
-              >
-                <CodeIcon /> <span className="pl-1"></span>
-                mit K.I. generieren
-                {isLoading && (
-                  <span className="scale-50">
-                    <LoaderIcon />
-                  </span>
-                )}
-              </button>
-            )}
-          </th>
-        </tr>
-
-        {attr?.map((attr, index) => (
-          <tr key={attr} className={index % 2 === 1 ? 'bg-odis-light-2 w-full' : 'w-full'}>
-            <td className="p-2 pl-4 font-light">{attr}</td>
-            {hasFullDescription ? (
-              <td className="p-2 pl-4 font-light">{attrDesc[index]}</td>
-            ) : aiGeneratedDescriptions ? (
-              <td className="pl-4 font-light font-robot-light">
-                {aiGeneratedDescriptions[attr] ? aiGeneratedDescriptions[attr] : ''}
-              </td>
-            ) : (
-              <td></td>
-            )}
+              {!hasFullDescription && !aiGeneratedDescriptions && (
+                <button
+                  className="font-normal pl-2 text-odis-light  hover:text-odis-dark flex items-center"
+                  onClick={() => generateDescriptions(contentDataset)}
+                >
+                  <CodeIcon /> <span className="pl-1"></span>
+                  mit K.I. generieren
+                  {isLoading && (
+                    <span className="scale-50">
+                      <LoaderIcon />
+                    </span>
+                  )}
+                </button>
+              )}
+            </th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+
+          {attr?.map((attr, index) => (
+            <tr key={attr} className={index % 2 === 1 ? 'bg-odis-light-2 w-full' : 'w-full'}>
+              <td className="p-2 pl-4 font-light">{attr}</td>
+              {hasFullDescription ? (
+                <td className="p-2 pl-4 font-light">{attrDesc[index]}</td>
+              ) : aiGeneratedDescriptions ? (
+                <td className="pl-4 font-light font-robot-light">
+                  {aiGeneratedDescriptions[attr] ? aiGeneratedDescriptions[attr] : ''}
+                </td>
+              ) : (
+                <td></td>
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {aiGeneratedDescriptions && (
+        <p className="text-xs p-2 text-odis-dark">
+          Jedem KI-Modell unterlaufen Fehler. Bitte überprüfe für dich wichtige Informationen.
+        </p>
+      )}
+    </>
   )
 }

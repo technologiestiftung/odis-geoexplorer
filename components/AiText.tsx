@@ -63,7 +63,9 @@ export function AiText({ content, inputText }) {
       <button
         disabled={isLoading || message !== ''}
         onClick={() => getExtraInfo(inputText, content)}
-        className="text-odis-light pb-2 hover:text-odis-dark flex items-center"
+        className={
+          'text-odis-light pb-2  flex items-center' + (message ? '' : ' hover:text-odis-dark')
+        }
       >
         <CodeIcon /> <span className="pl-1">Mit K.I. Antwort generieren</span>
         {isLoading && (
@@ -74,7 +76,14 @@ export function AiText({ content, inputText }) {
       </button>
 
       {message && (
-        <div className="font-light font-robot">{message && <Typewriter sentence={message} />}</div>
+        <>
+          <div className="font-light font-robot">
+            {message && <Typewriter sentence={message} />}
+          </div>
+          <p className="text-xs p-2 text-odis-dark">
+            Jedem KI-Modell unterlaufen Fehler. Bitte überprüfe für dich wichtige Informationen.
+          </p>
+        </>
       )}
     </div>
   )
