@@ -85,7 +85,7 @@ export function AttributeTable({ contentDataset }) {
       <tbody>
         <tr className="border-b-[1px] text-md font-normal text-left">
           <th className="p-2 pl-4">Datenattribut</th>
-          <th className="p-2 pl-4 flex items-center">
+          <th className="p-2 pl-4  items-center block sm:flex">
             Beschreibung
             {/* {!hasFullDescription ? (
               <>
