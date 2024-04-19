@@ -112,6 +112,7 @@ export function Scatterplot({
   const xScale = d3.scaleLinear().domain(minMaxX).range([0, width])
 
   let newCenter = scatterPlotData.filter((d) => d[2] === slug)
+  if (!newCenter[0]) return
   let selectedName = newCenter[0][3]
   newCenter = [Number(newCenter[0][0]), Number(newCenter[0][1])]
 
