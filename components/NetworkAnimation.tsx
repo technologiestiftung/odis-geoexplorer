@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState, useEffect } from 'react'
 import { type Sketch } from '@p5-wrapper/react'
 import { NextReactP5Wrapper } from '@p5-wrapper/next'
