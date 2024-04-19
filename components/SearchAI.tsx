@@ -120,7 +120,7 @@ export function SearchAI({ language }) {
           disabled={isLoading}
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
-          className="flex h-10 w-full rounded-full border border-input bg-white px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-60 pl-4 pr-[45px] "
+          className="flex h-10 w-full rounded-md border border-input bg-white px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-60 pl-4 pr-[45px] "
           placeholder={text[language].searchPlaceholder}
         />
         <button className="absolute right-4 top-2 text-gray-500 " type="submit">
@@ -157,7 +157,7 @@ export function SearchAI({ language }) {
               <button
                 type="button"
                 key={index}
-                className="rounded-full px-3 py-1 m-1 ml-0
+                className="rounded-md px-3 py-1 m-1 ml-0
                   bg-odis-light-2 
                   hover:active hover:bg-active text-odis-dark
                   transition-colors"

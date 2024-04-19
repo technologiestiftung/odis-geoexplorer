@@ -30,3 +30,7 @@ li {
   list-style-type: none;
   margin-left: 0px !important;
 }
+
+#p5_loading {
+  display: none !important;
+}

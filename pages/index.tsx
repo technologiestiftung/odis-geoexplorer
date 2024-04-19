@@ -1,15 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 
 import Head from 'next/head'
 import { LogoHeader } from '@/components/LogoHeader'
 import { IntroText } from '@/components/IntroText'
 import { InfoModal } from '@/components/InfoModal'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
+import NetworkAnimation from '@/components/NetworkAnimation'
+import { useDimensions } from '@/lib/useDimensions'
 
 import { SearchAI } from '@/components/SearchAI'
 
 export default function Home() {
   const [language, setLanguage] = useState<string>('de')
+  const ref = useRef<HTMLDivElement>(null)
+
+  const visDimensions = useDimensions(ref)
 
   return (
     <>
@@ -56,11 +61,21 @@ export default function Home() {
       >
         {/* <LanguageSwitcher setLanguage={setLanguage} language={language} /> */}
         <LogoHeader />
-        <div className="lg:w-3/4 bg-white p-8 sm:p-12 rounded shadow-lg mt-8 max-w-4xl self-center">
-          <div className="w-full text-right">
+        <div className="lg:w-3/4 bg-white p-8 sm:p-12 rounded shadow-lg mt-8 max-w-4xl self-center relative overflow-hidden">
+          <div
+            className="flex-1 hidden sm:block absolute right-0 top-0 z-0 p-16 md:p-10"
+            style={{ transform: 'translate(15%)' }}
+          >
+            {' '}
+            <NetworkAnimation width={visDimensions.width} height={250} />
+          </div>
+          <div className="w-full text-right relative">
             <InfoModal language={language} />
           </div>
-          <IntroText language={language} />
+          <div className="relative overflow-hidden" ref={ref}>
+            <IntroText language={language} />
+          </div>
+
           <SearchAI language={language} />
         </div>
       </main>
