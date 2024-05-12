@@ -91,7 +91,9 @@ export function ButtonSearch(props) {
                 </div>
               ) : (
                 <div>
-                  <div className="font-bold">Warum wird dieser Datensatz angezeigt?</div>
+                  <div className="font-bold">
+                    Worum geht es in diesem Datensatz und wofür kann er verwendet werden?
+                  </div>
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>{`${m.content}`}</ReactMarkdown>
                 </div>
               )}

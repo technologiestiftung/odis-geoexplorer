@@ -59,7 +59,10 @@ export function AiText({ content, inputText }) {
 
   return (
     <div className="px-4 pt-4 pb-4">
-      <p className="font-md font-bold"> Warum wird dieser Datensatz angezeigt?</p>
+      <p className="font-md font-bold">
+        {' '}
+        Worum geht es in diesem Datensatz und wofür kann er verwendet werden?
+      </p>
       <button
         disabled={isLoading || message !== ''}
         onClick={() => getExtraInfo(inputText, content)}
