@@ -28,32 +28,32 @@ export function Scatterplot({
 }: ScatterplotProps) {
   const [hovered, setHovered] = useState<InteractionData | null>(null)
   const [searchText, setSearchText] = useState<string>('')
-  const [scaleFactor, setScaleFactor] = useState(0) // Initial scale factor
+  const [scaleFactor, setScaleFactor] = useState(7) // Initial scale factor
   const gRef = useRef(null)
 
-  useEffect(() => {
-    // Define interpolation function
-    const interpolateScaleFactor = d3.interpolate(0, 7)
+  // useEffect(() => {
+  //   // Define interpolation function
+  //   const interpolateScaleFactor = d3.interpolate(0, 7)
 
-    // Define timer function
-    const timer = d3.timer((elapsed) => {
-      // Calculate progress
-      const progress = Math.min(1, elapsed / 2000) // 2000ms duration for animation
+  //   // Define timer function
+  //   const timer = d3.timer((elapsed) => {
+  //     // Calculate progress
+  //     const progress = Math.min(1, elapsed / 2000) // 2000ms duration for animation
 
-      // Update scaleFactor using interpolation function
-      setScaleFactor(interpolateScaleFactor(progress))
+  //     // Update scaleFactor using interpolation function
+  //     setScaleFactor(interpolateScaleFactor(progress))
 
-      // Check if animation is complete
-      if (progress === 1) {
-        timer.stop() // Stop the timer
-      }
-    })
+  //     // Check if animation is complete
+  //     if (progress === 1) {
+  //       timer.stop() // Stop the timer
+  //     }
+  //   })
 
-    // Cleanup function
-    return () => {
-      timer.stop() // Stop the timer if component unmounts
-    }
-  }, []) // This effect runs only once on mount
+  //   // Cleanup function
+  //   return () => {
+  //     timer.stop() // Stop the timer if component unmounts
+  //   }
+  // }, []) // This effect runs only once on mount
 
   //   useEffect(() => {
   //     const dragHandler = d3.drag().on('drag', function (event) {
@@ -184,7 +184,7 @@ export function Scatterplot({
     'absolute m-2 text-center w-48 bg-odis-light !text-white p-2 mr-2 rounded-md hover:bg-active hover:!text-odis-dark items-center w-40 truncate overflow-hidden'
 
   return (
-    <div style={{ position: 'relative' }} className="my-4 border-y ">
+    <div style={{ position: 'relative' }} className="">
       {searchText && (
         <button
           onClick={(e) => {

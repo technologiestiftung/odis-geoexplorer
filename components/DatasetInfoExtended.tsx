@@ -5,6 +5,9 @@ import reproject from 'reproject'
 import { useDimensions } from '@/lib/useDimensions'
 
 import { DownloadIcon } from '@/components/ui/icons/download'
+import { LinkOutIcon } from '@/components/ui/icons/LinkOutIcon'
+import { Radio } from '@/components/ui/icons/Radio'
+
 import { useCopyToClipboard } from '@/lib/useCopyToClipboard'
 import { AiText } from '@/components/AiText'
 import { AttributeTable } from '@/components/AttributeTable'
@@ -56,7 +59,7 @@ export function DatasetInfoExtended({
 }) {
   const [showMap, setShowMap] = useState<boolean>(false)
   const [geoJSON, setGeoJSON] = useState<object | boolean>(false)
-  const [showScatterplot, setShowScatterplot] = useState<boolean>(false)
+  const [showScatterplot, setShowScatterplot] = useState<boolean>(true)
   const [isLoading, setIsLoading] = useState<string>('')
 
   const [error, setError] = useState('')
@@ -165,6 +168,27 @@ export function DatasetInfoExtended({
       <div className="px-4 mb-4 italic font-light">{contentDataset['Anmerkung']}</div>
       <div className="px-4 flex">
         <button
+          onClick={() => getGeoData('download', contentDataset['Titel'])}
+          className={
+            buttonClass +
+            (error === 'download' ? ' pointer-events-none !bg-gray-300' : '') +
+            (contentDataset['Typ'] === 'WMS' ? ' pointer-events-none !bg-gray-300' : '') +
+            (isLoading === 'download' ? ' pointer-events-none !bg-gray-300 animate-pulse' : '')
+          }
+          disabled={
+            error === 'download' || isLoading === 'download' || contentDataset['Typ'] === 'WMS'
+          }
+        >
+          <DownloadIcon />
+          <span className="pl-2">JSON Download</span>
+        </button>
+
+        <a className={buttonClass} target="_blank" href={contentDataset['Fisbroker URL']}>
+          <LinkOutIcon />
+          <span className="pl-2"> FIS-Broker-Eintrag</span>
+        </a>
+
+        <button
           onClick={() =>
             copyToClipboard(
               `${contentDataset['Service URL'].replace('&outputFormat=application/json', '')}`
@@ -173,6 +197,7 @@ export function DatasetInfoExtended({
           className={buttonClass}
         >
           <div className="flex">
+            {/* <span>WFS {contentDataset['Service URL']}</span> */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -189,89 +214,62 @@ export function DatasetInfoExtended({
             {!hasCopied ? contentDataset['Typ'] + ' kopieren' : 'kopiert!'}
           </div>
         </button>
-
-        <button
-          onClick={() => getGeoData('download', contentDataset['Titel'])}
-          className={
-            buttonClass +
-            (error === 'download' ? ' pointer-events-none !bg-gray-300' : '') +
-            (contentDataset['Typ'] === 'WMS' ? ' pointer-events-none !bg-gray-300' : '') +
-            (isLoading === 'download' ? ' pointer-events-none !bg-gray-300 animate-pulse' : '')
-          }
-          disabled={
-            error === 'download' || isLoading === 'download' || contentDataset['Typ'] === 'WMS'
-          }
-        >
-          <DownloadIcon />
-          <span className="pl-2">JSON Download</span>
-        </button>
-      </div>
-      <div className="px-4 flex pt-2 " ref={ref}>
-        <button
-          onClick={() => getGeoData('map', contentDataset['Titel'])}
-          className={
-            buttonClass +
-            (error === 'map' ? ' pointer-events-none !bg-gray-300 ' : '') +
-            (contentDataset['Typ'] === 'WMS' ? ' pointer-events-none !bg-gray-300' : '') +
-            (isLoading === 'map' ? ' pointer-events-none !bg-gray-300 animate-pulse' : '')
-          }
-          disabled={error === 'map' || isLoading === 'map' || contentDataset['Typ'] === 'WMS'}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            viewBox="0 0 16 16"
-            className="mr-2"
-          >
-            <path
-              fillRule="evenodd"
-              d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.5.5 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103M10 1.91l-4-.8v12.98l4 .8zm1 12.98 4-.8V1.11l-4 .8zm-6-.8V1.11l-4 .8v12.98z"
-            />
-          </svg>
-          Kartenvorschau
-        </button>
-        <button
-          onClick={() => {
-            setShowMap(false)
-            setShowScatterplot(!showScatterplot)
-          }}
-          className={buttonClass}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            className="mr-2"
-            viewBox="0 0 16 16"
-          >
-            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-          </svg>
-          ähnlich Datensätze
-        </button>
       </div>
 
-      {showMap && (
-        <MapComponent
-          geojsonData={geoJSON}
-          setShowMap={setShowMap}
-          datasetTitle={contentDataset['Titel']}
-          maxFeatures={MAXFEATURES}
-        />
-      )}
+      <div className="w-full my-4 border-y" ref={ref}>
+        <div className="overflow-hidden flex bg-white border-odis-dark border w-fit absolute z-10 m-2 rounded-md">
+          <button
+            onClick={() => {
+              setShowMap(false)
+              setShowScatterplot(true)
+            }}
+            className="flex p-2 items-center"
+          >
+            <Radio selected={showScatterplot} />
+            <span className="pl-2">Datenraum</span>
+          </button>
+          <button
+            onClick={() => getGeoData('map', contentDataset['Titel'])}
+            className={
+              'flex p-2 items-center ' +
+              (error === 'map' ? ' pointer-events-none !bg-gray-300 ' : '') +
+              (contentDataset['Typ'] === 'WMS'
+                ? ' pointer-events-none !bg-gray-300 text-white'
+                : '')
+            }
+            disabled={error === 'map' || isLoading === 'map' || contentDataset['Typ'] === 'WMS'}
+          >
+            <Radio selected={showMap} />
+            <span className="pl-2">Karte</span>
+          </button>
+        </div>
 
-      {showScatterplot && (
-        <Scatterplot
-          scatterPlotData={scatterPlotData}
-          width={visDimensions.width}
-          height={400}
-          setSimilarSearchText={setSimilarSearchText}
-          slug={contentDataset.slug}
-        />
-      )}
+        {/* <div
+          className="bg-odis-extra-light absolute content-center text-center"
+          style={{ width: '100%', height: '400px' }}
+        >
+          <p className="content-center ">Geodaten werden geladen</p>
+        </div> */}
 
+        {showMap && (
+          <MapComponent
+            geojsonData={geoJSON}
+            setShowMap={setShowMap}
+            datasetTitle={contentDataset['Titel']}
+            maxFeatures={MAXFEATURES}
+          />
+        )}
+
+        {showScatterplot && (
+          <Scatterplot
+            scatterPlotData={scatterPlotData}
+            width={visDimensions.width}
+            height={400}
+            setSimilarSearchText={setSimilarSearchText}
+            slug={contentDataset.slug}
+          />
+        )}
+      </div>
       {error && <WarningBox text={'Kartendaten konnten leider nicht geladen werden'} />}
 
       {contentDataset['Attribute'] ? (

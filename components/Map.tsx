@@ -107,7 +107,7 @@ export const MapComponent = ({ geojsonData, setShowMap, datasetTitle, maxFeature
   }, [geojsonData])
 
   return (
-    <div className="my-4" style={{ width: '100%' }}>
+    <div className="" style={{ width: '100%' }}>
       <div ref={mapContainer} style={{ width: '100%', height: '400px' }}>
         <button
           title="close map"
@@ -173,7 +173,7 @@ export const MapComponent = ({ geojsonData, setShowMap, datasetTitle, maxFeature
           contributors
         </p>
         {featureCount >= maxFeatures && (
-          <p className="flex absolute top-0 left-0 z-10 !font-nunito text-md rounded-md bg-white m-2 p-2">
+          <p className="bg-odis-extra-light text-odis-light flex absolute bottom-0 left-0 z-10 !font-nunito text-md rounded-md  m-2 p-2 border border-odis-light">
             <AttentionIcon />{' '}
             <span className="pl-2">Vorschau auf {maxFeatures} Datenpunkte eingeschränkt</span>
           </p>
