@@ -111,7 +111,7 @@ export function AttributeTable({ contentDataset }) {
             ) : (
               ''
             )} */}
-              {!hasFullDescription && !aiGeneratedDescriptions && (
+              {!hasFullDescription && !aiGeneratedDescriptions ? (
                 <button
                   className="font-normal pl-2 text-odis-light  hover:text-odis-dark flex items-center"
                   onClick={() => generateDescriptions(contentDataset)}
@@ -124,6 +124,11 @@ export function AttributeTable({ contentDataset }) {
                     </span>
                   )}
                 </button>
+              ) : (
+                <p className="font-normal sm:pl-2 text-odis-light flex items-center">
+                  <StarsIcon /> <span className="pl-1"></span>
+                  Beschreibung wurde mit K.I. generiert
+                </p>
               )}
             </th>
           </tr>
