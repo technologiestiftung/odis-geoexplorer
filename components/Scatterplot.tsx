@@ -143,12 +143,27 @@ export function Scatterplot({
           onMouseEnter={(e) => {
             e.stopPropagation()
             e.preventDefault()
+
+            const svgRect = e.currentTarget.ownerSVGElement.getBoundingClientRect()
+            let xPos = e.clientX - svgRect.left
+            let yPos = e.clientY - svgRect.top
+
+            // Determine which quadrant of the SVG we're in
+            const horizontalHalf = svgRect.width / 2
+            const verticalHalf = svgRect.height / 2
+
+            let transformOriginX = xPos < horizontalHalf ? 'left' : 'right'
+            let transformOriginY = yPos < verticalHalf ? 'top' : 'bottom'
+
             setHovered({
               xPos: e.clientX + 10,
               yPos: e.clientY + 10,
               name: d[3],
               slugName: d[2],
+              transformOriginX: transformOriginX,
+              transformOriginY: transformOriginY,
             })
+
             e.stopPropagation()
             e.preventDefault()
           }}
@@ -267,6 +282,9 @@ export function Scatterplot({
           style={{
             left: hovered.xPos,
             top: hovered.yPos,
+            transform: `translate(${hovered.transformOriginX === 'right' ? '-110%' : '0%'},${
+              hovered.transformOriginY === 'top' ? '0%' : '-120%'
+            })`,
           }}
         >
           {hovered.name}
