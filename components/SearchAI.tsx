@@ -129,47 +129,21 @@ export function SearchAI({ language }) {
       </form>
 
       <div className="suggestions mt-4 text-xs text-odis-dark ">
-        <button
-          className="flex align-center"
-          onClick={() => {
-            setShowExamples(!showExamples)
-          }}
-          style={{ alignItems: 'center' }}
-        >
-          <span className="pr-2"> {text[language].exampleText}</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="10"
-            height="10"
-            fill="currentColor"
-            viewBox="0 0 16 16"
-            className={showExamples ? 'rotate-180' : ''}
-          >
-            <path
-              fillRule="evenodd"
-              d="M7.022 1.566a1.13 1.13 0 0 1 1.96 0l6.857 11.667c.457.778-.092 1.767-.98 1.767H1.144c-.889 0-1.437-.99-.98-1.767z"
-            />
-          </svg>
-        </button>
-        {showExamples && (
-          <>
-            {text[language]?.exampleQuestions.map((item, index) => (
-              <button
-                type="button"
-                key={index}
-                className="rounded-md px-3 py-1 m-1 ml-0
+        {text[language]?.exampleQuestions.map((item, index) => (
+          <button
+            type="button"
+            key={index}
+            className="rounded-md px-3 py-1 m-1 ml-0
                   bg-odis-light-2 
                   hover:active hover:bg-active text-odis-dark
                   transition-colors"
-                onClick={() => {
-                  setInputText(item)
-                }}
-              >
-                {item}
-              </button>
-            ))}
-          </>
-        )}
+            onClick={() => {
+              setInputText(item)
+            }}
+          >
+            {item}
+          </button>
+        ))}
       </div>
 
       {searchResults && searchResults?.length > 0 && (
@@ -198,7 +172,6 @@ export function SearchAI({ language }) {
                   </React.Fragment>
                 ))}
               </ul>
-              {/* </table> */}
             </div>
           </div>
         </>
