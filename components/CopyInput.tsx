@@ -1,7 +1,7 @@
 'use client'
 
 import { InfoIcon } from '@/components/ui/icons/info'
-import { CheckIcon } from '@/components/ui/icons/check'
+import { Tooltip } from 'react-tooltip'
 
 import { useCopyToClipboard } from '@/lib/useCopyToClipboard'
 
@@ -58,9 +58,14 @@ export function CopyInput({ url, type }) {
           </svg>
         )}
       </button>
-      <button className="flex items-center justify-center flex-shrink-0 hover:text-active ">
+      <span
+        data-tooltip-id="my-tooltip"
+        data-tooltip-content="WFS Info"
+        className="flex items-center justify-center flex-shrink-0 hover:text-active "
+      >
         <InfoIcon />
-      </button>
+      </span>
+      <Tooltip id="my-tooltip" />
     </div>
   )
 }
