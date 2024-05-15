@@ -248,6 +248,7 @@ export function Scatterplot({
           </svg>
         </button>
       </div>
+
       <svg
         width={width}
         height={height}
@@ -256,19 +257,8 @@ export function Scatterplot({
           setSearchText('')
         }}
       >
-        {/* <defs>
-          <radialGradient id="grad6" cx="50%" cy="50%" r="30%" fx="50%" fy="50%">
-            <stop offset="0%" stopColor="#B3F2E0" stopOpacity="1" />
-            <stop offset="100%" stopColor="rgba(230, 240, 247,0)" stopOpacity="0" />
-          </radialGradient>
-        </defs>
-        <ellipse cx={width / 2} cy={height / 2} rx={width} ry={height} fill="url(#grad6)" /> */}
-
-        {/* <g transform={transform}> */}
         <g transform={transform}>
-          {/* <g transform={transform} ref={(node) => d3.select(node).call(dragHandler)}> */}
           {allLines}
-
           {allShapes}
         </g>
       </svg>
