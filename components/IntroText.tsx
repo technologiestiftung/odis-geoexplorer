@@ -12,10 +12,11 @@ export function IntroText({ language }) {
         {/* <h2>Finde und erkunde das große Angebot</h2>
       <h2>von offenen Geodaten in Berlin mit Hilfe von K.I.</h2> */}
         <h2>
-          Finde und erkunde das große Angebot von offenen Geodaten in Berlin. Finde und erkunde das
-          große Angebot von offenen Geodaten in Berlin. Finde und erkunde das große Angebot von
-          offenen Geodaten in Berlin. Finde und erkunde das große Angebot von offenen Geodaten in
-          Berlin.
+          Suche nach Stichwörtern oder stell eine Frage, um passende Datensätze zu finden. Für den
+          Einstieg kannst du unsere Beispielthemen nutzen. Die KI listet die Suchergebnisse
+          entsprechend der von ihr berechneten Nähe bzw. Distanz der Datensätze auf, wie das
+          Schaubild untermalt. Beachte, dass du je nach Eingabe (Prompt) unterschiedliche Vorschläge
+          bekommen könntest.
         </h2>
       </span>
     </div>
