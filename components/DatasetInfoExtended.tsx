@@ -187,11 +187,11 @@ export function DatasetInfoExtended({
           <span className="pl-2"> FIS-Broker-Eintrag</span>
         </a>
         <span className="hidden md:block w-80">
-          <CopyInput url={contentDataset['Service URL']} />
+          <CopyInput url={contentDataset['Service URL']} type={contentDataset['Typ']} />
         </span>
       </div>
       <span className="block md:hidden px-4 pt-4">
-        <CopyInput url={contentDataset['Service URL']} />
+        <CopyInput url={contentDataset['Service URL']} type={contentDataset['Typ']} />
       </span>
 
       <div className="w-full my-4 border-y" ref={ref}>
