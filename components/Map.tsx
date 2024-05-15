@@ -109,7 +109,7 @@ export const MapComponent = ({ geojsonData, setShowMap, datasetTitle, maxFeature
   return (
     <div className="" style={{ width: '100%' }}>
       <div ref={mapContainer} style={{ width: '100%', height: '400px' }}>
-        <button
+        {/* <button
           title="close map"
           className="absolute p-4 right-0 z-10 "
           onClick={() => setShowMap(false)}
@@ -124,9 +124,9 @@ export const MapComponent = ({ geojsonData, setShowMap, datasetTitle, maxFeature
             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
             <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
           </svg>
-        </button>
+        </button> */}
 
-        <div className="rounded-md absolute m-2 mt-8 right-0 z-10 inline-grid bg-white p-2 bottom-4">
+        <div className="rounded-md absolute m-2  right-0 z-10 inline-grid bg-white p-2 ">
           <button
             className="mb-2"
             onClick={() => {
