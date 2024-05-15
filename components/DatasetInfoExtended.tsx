@@ -8,12 +8,12 @@ import { DownloadIcon } from '@/components/ui/icons/download'
 import { LinkOutIcon } from '@/components/ui/icons/LinkOutIcon'
 import { Radio } from '@/components/ui/icons/Radio'
 
-import { useCopyToClipboard } from '@/lib/useCopyToClipboard'
 import { AiText } from '@/components/AiText'
 import { AttributeTable } from '@/components/AttributeTable'
 import { MapComponent } from '@/components/Map'
 import { Scatterplot } from '@/components/Scatterplot'
 import { WarningBox } from '@/components/WarningBox'
+import { CopyInput } from '@/components/CopyInput'
 
 export const listOfProjection = {
   'EPSG:25833': '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
@@ -64,7 +64,6 @@ export function DatasetInfoExtended({
 
   const [error, setError] = useState('')
 
-  const { copyToClipboard, hasCopied } = useCopyToClipboard()
   const ref = useRef<HTMLDivElement>(null)
   const visDimensions = useDimensions(ref)
 
@@ -187,34 +186,13 @@ export function DatasetInfoExtended({
           <LinkOutIcon />
           <span className="pl-2"> FIS-Broker-Eintrag</span>
         </a>
-
-        <button
-          onClick={() =>
-            copyToClipboard(
-              `${contentDataset['Service URL'].replace('&outputFormat=application/json', '')}`
-            )
-          }
-          className={buttonClass}
-        >
-          <div className="flex">
-            {/* <span>WFS {contentDataset['Service URL']}</span> */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              className="mr-2 overflow-visible"
-              viewBox="0 0 16 16"
-            >
-              <path
-                fillRule="evenodd"
-                d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"
-              />
-            </svg>
-            {!hasCopied ? contentDataset['Typ'] + ' kopieren' : 'kopiert!'}
-          </div>
-        </button>
+        <span className="hidden md:block w-80">
+          <CopyInput url={contentDataset['Service URL']} />
+        </span>
       </div>
+      <span className="block md:hidden px-4 pt-4">
+        <CopyInput url={contentDataset['Service URL']} />
+      </span>
 
       <div className="w-full my-4 border-y" ref={ref}>
         <div className="overflow-hidden flex bg-white border-odis-dark border w-fit absolute z-10 m-2 rounded-md">

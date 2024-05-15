@@ -30,8 +30,8 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   let { messages, matchthreshold } = req.query
 
-  // res.status(200).json({ embeddings: testEmbeddings.embeddings })
-  // return
+  res.status(200).json({ embeddings: testEmbeddings.embeddings })
+  return
 
   try {
     if (!openAiKey) {
