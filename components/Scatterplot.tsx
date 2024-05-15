@@ -132,7 +132,7 @@ export function Scatterplot({
           points={`${xScale(d[0]) - 5},${yScale(d[1])} ${xScale(d[0])},${yScale(d[1]) - 5} ${
             xScale(d[0]) + 5
           },${yScale(d[1])} ${xScale(d[0])},${yScale(d[1]) + 5}`}
-          r={((d[2] === slug ? 2 : 1) * scaleFactor) / 2 / 4}
+          r={((d[2] === slug ? 2 : 1) * scaleFactor) / 10}
           // r={(d[2] === slug ? 22 : 8) / scaleFactor}
           cx={xScale(d[0])}
           cy={yScale(d[1])}
