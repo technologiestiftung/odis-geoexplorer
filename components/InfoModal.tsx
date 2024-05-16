@@ -162,7 +162,11 @@ export function InfoModal({ language }) {
           >
             Feedback
           </a>
-          <a href="" target="_blank" className="flex-1">
+          <a
+            href="https://github.com/technologiestiftung/odis-geoexplorer"
+            target="_blank"
+            className="flex-1"
+          >
             GitHub
           </a>
           <a
