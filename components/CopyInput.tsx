@@ -16,7 +16,7 @@ export function CopyInput({ url, type }) {
       <input
         id="inputField"
         type="text"
-        className="flex-grow text-ellipsis overflow-hidden  pr-2"
+        className="flex-grow text-ellipsis overflow-hidden  pr-2 focus:ring-odis-dark"
         value={url}
         readOnly
         placeholder="URL"
@@ -67,7 +67,7 @@ export function CopyInput({ url, type }) {
       </span>
       <Tooltip
         id="url-tooltip"
-        style={{ width: '150px', backgroundColor: '#4c68c7', color: 'white' }}
+        style={{ width: '150px', backgroundColor: '#4c68c7', color: 'white', zIndex: 30 }}
       />
     </div>
   )

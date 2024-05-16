@@ -124,12 +124,12 @@ export function AttributeTable({ contentDataset }) {
                     </span>
                   )}
                 </button>
-              ) : (
+              ) : !hasFullDescription ? (
                 <p className="font-normal sm:pl-2 text-odis-light flex items-center">
                   <StarsIcon /> <span className="pl-1"></span>
                   Beschreibung wurde mit K.I. generiert
                 </p>
-              )}
+              ) : null}
             </th>
           </tr>
 

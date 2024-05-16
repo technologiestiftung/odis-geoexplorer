@@ -1,6 +1,4 @@
 'use client'
-// import { text } from '@/lib/text'
-
 import * as d3 from 'd3'
 import { useState, useRef, useEffect } from 'react'
 
@@ -26,174 +24,164 @@ export function Scatterplot({
   setSimilarSearchText,
   slug,
 }: ScatterplotProps) {
+  const initScale = 7
+
   const [hovered, setHovered] = useState<InteractionData | null>(null)
   const [searchText, setSearchText] = useState<string>('')
-  const [scaleFactor, setScaleFactor] = useState(7) // Initial scale factor
-  const gRef = useRef(null)
+  const [scaleFactor, setScaleFactor] = useState(initScale) // Initial scale factor
+  const [scaleDirection, setScaleDirection] = useState('') // Initial scale factor
+  const [hasZoomed, setHasZoomed] = useState(false) // Initial scale factor
 
-  // useEffect(() => {
-  //   // Define interpolation function
-  //   const interpolateScaleFactor = d3.interpolate(0, 7)
-
-  //   // Define timer function
-  //   const timer = d3.timer((elapsed) => {
-  //     // Calculate progress
-  //     const progress = Math.min(1, elapsed / 2000) // 2000ms duration for animation
-
-  //     // Update scaleFactor using interpolation function
-  //     setScaleFactor(interpolateScaleFactor(progress))
-
-  //     // Check if animation is complete
-  //     if (progress === 1) {
-  //       timer.stop() // Stop the timer
-  //     }
-  //   })
-
-  //   // Cleanup function
-  //   return () => {
-  //     timer.stop() // Stop the timer if component unmounts
-  //   }
-  // }, []) // This effect runs only once on mount
-
-  //   useEffect(() => {
-  //     const dragHandler = d3.drag().on('drag', function (event) {
-  //       console.log('--------')
-
-  //       const currentTransform = d3.select(this).attr('transform')
-  //       const translate = currentTransform
-  //         .substring(currentTransform.indexOf('(') + 1, currentTransform.indexOf(')'))
-  //         .split(',')
-  //       const newX = parseInt(translate[0]) + event.dx
-  //       const newY = parseInt(translate[1]) + event.dy
-  //       d3.select(this).attr('transform', `translate(${newX},${newY})`)
-  //     })
-
-  //     console.log('ööölllll')
-
-  //     d3.select(gRef.current).call(dragHandler)
-  //   }, [])
-
-  // useEffect(() => {
-  //   const svg = d3.select(gRef.current) // Ensure this selects the <g> element
-
-  //   const dragHandler = d3
-  //     .drag()
-  //     .on('start', function (event) {
-  //       // Optional: action on drag start
-  //     })
-  //     .on('drag', function (event) {
-  //       // Adjust the transform to move the element
-  //       d3.select(this).attr('transform', `translate(${event.x},${event.y})`)
-
-  //       console.log('ääää')
-  //     })
-
-  //   svg.call(dragHandler)
-  // }, [])
+  const svgRef = useRef(null)
 
   const zoomIn = () => {
     setScaleFactor(scaleFactor + 1)
+    setScaleDirection('in')
   }
 
   const zoomOut = () => {
     if (scaleFactor > 1) {
       setScaleFactor(scaleFactor - 1)
+      setScaleDirection('out')
     }
   }
 
-  // Scales
-  const xVals = scatterPlotData.map((d) => Number(d[0]) ?? d[0])
-  const yVals = scatterPlotData.map((d) => Number(d[1]) ?? d[1])
+  useEffect(() => {
+    // Scales
+    const xVals = scatterPlotData.map((d) => Number(d[0]) ?? d[0])
+    const yVals = scatterPlotData.map((d) => Number(d[1]) ?? d[1])
 
-  const minMaxY = [Math.min(...yVals), Math.max(...yVals)]
-  const minMaxX = [Math.min(...xVals), Math.max(...xVals)]
+    const minMaxY = [Math.min(...yVals), Math.max(...yVals)]
+    const minMaxX = [Math.min(...xVals), Math.max(...xVals)]
 
-  const yScale = d3.scaleLinear().domain(minMaxY).range([height, 0])
-  const xScale = d3.scaleLinear().domain(minMaxX).range([0, width])
+    const yScale = d3.scaleLinear().domain(minMaxY).range([height, 0])
+    const xScale = d3.scaleLinear().domain(minMaxX).range([0, width])
 
-  let newCenter = scatterPlotData.filter((d) => d[2] === slug)
-  if (!newCenter[0]) return
-  let selectedName = newCenter[0][3]
-  newCenter = [Number(newCenter[0][0]), Number(newCenter[0][1])]
+    let newCenter = scatterPlotData.filter((d) => d[2] === slug)
+    if (!newCenter[0]) return
+    let selectedName = newCenter[0][3]
+    newCenter = [Number(newCenter[0][0]), Number(newCenter[0][1])]
 
-  scatterPlotData = scatterPlotData.filter((d) => d[2] !== slug)
-  scatterPlotData = [[...newCenter, slug, selectedName], ...scatterPlotData]
+    scatterPlotData = scatterPlotData.filter((d) => d[2] !== slug)
+    scatterPlotData = [[...newCenter, slug, selectedName], ...scatterPlotData]
 
-  const transform = `translate(${width / 2 - xScale(newCenter[0]) * scaleFactor}, ${
-    height / 2 - yScale(newCenter[1]) * scaleFactor
-  }) scale(${scaleFactor})`
+    let transform = `translate(${width / 2 - xScale(newCenter[0]) * scaleFactor}, ${
+      height / 2 - yScale(newCenter[1]) * scaleFactor
+    }) scale(${scaleFactor})`
 
-  // Build the shapes
-  const allShapes = scatterPlotData.map((d, i) => {
-    return (
-      <g>
-        <circle
-          key={i}
-          points={`${xScale(d[0]) - 5},${yScale(d[1])} ${xScale(d[0])},${yScale(d[1]) - 5} ${
-            xScale(d[0]) + 5
-          },${yScale(d[1])} ${xScale(d[0])},${yScale(d[1]) + 5}`}
-          r={((d[2] === slug ? 2 : 1) * scaleFactor) / 10}
-          // r={(d[2] === slug ? 22 : 8) / scaleFactor}
-          cx={xScale(d[0])}
-          cy={yScale(d[1])}
-          stroke={d[2] === slug ? '#fff' : '#1d2c5d'}
-          strokeWidth={1 / scaleFactor}
-          fill={d[2] === slug ? '#B3F2E0' : '#1d2c5d'}
-          fillOpacity={d[2] === slug ? 1 : 0.1}
-          onMouseEnter={(e) => {
-            e.stopPropagation()
-            e.preventDefault()
+    if (scaleFactor !== initScale || hasZoomed) {
+      setHasZoomed(true)
+      const currentTransform = d3.select(svgRef.current).select('g').attr('transform')
+      const translate = currentTransform
+        .substring(currentTransform.indexOf('(') + 1, currentTransform.indexOf(')'))
+        .split(',')
 
-            const svgRect = e.currentTarget.ownerSVGElement.getBoundingClientRect()
-            let xPos = e.clientX - svgRect.left
-            let yPos = e.clientY - svgRect.top
+      const oldZoom = scaleDirection === 'in' ? scaleFactor - 1 : scaleFactor + 1
+      const newX = -(((-parseInt(translate[0]) + width / 2) * scaleFactor) / oldZoom - width / 2)
+      const newY = -(((-parseInt(translate[1]) + height / 2) * scaleFactor) / oldZoom - height / 2)
+      transform = `translate(${newX},${newY}) scale(${scaleFactor})`
+    }
 
-            // Determine which quadrant of the SVG we're in
-            const horizontalHalf = svgRect.width / 2
-            const verticalHalf = svgRect.height / 2
+    const dragHandler = d3
+      .drag()
+      .on('drag', function (event) {
+        const currentTransform = d3.select(this).select('g').attr('transform')
+        const translate = currentTransform
+          .substring(currentTransform.indexOf('(') + 1, currentTransform.indexOf(')'))
+          .split(',')
 
-            let transformOriginX = xPos < horizontalHalf ? 'left' : 'right'
-            let transformOriginY = yPos < verticalHalf ? 'top' : 'bottom'
+        const newX = parseInt(translate[0]) + event.dx
+        const newY = parseInt(translate[1]) + event.dy
+        d3.select(this)
+          .select('g')
+          .attr('transform', `translate(${newX},${newY}) scale(${scaleFactor})`)
+      })
+      .on('end', () => {
+        d3.select(svgRef.current).style('cursor', 'grab')
+      })
 
-            setHovered({
-              xPos: e.clientX + 10,
-              yPos: e.clientY + 10,
-              name: d[3],
-              slugName: d[2],
-              transformOriginX: transformOriginX,
-              transformOriginY: transformOriginY,
-            })
+    d3.select(svgRef.current).select('g').remove()
 
-            e.stopPropagation()
-            e.preventDefault()
-          }}
-          onMouseLeave={() => setHovered(null)}
-          onClick={(e) => {
-            e.stopPropagation()
-            e.preventDefault()
-            setSearchText(d[3])
-          }}
-          className={`cursor-pointer ${d[2] === slug ? '' : 'z-20'}`}
-        />
-      </g>
-    )
-  })
+    // Initial render of the scatterplot
+    const svg = d3
+      .select(svgRef.current)
+      .attr('width', width)
+      .attr('height', height)
+      .style('background', 'white')
+      // .attr('transform', 'translate(0,0)')
+      .on('mousedown', () => {
+        d3.select(svgRef.current).style('cursor', 'grabbing')
+      })
+      .on('mouseup', () => {
+        d3.select(svgRef.current).style('cursor', 'grab')
+      })
+      .call(dragHandler)
 
-  const allLines = scatterPlotData.map((d, i) => {
-    return (
-      <g>
-        <line
-          x1={xScale(newCenter[0])}
-          y1={yScale(newCenter[1])}
-          x2={xScale(d[0])}
-          y2={yScale(d[1])}
-          stroke={'#B3F2E0'}
-          strokeWidth={0.5 / scaleFactor}
-          strokeOpacity={0.5}
-        />
-      </g>
-    )
-  })
+    const group = svg.append('g').attr('transform', transform)
+
+    group
+      .selectAll('line')
+      .data(scatterPlotData)
+      .join('line')
+      .attr('x1', (d) => xScale(newCenter[0]))
+      .attr('y1', (d) => yScale(newCenter[1]))
+      .attr('x2', (d) => xScale(d[0]))
+      .attr('y2', (d) => yScale(d[1]))
+      .attr('stroke', '#B3F2E0')
+      .attr('stroke-width', (d) => 0.5 / scaleFactor)
+      .attr('stroke-opacity', 0.5)
+
+    // Render circles
+    group
+      .selectAll('circle')
+      .data(scatterPlotData)
+      .join('circle')
+      .attr('cx', (d) => xScale(d[0]))
+      .attr('cy', (d) => yScale(d[1]))
+      .attr('r', (d) => {
+        return ((d[2] === slug ? 2 : 1) * scaleFactor) / 6
+      })
+
+      .attr('fill', (d) => (d[2] === slug ? '#B3F2E0' : '#1d2c5d'))
+      .attr('fill-opacity', (d) => {
+        return d[2] === slug ? 1 : 0.1
+      })
+      .attr('stroke', (d) => {
+        return d[2] === slug ? '#fff' : '#1d2c5d'
+      })
+      .attr('stroke-width', (d) => 1 / scaleFactor)
+      .on('mouseenter', (e, d) => {
+        e.stopPropagation()
+        e.preventDefault()
+
+        const svgRect = e.currentTarget.ownerSVGElement.getBoundingClientRect()
+        let xPos = e.clientX - svgRect.left
+        let yPos = e.clientY - svgRect.top
+
+        // Determine which quadrant of the SVG we're in
+        const horizontalHalf = svgRect.width / 2
+        const verticalHalf = svgRect.height / 2
+
+        let transformOriginX = xPos < horizontalHalf ? 'left' : 'right'
+        let transformOriginY = yPos < verticalHalf ? 'top' : 'bottom'
+
+        setHovered({
+          xPos: e.clientX + 10,
+          yPos: e.clientY + 10,
+          name: d[3],
+          slugName: d[2],
+          transformOriginX: transformOriginX,
+          transformOriginY: transformOriginY,
+        })
+
+        e.stopPropagation()
+        e.preventDefault()
+      })
+      .on('mouseleave', () => setHovered(null))
+      .attr('class', (d) => {
+        return `cursor-pointer ${d[2] === slug ? '' : 'z-20'}`
+      })
+  }, [width, height, scaleFactor]) // Only re-render when data or size changes
 
   const buttonClass =
     'absolute m-2 text-center w-48 bg-odis-light !text-white p-2 mr-2 rounded-md hover:bg-active hover:!text-odis-dark items-center w-40 truncate overflow-hidden'
@@ -249,19 +237,7 @@ export function Scatterplot({
         </button>
       </div>
 
-      <svg
-        width={width}
-        height={height}
-        fill="white"
-        onClick={() => {
-          setSearchText('')
-        }}
-      >
-        <g transform={transform}>
-          {allLines}
-          {allShapes}
-        </g>
-      </svg>
+      <svg ref={svgRef} onClick={() => setSearchText('')} className="cursor-grab"></svg>
 
       {hovered && (
         <div
