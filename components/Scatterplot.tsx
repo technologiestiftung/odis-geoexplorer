@@ -35,8 +35,10 @@ export function Scatterplot({
   const svgRef = useRef(null)
 
   const zoomIn = () => {
-    setScaleFactor(scaleFactor + 1)
-    setScaleDirection('in')
+    if (scaleFactor < 10) {
+      setScaleFactor(scaleFactor + 1)
+      setScaleDirection('in')
+    }
   }
 
   const zoomOut = () => {
@@ -56,6 +58,7 @@ export function Scatterplot({
 
     const yScale = d3.scaleLinear().domain(minMaxY).range([height, 0])
     const xScale = d3.scaleLinear().domain(minMaxX).range([0, width])
+    const rScale = d3.scaleLinear().domain([1, 10]).range([1, 1])
 
     let newCenter = scatterPlotData.filter((d) => d[2] === slug)
     if (!newCenter[0]) return
@@ -139,7 +142,7 @@ export function Scatterplot({
       .attr('cx', (d) => xScale(d[0]))
       .attr('cy', (d) => yScale(d[1]))
       .attr('r', (d) => {
-        return ((d[2] === slug ? 2 : 1) * scaleFactor) / 6
+        return (d[2] === slug ? 2 : 1) * 1
       })
 
       .attr('fill', (d) => (d[2] === slug ? '#B3F2E0' : '#1d2c5d'))
