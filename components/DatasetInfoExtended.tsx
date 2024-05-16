@@ -184,7 +184,7 @@ export function DatasetInfoExtended({
         <a
           className={
             buttonClass +
-            (contentDataset['Fisbroker URL'] === 'null' ? ' pointer-events-none bg-gray-300' : '')
+            (contentDataset['Fisbroker URL'] === 'null' ? ' pointer-events-none !bg-gray-300' : '')
           }
           target="_blank"
           href={contentDataset['Fisbroker URL']}
@@ -225,7 +225,7 @@ export function DatasetInfoExtended({
             disabled={error === 'map' || isLoading === 'map' || contentDataset['Typ'] === 'WMS'}
           >
             <Radio selected={showMap} />
-            <span className="pl-2">Karte</span>
+            <span className="pl-2">Kartenvorschau</span>
           </button>
         </div>
 

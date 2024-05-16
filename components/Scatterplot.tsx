@@ -35,7 +35,7 @@ export function Scatterplot({
   const svgRef = useRef(null)
 
   const zoomIn = () => {
-    if (scaleFactor < 10) {
+    if (scaleFactor < 20) {
       setScaleFactor(scaleFactor + 1)
       setScaleDirection('in')
     }
@@ -58,7 +58,7 @@ export function Scatterplot({
 
     const yScale = d3.scaleLinear().domain(minMaxY).range([height, 0])
     const xScale = d3.scaleLinear().domain(minMaxX).range([0, width])
-    const rScale = d3.scaleLinear().domain([1, 10]).range([1, 1])
+    const rScale = d3.scaleLinear().domain([1, 20]).range([1, 1])
 
     let newCenter = scatterPlotData.filter((d) => d[2] === slug)
     if (!newCenter[0]) return
@@ -203,28 +203,6 @@ export function Scatterplot({
 
   return (
     <div style={{ position: 'relative' }} className="">
-      {/* {searchText && (
-        <button
-          onClick={(e) => {
-            setSimilarSearchText(searchText)
-          }}
-          className={buttonClass + ' index-40'}
-          style={{ zIndex: 40 }}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            className="mr-2 inline"
-            viewBox="0 0 16 16"
-          >
-            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-          </svg>
-          {searchText}
-        </button>
-      )} */}
-
       <div className="rounded-md absolute m-2 mt-2 right-0 z-10 inline-grid bg-white p-2 ">
         <button className="mb-2" onClick={zoomIn} title="zoom in">
           <svg

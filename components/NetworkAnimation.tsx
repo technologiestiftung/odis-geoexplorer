@@ -67,45 +67,13 @@ const sketch: Sketch = (p5) => {
         points.push({ x: x, y: y, z: z })
       }
     }
-
-    // points = [
-    //   {
-    //     x: 101.33514477126838,
-    //     y: 0,
-    //     z: 19.39527128486219,
-    //   },
-    //   {
-    //     x: 42.3654422033289,
-    //     y: 61.14924865107366,
-    //     z: -99.07480688220933,
-    //   },
-    //   {
-    //     x: -55.432750045128,
-    //     y: 80.01028290118977,
-    //     z: -69.0736118818246,
-    //   },
-    //   {
-    //     x: -83.02477135785897,
-    //     y: 8.473001707778569e-15,
-    //     z: -50.45505502797093,
-    //   },
-    //   {
-    //     x: -40.55817936605731,
-    //     y: -58.540689437085724,
-    //     z: 128.80440034678645,
-    //   },
-    //   {
-    //     x: 48.18035320241611,
-    //     y: -69.5423497276656,
-    //     z: 62.31159242738869,
-    //   },
-    // ]
   }
 
   p5.draw = () => {
     p5.background(255)
-
-    // Continuous rotation for animation
+    // p5.ambientLight(100) // Adds soft white light to the scene
+    // p5.pointLight(0, 255, 255, p5.width / 2, p5.height / 2, 250) // Bright white light from the center of the canvas
+    // p5.directionalLight(255, 255, 255, 1, 1, -0.5) // White light from a specific direction    // Continuous rotation for animation
     p5.rotateY(p5.frameCount * rotationSpeed)
 
     // Draw the central point
@@ -135,23 +103,93 @@ const sketch: Sketch = (p5) => {
 
     p5.fill(0, 0, 0)
 
+    // points.forEach((point, index) => {
+    //   p5.push()
+
+    //   // const depthFactor = p5.map(point.z, -100, 100, 255, 50); // Assuming z ranges from -100 to 100
+    //   // p5.fill(53, 80, 171, depthFactor);  // Use RGBA for fill to set opacity based on depth
+
+    //   p5.fill(41, 62, 132)
+    //   p5.translate(point.x, point.y, point.z)
+    //   // Apply inverse rotation to only affect the labels
+    //   p5.rotateY(-p5.frameCount * rotationSpeed)
+    //   p5.text(labels[index + 1], 0, -20) // Adjusted position to avoid overlap with the spheres
+    //   p5.pop()
+    // })
+    let labelDetails = [] // New array to store label details including bounding box
     points.forEach((point, index) => {
       p5.push()
-      p5.fill(41, 62, 132)
-
       p5.translate(point.x, point.y, point.z)
-      // Apply inverse rotation to only affect the labels
-      p5.rotateY(-p5.frameCount * rotationSpeed)
-      p5.text(labels[index + 1], 0, -20) // Adjusted position to avoid overlap with the spheres
+      p5.rotateY(-p5.frameCount * rotationSpeed) // Counter the rotation to render the label correctly
+
+      let label = labels[index + 1]
+      let labelWidth = p5.textWidth(label)
+      let labelHeight = 20 // Approximate height based on text size
+
+      // labelDetails[index] = {
+      //   x: point.x - labelWidth / 2,
+      //   y: point.y - labelHeight / 2,
+      //   width: labelWidth,
+      //   height: labelHeight,
+      //   text: label,
+      // }
+
+      p5.text(label, 0, -20)
       p5.pop()
     })
 
-    p5.push() // Isolate transformations for the text
-    p5.rotateY(-p5.frameCount * rotationSpeed) // Counter the rotation applied to the scene
-    p5.fill(0) // Set text color
-    p5.translate(0, -2, 50) // Move text slightly above and in front of the sphere
-    p5.text(labels[0], 0, 0) // Adjusted position to avoid overlap with the sphere
-    p5.pop() // Revert transformations after drawing the text
+    // p5.mouseClicked = () => {
+    //   let mouseXAdjusted = p5.mouseX - p5.width / 2 // Adjust for WEBGL mode
+    //   let mouseYAdjusted = p5.mouseY - p5.height / 2
+
+    //   labelDetails.forEach((label) => {
+    //     if (
+    //       mouseXAdjusted > label.x &&
+    //       mouseXAdjusted < label.x + label.width &&
+    //       mouseYAdjusted > label.y &&
+    //       mouseYAdjusted < label.y + label.height
+    //     ) {
+    //       console.log('Clicked on label:', label.text)
+    //       // Perform any action here, such as opening a link or updating the state
+    //     }
+    //   })
+    // }
+    // let overAnyLabel = false
+    // labelDetails.forEach((label) => {
+    //   let mouseXAdjusted = p5.mouseX - p5.width / 2 // Adjust for WEBGL mode
+    //   let mouseYAdjusted = p5.mouseY - p5.height / 2
+    //   if (
+    //     mouseXAdjusted > label.x &&
+    //     mouseXAdjusted < label.x + label.width &&
+    //     mouseYAdjusted > label.y &&
+    //     mouseYAdjusted < label.y + label.height
+    //   ) {
+    //     overAnyLabel = true
+    //   }
+    // })
+
+    // if (overAnyLabel) {
+    //   p5.cursor(p5.HAND)
+    // } else {
+    //   p5.cursor(p5.ARROW)
+    // }
+    // points.forEach((point, index) => {
+    //   p5.push();
+    //   // Adjust fill based on z-coordinate to create depth effect
+    //   const depthFactor = p5.map(point.z, -100, 100, 255, 50); // Assuming z ranges from -100 to 100
+    //   p5.fill(53, 80, 171, depthFactor);  // Use RGBA for fill to set opacity based on depth
+
+    //   p5.translate(point.x, point.y, point.z);
+    //   p5.sphere(6);
+    //   p5.pop();
+    // });
+
+    // p5.push() // Isolate transformations for the text
+    // p5.rotateY(-p5.frameCount * rotationSpeed) // Counter the rotation applied to the scene
+    // p5.fill(0) // Set text color
+    // p5.translate(0, -2, 50) // Move text slightly above and in front of the sphere
+    // p5.text(labels[0], 0, 0) // Adjusted position to avoid overlap with the sphere
+    // p5.pop() // Revert transformations after drawing the text
   }
 }
 
