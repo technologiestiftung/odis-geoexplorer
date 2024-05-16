@@ -154,6 +154,8 @@ export function Scatterplot({
       })
       .attr('stroke-width', (d) => 1 / scaleFactor)
       .on('mouseenter', (e, d) => {
+        if (searchText) return
+
         e.stopPropagation()
         e.preventDefault()
 
@@ -180,23 +182,34 @@ export function Scatterplot({
         e.stopPropagation()
         e.preventDefault()
       })
-      .on('mouseleave', () => setHovered(null))
+      .on('mouseleave', () => (searchText ? null : setHovered(null)))
       .attr('class', (d) => {
         return `cursor-pointer ${d[2] === slug ? '' : 'z-20'}`
       })
-  }, [width, height, scaleFactor]) // Only re-render when data or size changes
+      .on('click', (e, d) => {
+        e.stopPropagation()
+        e.preventDefault()
+        if (searchText) {
+          setSearchText('')
+          setHovered(null)
+        } else {
+          setSearchText(d[3])
+        }
+      })
+  }, [width, height, scaleFactor, searchText]) // Only re-render when data or size changes
 
   const buttonClass =
     'absolute m-2 text-center w-48 bg-odis-light !text-white p-2 mr-2 rounded-md hover:bg-active hover:!text-odis-dark items-center w-40 truncate overflow-hidden'
 
   return (
     <div style={{ position: 'relative' }} className="">
-      {searchText && (
+      {/* {searchText && (
         <button
           onClick={(e) => {
             setSimilarSearchText(searchText)
           }}
-          className={buttonClass}
+          className={buttonClass + ' index-40'}
+          style={{ zIndex: 40 }}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -210,7 +223,7 @@ export function Scatterplot({
           </svg>
           {searchText}
         </button>
-      )}
+      )} */}
 
       <div className="rounded-md absolute m-2 mt-2 right-0 z-10 inline-grid bg-white p-2 ">
         <button className="mb-2" onClick={zoomIn} title="zoom in">
@@ -240,7 +253,14 @@ export function Scatterplot({
         </button>
       </div>
 
-      <svg ref={svgRef} onClick={() => setSearchText('')} className="cursor-grab"></svg>
+      <svg
+        ref={svgRef}
+        onClick={() => {
+          setSearchText('')
+          setHovered(null)
+        }}
+        className="cursor-grab"
+      ></svg>
 
       {hovered && (
         <div
@@ -257,6 +277,30 @@ export function Scatterplot({
           }}
         >
           {hovered.name}
+
+          {searchText && (
+            <button
+              onClick={(e) => {
+                setSimilarSearchText(searchText)
+              }}
+              className={
+                'relative m-2 text-center  bg-odis-light !text-white p-2 mr-2 rounded-md hover:bg-active hover:!text-odis-dark items-center w-40 truncate overflow-hidden'
+              }
+              style={{ zIndex: 40 }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className="mr-2 inline"
+                viewBox="0 0 16 16"
+              >
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+              </svg>
+              explorieren
+            </button>
+          )}
         </div>
       )}
       <p className="p-2">

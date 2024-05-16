@@ -181,11 +181,18 @@ export function DatasetInfoExtended({
           <DownloadIcon />
           <span className="pl-2">JSON Download</span>
         </button>
-
-        <a className={buttonClass} target="_blank" href={contentDataset['Fisbroker URL']}>
+        <a
+          className={
+            buttonClass +
+            (contentDataset['Fisbroker URL'] === 'null' ? ' pointer-events-none bg-gray-300' : '')
+          }
+          target="_blank"
+          href={contentDataset['Fisbroker URL']}
+        >
           <LinkOutIcon />
           <span className="pl-2"> FIS-Broker-Eintrag</span>
         </a>
+
         <span className="hidden md:block w-80">
           <CopyInput url={contentDataset['Service URL']} type={contentDataset['Typ']} />
         </span>
@@ -259,16 +266,6 @@ export function DatasetInfoExtended({
       )}
 
       <AiText content={contentDataset} inputText={inputText} />
-
-      {contentDataset['Fisbroker URL'] && (
-        <div className="px-4  font-light border-t-[1px] border-gray-300 py-4">
-          Du findest diesen Datensatz auch im{' '}
-          <a className="!text-odis-light" target="_blank" href={contentDataset['Fisbroker URL']}>
-            Fis Broker
-          </a>
-          . Hier erhälst du Detailinformationen wie letzte Aktualisierungen, Granularität, etc.
-        </div>
-      )}
     </div>
   )
 }
