@@ -59,13 +59,16 @@ export function CopyInput({ url, type }) {
         )}
       </button>
       <span
-        data-tooltip-id="my-tooltip"
-        data-tooltip-content="WFS Info"
+        data-tooltip-id="url-tooltip"
+        data-tooltip-content="Ein WFS (Web Feature Service) ist ein Online-Dienst, der es ermöglicht, geografische Daten über das Internet abzurufen."
         className="flex items-center justify-center flex-shrink-0 hover:text-active "
       >
         <InfoIcon />
       </span>
-      <Tooltip id="my-tooltip" />
+      <Tooltip
+        id="url-tooltip"
+        style={{ width: '150px', backgroundColor: '#4c68c7', color: 'white' }}
+      />
     </div>
   )
 }

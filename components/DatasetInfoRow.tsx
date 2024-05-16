@@ -79,7 +79,7 @@ export function DatasetInfoRow(props) {
                   setShowExtraInfo(!showExtraInfo)
                 }}
                 type="submit"
-                className="lg:block hidden basis-1/2 text-white text-xs  rounded-md md:w-24 px-1 py-1 md:hover:bg-active md:bg-odis-light md:hover:text-odis-dark  absolute right-0 mr-4 mt-2"
+                className="lg:block hidden basis-1/2 text-white text-xs  rounded-md md:w-24 px-1 py-1 md:hover:bg-active md:bg-odis-light md:hover:text-odis-dark  absolute right-0 mr-4"
               >
                 <span className="md:block hidden">
                   {showExtraInfo ? 'Weniger Infos' : 'Mehr Infos'}
