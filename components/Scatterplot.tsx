@@ -1,6 +1,7 @@
 'use client'
 import * as d3 from 'd3'
 import { useState, useRef, useEffect } from 'react'
+import { InfoIcon } from '@/components/ui/icons/info'
 
 type ElementType = [number, number, string]
 
@@ -281,10 +282,12 @@ export function Scatterplot({
           )}
         </div>
       )}
-      <p className="p-2">
-        {/* <p className="p-2 absolute bottom-0 pointer-events-none"> */}
-        Die Positionen der Datensätze zueinander zeigen, wie ähnlich sie von der KI betrachtet
-        werden.
+      <p className="bg-odis-extra-light text-odis-light flex absolute bottom-0 left-0 z-10 !font-nunito text-md rounded-md  m-2 p-2 border border-odis-light">
+        <InfoIcon />
+        <span className="pl-2">
+          Die Positionen der Datensätze zueinander zeigen, wie ähnlich sie von der KI betrachtet
+          werden.
+        </span>
       </p>
     </div>
   )
