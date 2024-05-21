@@ -184,12 +184,12 @@ const sketch: Sketch = (p5) => {
     //   p5.pop();
     // });
 
-    // p5.push() // Isolate transformations for the text
-    // p5.rotateY(-p5.frameCount * rotationSpeed) // Counter the rotation applied to the scene
-    // p5.fill(0) // Set text color
-    // p5.translate(0, -2, 50) // Move text slightly above and in front of the sphere
-    // p5.text(labels[0], 0, 0) // Adjusted position to avoid overlap with the sphere
-    // p5.pop() // Revert transformations after drawing the text
+    p5.push() // Isolate transformations for the text
+    p5.rotateY(-p5.frameCount * rotationSpeed) // Counter the rotation applied to the scene
+    p5.fill(0) // Set text color
+    p5.translate(0, -2, 50) // Move text slightly above and in front of the sphere
+    p5.text(labels[0], 0, 0) // Adjusted position to avoid overlap with the sphere
+    p5.pop() // Revert transformations after drawing the text
   }
 }
 
@@ -197,11 +197,11 @@ export default function Page({ width, height }) {
   let allLabels = [
     [
       'Schwamm Stadt',
-      'Wassserschutzgebiet',
       'Grundwasser',
       'Naturwald',
       'ATKIS Fießgewässer',
       'Überschwemmung',
+      'Wassserschutzgebiet',
       'Schulen',
     ],
     [
