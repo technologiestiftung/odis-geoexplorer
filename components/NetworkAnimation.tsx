@@ -72,8 +72,8 @@ const sketch: Sketch = (p5) => {
   p5.draw = () => {
     p5.background(255)
     // p5.ambientLight(100) // Adds soft white light to the scene
-    // p5.pointLight(0, 255, 255, p5.width / 2, p5.height / 2, 250) // Bright white light from the center of the canvas
-    // p5.directionalLight(255, 255, 255, 1, 1, -0.5) // White light from a specific direction    // Continuous rotation for animation
+    // p5.pointLight(255, 255, 255, p5.width / 2, p5.height / 2, 255) // Bright white light from the center of the canvas
+    // p5.directionalLight(255, 255, 255, 1, 1, -20) // White light from a specific direction    // Continuous rotation for animation
     p5.rotateY(p5.frameCount * rotationSpeed)
 
     // Draw the central point
@@ -116,15 +116,15 @@ const sketch: Sketch = (p5) => {
     //   p5.text(labels[index + 1], 0, -20) // Adjusted position to avoid overlap with the spheres
     //   p5.pop()
     // })
-    let labelDetails = [] // New array to store label details including bounding box
+    // let labelDetails = [] // New array to store label details including bounding box
     points.forEach((point, index) => {
       p5.push()
       p5.translate(point.x, point.y, point.z)
       p5.rotateY(-p5.frameCount * rotationSpeed) // Counter the rotation to render the label correctly
 
       let label = labels[index + 1]
-      let labelWidth = p5.textWidth(label)
-      let labelHeight = 20 // Approximate height based on text size
+      // let labelWidth = p5.textWidth(label)
+      // let labelHeight = 20 // Approximate height based on text size
 
       // labelDetails[index] = {
       //   x: point.x - labelWidth / 2,

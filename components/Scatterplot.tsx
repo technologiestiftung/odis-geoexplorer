@@ -32,6 +32,7 @@ export function Scatterplot({
   const [scaleFactor, setScaleFactor] = useState(initScale) // Initial scale factor
   const [scaleDirection, setScaleDirection] = useState('') // Initial scale factor
   const [hasZoomed, setHasZoomed] = useState(false) // Initial scale factor
+  // set transform here
 
   const svgRef = useRef(null)
 
@@ -39,6 +40,8 @@ export function Scatterplot({
     if (scaleFactor < 20) {
       setScaleFactor(scaleFactor + 1)
       setScaleDirection('in')
+      setSearchText('')
+      setHovered(null)
     }
   }
 
@@ -46,6 +49,8 @@ export function Scatterplot({
     if (scaleFactor > 1) {
       setScaleFactor(scaleFactor - 1)
       setScaleDirection('out')
+      setSearchText('')
+      setHovered(null)
     }
   }
 
@@ -59,7 +64,7 @@ export function Scatterplot({
 
     const yScale = d3.scaleLinear().domain(minMaxY).range([height, 0])
     const xScale = d3.scaleLinear().domain(minMaxX).range([0, width])
-    const rScale = d3.scaleLinear().domain([1, 20]).range([1, 1])
+    // const rScale = d3.scaleLinear().domain([1, 20]).range([1, 1])
 
     let newCenter = scatterPlotData.filter((d) => d[2] === slug)
     if (!newCenter[0]) return
@@ -80,12 +85,24 @@ export function Scatterplot({
         .substring(currentTransform.indexOf('(') + 1, currentTransform.indexOf(')'))
         .split(',')
 
-      const oldZoom = scaleDirection === 'in' ? scaleFactor - 1 : scaleFactor + 1
+      const oldZoom = !scaleDirection
+        ? scaleFactor
+        : scaleDirection === 'in'
+        ? scaleFactor - 1
+        : scaleFactor + 1
       const newX = -(((-parseInt(translate[0]) + width / 2) * scaleFactor) / oldZoom - width / 2)
       const newY = -(((-parseInt(translate[1]) + height / 2) * scaleFactor) / oldZoom - height / 2)
       transform = `translate(${newX},${newY}) scale(${scaleFactor})`
+      setScaleDirection('')
     }
 
+    // if (
+    //   d3.select(svgRef.current) &&
+    //   d3.select(svgRef.current).select('g') &&
+    //   d3.select(svgRef.current).select('g')._groups[0] &&
+    //   d3.select(svgRef.current).select('g')._groups[0][0] &&
+    //   d3.select(svgRef.current).select('g')._groups[0][0].transform
+    // ) {
     const dragHandler = d3
       .drag()
       .on('drag', function (event) {
@@ -99,6 +116,9 @@ export function Scatterplot({
         d3.select(this)
           .select('g')
           .attr('transform', `translate(${newX},${newY}) scale(${scaleFactor})`)
+        // console.log('darg trabsform', `translate(${newX},${newY}) scale(${scaleFactor})`)
+        setSearchText('')
+        setHovered(null)
       })
       .on('end', () => {
         d3.select(svgRef.current).style('cursor', 'grab')
@@ -179,13 +199,12 @@ export function Scatterplot({
           transformOriginX: transformOriginX,
           transformOriginY: transformOriginY,
         })
-
-        e.stopPropagation()
-        e.preventDefault()
       })
-      .on('mouseleave', () => (searchText ? null : setHovered(null)))
+      .on('mouseleave', (e) => {
+        searchText ? null : setHovered(null)
+      })
       .attr('class', (d) => {
-        return `cursor-pointer ${d[2] === slug ? '' : 'z-20'}`
+        return `${searchText ? '' : 'cursor-pointer'} ${d[2] === slug ? '' : 'z-20'}`
       })
       .on('click', (e, d) => {
         e.stopPropagation()
