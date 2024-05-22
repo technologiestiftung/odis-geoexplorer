@@ -17,12 +17,13 @@ export function SearchAI({ language }) {
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [searchResults, setSearchResults] = useState<Array<object>>([]) // @to  < Array<any> || false >
-  const [creativeSearch, setCreativeSearch] = useState(false)
-  const [showExamples, setShowExamples] = useState(true)
+  // const [creativeSearch, setCreativeSearch] = useState(false)
+  // const [showExamples, setShowExamples] = useState(true)
   const [typeFilterValue, setTypeFilterValue] = useState(['WFS'])
   const [hasSearched, setHasSearched] = useState(false)
   const [similarSearchText, setSimilarSearchText] = useState('')
   const [scatterPlotData, setScatterPlotData] = useState([])
+  const [showExtendedSearch, setShowExtendedSearch] = useState(false)
 
   useMatomo()
 
@@ -49,8 +50,8 @@ export function SearchAI({ language }) {
       })
   }, [])
 
-  async function getSearchResults(inputText) {
-    inputText = inputText + ' WFS' // push WFS
+  async function getSearchResults(inputText, extendedSearch) {
+    inputText = inputText // push WFS
     let data
     setIsLoading(true)
     try {
@@ -61,7 +62,7 @@ export function SearchAI({ language }) {
           // creativeSearch ? 0.3 : 0.78
           // 0.3
           0.78
-        }`,
+        }&extended=${extendedSearch}`,
         {
           cache: process.env.NODE_ENV === 'development' ? 'no-store' : 'default',
         }
@@ -82,7 +83,7 @@ export function SearchAI({ language }) {
   useEffect(() => {
     if (similarSearchText) {
       setInputText(similarSearchText)
-      searchForEmbedding(similarSearchText)
+      searchForEmbedding(similarSearchText, '0')
     }
   }, [similarSearchText])
 
@@ -93,7 +94,7 @@ export function SearchAI({ language }) {
     }
   }, [inputText])
 
-  async function searchForEmbedding(inputText) {
+  async function searchForEmbedding(inputText, extendedSearch) {
     if (isLoading || inputText === '') {
       return
     }
@@ -102,15 +103,29 @@ export function SearchAI({ language }) {
     setSearchResults([])
     setHasSearched(false)
 
-    const { embeddings } = await getSearchResults(inputText)
+    const { embeddings } = await getSearchResults(inputText, extendedSearch)
     console.log('embeddings: ', embeddings)
     setHasSearched(true)
     setSearchResults(embeddings)
+    setShowExtendedSearch(true)
   }
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
-    searchForEmbedding(inputText)
+    searchForEmbedding(inputText, '0')
+  }
+
+  async function extendSearch() {
+    if (isLoading || inputText === '') {
+      return
+    }
+    setShowExtendedSearch(false)
+
+    const { embeddings } = await getSearchResults(inputText, '1')
+    setHasSearched(true)
+
+    const allResults = [...searchResults, ...embeddings]
+    setSearchResults(allResults)
   }
 
   return (
@@ -174,6 +189,16 @@ export function SearchAI({ language }) {
           </div>
         </>
       )}
+
+      {showExtendedSearch && (
+        <button
+          className="-translate-x-2/4 left-1/2 absolute underline text-odis-light  pt-2 text-sm"
+          onClick={extendSearch}
+        >
+          Suche erweitern
+        </button>
+      )}
+
       {/* If no results found */}
       {hasSearched && inputText !== '' && searchResults && searchResults.length == 0 && (
         <div className=" bg-odis-extra-light text-odis-light border-odis-light mt-8 overflow-auto rounded-md border border-input p-4">
