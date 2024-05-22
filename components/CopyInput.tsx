@@ -4,6 +4,10 @@ import { InfoIcon } from '@/components/ui/icons/info'
 import { Tooltip } from 'react-tooltip'
 
 import { useCopyToClipboard } from '@/lib/useCopyToClipboard'
+const wfsText =
+  'Ein WFS (Web Feature Service) ist ein Online-Dienst, der es ermöglicht, geografische Daten über das Internet abzurufen.'
+const wmsText =
+  'Ein WMS (Web Map Service) ist ein Online-Dienst, der es ermöglicht, geografische Daten über das Internet abzurufen.'
 
 export function CopyInput({ url, type }) {
   const { copyToClipboard, hasCopied } = useCopyToClipboard()
@@ -60,7 +64,7 @@ export function CopyInput({ url, type }) {
       </button>
       <span
         data-tooltip-id="url-tooltip"
-        data-tooltip-content="Ein WFS (Web Feature Service) ist ein Online-Dienst, der es ermöglicht, geografische Daten über das Internet abzurufen."
+        data-tooltip-content={type === 'WFS' ? wfsText : wmsText}
         className="flex items-center justify-center flex-shrink-0 hover:text-active "
       >
         <InfoIcon />
