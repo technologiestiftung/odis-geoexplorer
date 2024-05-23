@@ -133,20 +133,23 @@ export function AttributeTable({ contentDataset }) {
             </th>
           </tr>
 
-          {attr?.map((attr, index) => (
-            <tr key={attr} className={index % 2 === 1 ? 'bg-odis-light-2 w-full' : 'w-full'}>
-              <td className="p-2 pl-4 font-light">{attr}</td>
-              {hasFullDescription ? (
-                <td className="p-2 pl-4 font-light">{attrDesc[index]}</td>
-              ) : aiGeneratedDescriptions ? (
-                <td className="pl-4 font-light font-robot-light">
-                  {aiGeneratedDescriptions[attr] ? aiGeneratedDescriptions[attr] : ''}
-                </td>
-              ) : (
-                <td></td>
-              )}
-            </tr>
-          ))}
+          {attr?.map(
+            (attr, index) =>
+              attr !== 'geom' && (
+                <tr key={attr} className={index % 2 === 1 ? 'bg-odis-light-2 w-full' : 'w-full'}>
+                  <td className="p-2 pl-4 font-light">{attr}</td>
+                  {hasFullDescription ? (
+                    <td className="p-2 pl-4 font-light">{attrDesc[index]}</td>
+                  ) : aiGeneratedDescriptions ? (
+                    <td className="pl-4 font-light font-robot-light">
+                      {aiGeneratedDescriptions[attr] ? aiGeneratedDescriptions[attr] : ''}
+                    </td>
+                  ) : (
+                    <td></td>
+                  )}
+                </tr>
+              )
+          )}
         </tbody>
       </table>
       {aiGeneratedDescriptions && (
