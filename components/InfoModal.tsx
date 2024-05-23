@@ -112,7 +112,7 @@ export function InfoModal({ language }) {
         <section className="mt-[19px] flex  gap-[24px] text-xs flex-col sm:flex-row">
           <div className="flex flex-1 flex-col  ">
             <div>Ein Projekt der</div>
-            <div className="h-[49px] w-auto">
+            <div className="h-[49px] w-auto mt-4">
               <a href="https://www.technologiestiftung-berlin.de" target="_blank">
                 <TSBLogo />
               </a>
@@ -120,7 +120,7 @@ export function InfoModal({ language }) {
           </div>
           <div className="flex flex-1  flex-col ">
             <div>Durchgeführt von der</div>
-            <div className="h-[40px] w-auto">
+            <div className="h-[40px] w-auto mt-4">
               <a href="https://odis-berlin.de" target="_blank">
                 <OdisLogo />
               </a>
@@ -129,9 +129,12 @@ export function InfoModal({ language }) {
           <div className="flex flex-1 flex-col  ">
             <div>in Zusammenarbeit mit</div>
             <div className="flex gap-[16px]">
-              <div className="h-[34px] w-full">
+              <div className="h-[34px] w-full mt-4">
                 <a href="https://citylab-berlin.org/de/start/" target="_blank">
-                  <CityLabLogo />
+                  <img
+                    src="https://logos.citylab-berlin.org/logo-citylab-color.svg"
+                    alt="Logo Citylab"
+                  />{' '}
                 </a>
               </div>
             </div>
@@ -139,9 +142,13 @@ export function InfoModal({ language }) {
           <div className="flex flex-1  flex-col  ">
             <div>Gefördert von </div>
             <div className="flex gap-[16px]">
-              <div className="h-auto w-full">
+              <div className="h-auto w-full mt-4">
                 <a href="https://www.berlin.de/rbmskzl/" target="_blank">
-                  <BerlinLogo />
+                  <img
+                    class="-translate-y-0.5"
+                    src="https://logos.citylab-berlin.org/logo-senatskanzlei-buergermeister-horizontal.svg"
+                    alt="Logo Berlin"
+                  />{' '}
                 </a>
               </div>
             </div>

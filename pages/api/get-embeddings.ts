@@ -6,11 +6,9 @@ import {
   OpenAIApi,
   CreateModerationResponse,
   CreateEmbeddingResponse,
-  createAnswer,
-  ChatCompletionRequestMessage,
 } from 'openai-edge'
 
-import { codeBlock, oneLine } from 'common-tags'
+import { oneLine } from 'common-tags'
 
 import testEmbeddings from './testEmbeddings.js'
 
@@ -22,12 +20,7 @@ const config = new Configuration({
   apiKey: openAiKey,
 })
 const openai = new OpenAIApi(config)
-
 const supabaseClient = createClient(supabaseUrl, supabaseServiceKey)
-
-// export const runtime = 'edge'
-
-// import type { NextApiRequest, NextApiResponse } from 'next'
 
 import type { NextApiRequest, NextApiResponse } from 'next'
 
