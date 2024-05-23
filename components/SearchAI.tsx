@@ -24,6 +24,7 @@ export function SearchAI({ language }) {
   const [similarSearchText, setSimilarSearchText] = useState('')
   const [scatterPlotData, setScatterPlotData] = useState([])
   const [showExtendedSearch, setShowExtendedSearch] = useState(false)
+  const [extendedQuery, setExtendedQuery] = useState('')
 
   useMatomo()
 
@@ -92,6 +93,7 @@ export function SearchAI({ language }) {
       setSearchResults([])
       setHasSearched(false)
       setShowExtendedSearch(false)
+      setExtendedQuery('')
     }
   }, [inputText])
 
@@ -130,6 +132,7 @@ export function SearchAI({ language }) {
     if (isLoading || inputText === '') {
       return
     }
+    setExtendedQuery('')
     setSearchText(inputText)
 
     setSearchResults([])
@@ -159,15 +162,27 @@ export function SearchAI({ language }) {
     }
     setShowExtendedSearch(false)
 
-    const { embeddings } = await getSearchResults(inputText, '1')
+    const { embeddings, extendedQuery } = await getSearchResults(inputText, '1')
     embeddings.forEach((embedding) => {
       let parsedContent = embedding.content ? parseEmbeddingContent(embedding.content) : {}
       embedding.parsedContent = parsedContent
     })
 
     setHasSearched(true)
+    setExtendedQuery(extendedQuery)
 
-    const allResults = [...searchResults, ...embeddings]
+    function mergeUniqueArrays(arr1, arr2, key) {
+      const mergedArray = [...arr1, ...arr2]
+      const uniqueObjects = mergedArray.filter(
+        (obj, index, self) => index === self.findIndex((t) => t[key] === obj[key])
+      )
+      return uniqueObjects
+    }
+
+    console.log('embeddingsembeddings', embeddings)
+
+    const allResults = mergeUniqueArrays(searchResults, embeddings, 'id')
+
     setSearchResults(allResults)
   }
 
@@ -252,6 +267,17 @@ export function SearchAI({ language }) {
         >
           Suche erweitern
         </button>
+      )}
+      {extendedQuery !== '' && (
+        <p className=" w-full text-center relative text-odis-light mt-4 text-sm">
+          Die Suche wurde durch den Begriff "<span className="italic ">{extendedQuery}</span>"
+          erweitert.
+          {searchResults.length == 0 && (
+            <>
+              <br></br>Es wurden keine weiteren Datensätze gefunden.
+            </>
+          )}
+        </p>
       )}
     </div>
   )

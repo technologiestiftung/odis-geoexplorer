@@ -26,6 +26,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   let { messages, matchthreshold, extended } = req.query
+  let extendedQuery = ''
 
   // res.status(200).json({ embeddings: testEmbeddings.embeddings })
   // return
@@ -68,9 +69,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         })
         // wait for the response to be completed and save the result in a varibale
         const completion = await response.json()
-        const newQuery = completion?.choices[0]?.message?.content
-        console.log('extended search', newQuery)
-        query = newQuery ? newQuery : query
+        extendedQuery = completion?.choices[0]?.message?.content
+        console.log('extended search', extendedQuery)
+        query = extendedQuery ? extendedQuery : query
       } catch (error) {
         console.error('error in completion', error)
       }
@@ -114,6 +115,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (matchError) {
       throw new ApplicationError('Failed to match page sections', matchError)
     }
-    res.status(200).json({ embeddings: pageSections })
+    res.status(200).json({ embeddings: pageSections, extendedQuery: extendedQuery })
   } catch (error) {}
 }
