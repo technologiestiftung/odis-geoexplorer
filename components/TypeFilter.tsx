@@ -11,13 +11,17 @@ export function TypeFilter({ selectedValues, setSelectedValues, searchResults })
   useEffect(() => {
     let wfsCount = 0
     let wmsCount = 0
-    searchResults.forEach((d) => {
-      if (d.parsedContent['Typ'] === 'WMS') {
-        wmsCount++
-      } else {
-        wfsCount++
-      }
-    })
+
+    if (searchResults) {
+      searchResults.forEach((d) => {
+        if (d.parsedContent['Typ'] === 'WMS') {
+          wmsCount++
+        } else {
+          wfsCount++
+        }
+      })
+    }
+
     setAmountWFS(wfsCount)
     setAmountWMS(wmsCount)
   }, [searchResults])

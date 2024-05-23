@@ -41,7 +41,7 @@ export function DatasetInfoRow(props) {
   const { result, inputText, typeFilterValue, setSimilarSearchText, scatterPlotData } = props
 
   const [showExtraInfo, setShowExtraInfo] = useState<boolean>(false)
-  let content = result.parsedContent
+  let content = result.parsedContent ? result.parsedContent : {}
   // content['rawContent'] = result.content
   content['slug'] = result.slug
 

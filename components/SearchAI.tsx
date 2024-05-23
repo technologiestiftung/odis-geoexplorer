@@ -91,6 +91,7 @@ export function SearchAI({ language }) {
     if (inputText === '') {
       setSearchResults([])
       setHasSearched(false)
+      setShowExtendedSearch(false)
     }
   }, [inputText])
 
@@ -159,6 +160,11 @@ export function SearchAI({ language }) {
     setShowExtendedSearch(false)
 
     const { embeddings } = await getSearchResults(inputText, '1')
+    embeddings.forEach((embedding) => {
+      let parsedContent = embedding.content ? parseEmbeddingContent(embedding.content) : {}
+      embedding.parsedContent = parsedContent
+    })
+
     setHasSearched(true)
 
     const allResults = [...searchResults, ...embeddings]
@@ -231,6 +237,14 @@ export function SearchAI({ language }) {
         </>
       )}
 
+      {/* If no results found */}
+      {hasSearched && inputText !== '' && searchResults && searchResults.length == 0 && (
+        <div className=" bg-odis-extra-light text-odis-light border-odis-light mt-8 overflow-auto rounded-md border border-input p-4">
+          Leider wurde zu "<span className="font-bold">{`${searchText}`}</span>" keine Datensätze
+          gefunden.
+        </div>
+      )}
+
       {showExtendedSearch && (
         <button
           className="-translate-x-2/4 left-1/2 absolute underline text-odis-light  pt-2 text-sm"
@@ -238,14 +252,6 @@ export function SearchAI({ language }) {
         >
           Suche erweitern
         </button>
-      )}
-
-      {/* If no results found */}
-      {hasSearched && inputText !== '' && searchResults && searchResults.length == 0 && (
-        <div className=" bg-odis-extra-light text-odis-light border-odis-light mt-8 overflow-auto rounded-md border border-input p-4">
-          Leider wurde zu "<span className="font-bold">{`${searchText}`}</span>" keine Datensätze
-          gefunden.
-        </div>
       )}
     </div>
   )
