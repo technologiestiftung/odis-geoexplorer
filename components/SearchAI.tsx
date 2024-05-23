@@ -269,7 +269,7 @@ export function SearchAI({ language }) {
         </button>
       )}
       {extendedQuery !== '' && (
-        <p className=" w-full text-center relative text-odis-light mt-4 text-sm">
+        <p className=" w-full text-center relative italic mt-4 text-sm">
           Die Suche wurde durch den Begriff "<span className="italic ">{extendedQuery}</span>"
           erweitert.
           {searchResults.length == 0 && (
