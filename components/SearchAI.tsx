@@ -94,6 +94,37 @@ export function SearchAI({ language }) {
     }
   }, [inputText])
 
+  function parseEmbeddingContent(text) {
+    text = text.replaceAll('\\', '')
+    const splitted = text.split('$$$\n')
+
+    const parsedInfo = {}
+    splitted.map((d, i) => {
+      let key
+      let value
+
+      if (i === 0) {
+        key = 'Titel'
+        value = d.split('Titel: ')[1]
+      } else {
+        key = d.split(': ')[0].replace('*   ', '').trim()
+        value = d
+          .replace(key + ': ', '')
+          .replace('*   ', '')
+          .trim()
+      }
+      if (key === 'Attribute' || key === 'Attribute Beschreibung') {
+        value = value.split(',')
+        value = value.filter((value, index, self) => {
+          return self.indexOf(value) === index
+        })
+      }
+      parsedInfo[key] = value
+    })
+
+    return parsedInfo
+  }
+
   async function searchForEmbedding(inputText, extendedSearch) {
     if (isLoading || inputText === '') {
       return
@@ -106,6 +137,12 @@ export function SearchAI({ language }) {
     const { embeddings } = await getSearchResults(inputText, extendedSearch)
     console.log('embeddings: ', embeddings)
     setHasSearched(true)
+
+    embeddings.forEach((embedding) => {
+      let parsedContent = embedding.content ? parseEmbeddingContent(embedding.content) : {}
+      embedding.parsedContent = parsedContent
+    })
+
     setSearchResults(embeddings)
     setShowExtendedSearch(true)
   }
@@ -163,7 +200,11 @@ export function SearchAI({ language }) {
 
       {searchResults && searchResults?.length > 0 && (
         <>
-          <TypeFilter selectedValues={typeFilterValue} setSelectedValues={setTypeFilterValue} />
+          <TypeFilter
+            selectedValues={typeFilterValue}
+            setSelectedValues={setTypeFilterValue}
+            searchResults={searchResults}
+          />
 
           <div className="mt-2 overflow-auto rounded-md border border-input text-sm [&_ul]:list-disc [&_li]:ml-4 [&_a]:text-blue-500">
             <div>
