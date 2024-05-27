@@ -222,6 +222,21 @@ export function Scatterplot({
       })
   }, [width, height, scaleFactor, searchText]) // Only re-render when data or size changes
 
+  useEffect(() => {
+    const handleClick = () => {
+      setSearchText('')
+      setHovered(null)
+    }
+
+    // Add event listener
+    window.addEventListener('click', handleClick)
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener('click', handleClick)
+    }
+  }, []) // Empty dependency array ensures this runs only on mount and unmount
+
   const buttonClass =
     'absolute m-2 text-center w-48 bg-odis-light !text-white p-2 mr-2 rounded-md hover:bg-active hover:!text-odis-dark items-center w-40 truncate overflow-hidden'
 
@@ -257,10 +272,10 @@ export function Scatterplot({
 
       <svg
         ref={svgRef}
-        onClick={() => {
-          setSearchText('')
-          setHovered(null)
-        }}
+        // onClick={() => {
+        //   setSearchText('')
+        //   setHovered(null)
+        // }}
         className="cursor-grab"
       ></svg>
 

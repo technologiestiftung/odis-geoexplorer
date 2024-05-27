@@ -6,60 +6,112 @@
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-# {repo-template}
+# Geoexplorer
 
-## TODO (after you generated the repo)
+**This application is a prototype. It may contain errors and small bugs. If you notice something you can report an Issue. Thank you!**
 
-- [ ] Review the content of the README.md and adjust to your liking
-- [ ] Read the README.md till the end and adjust the content licensing,
-      logos, etc (I know you stopped at tbd...)
-- [ ] Adjust the file [.github/CODEOWNERS](./.github/CODEOWNERS)
-- [ ] Adjust the files under [.github/ISSUE_TEMPLATE](./.github/ISSUE_TEMPLATE)
-- [ ] If you use staging and main branches use this template for [.github/renovate.json](./.github/renovate.json)
+About text here
 
-```json
-{
-	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": ["github>technologiestiftung/renovate-config"],
-	"baseBranches": ["staging"]
-}
-```
+![screenshot](/public/screenshot.png)
 
-- [ ] Do you want to honor all kinds of contributions? Use [all-contributors](https://allcontributors.org/)
+## Context
+
+more text about the data here
+
+## Tech stack
+
+This website is a NextJS app configured with:
+
+- [Typescript](https://www.typescriptlang.org/)
+- Linting with [ESLint](https://eslint.org/)
+- Formatting with [Prettier](https://prettier.io/)
+
+## Project structure
+
+Basic Next.js app
+
+## Getting started
+
+### Requirements
+
+#### Node.js
+
+This project is a Next.js app which requires you to have [Node.js](https://nodejs.org/en/) installed.
+
+### Installation
+
+Clone the repository to your local machine:
 
 ```bash
-npx all-contributors-cli check
-npx all-contributors-cli add ff6347 doc
+git clone git@github.com:technologiestiftung/odis-geoexplorer
 ```
 
-You can use it on GitHub just by commenting on PRs and issues:
+Move into the repository folder:
 
-```plain
-@all-contributors please add @ff6347 for infrastructure, tests and code
+```bash
+cd odis-geoexplorer
 ```
 
-- [ ] Add your project description
-- [ ] Get fancy shields at https://shields.io
+Make sure you use the Node.js version specified in `.nvmrc`. Find out which Node version you're currently on with:
 
-## Prerequisites
+```bash
+node --version
+```
 
-tbd...
+If this version differs from the one specified in `.nvmrc`, please install the required version, either manually, or using a tool such as [nvm](https://github.com/nvm-sh/nvm), which allows switching to the correct version via:
 
-## Installation
+```bash
+nvm use
+```
 
-tbd...
+With the correct Node version, install the dependencies:
 
-## Usage or Deployment
+```bash
+pnpm install
+```
 
-tbd...
+The app queries data from the [Supabase DB API](https://www.supabase.com/) and [Open AI](https://www.openai.com/). You will need to provide connection details in your environment. In this repository you can find a file `.env.example`. Duplicate this file and name it `.env`.
 
-## Development
+In `.env` you must enter the connection details suggested in `.env.example`. If you do not know how to obtain the necessary details, please ask a repository maintainer for access.
 
-tbd...
+You are now ready to start a local development server on http://localhost:3000 via:
 
-## Tests
+```bash
+pnpm dev
+```
 
-tbd...
+## Data
+
+The metadata comes from [Berlins Open Data Portal](https://daten.berlin.de/) and [Berlins Geo Data Portal (FisBroker)](https://fbinter.stadt-berlin.de/fb/).
+
+You can find the scraper script on Github:
+https://github.com/technologiestiftung/odis-geoexplorer-scraper
+
+## Backend
+
+The embeddings are hosted on [Supabase](https://www.supabase.com/) - a service that allows you to host a PostgreSQL database and query it via an API.
+
+## Workflow
+
+New features, fixes, etc. should always be developed on a separate branch:
+
+- In your local repository, checkout the `main` branch.
+- Run `git checkout -b <name-of-your-branch>` to create a new branch (ideally following [Conventional Commits guidelines](https://www.conventionalcommits.org)).
+- Make your changes
+- Push your changes to the remote: `git push -u origin HEAD`
+- Open a pull request.
+
+You can commit using the `npm run cm` command to ensure your commits follow our conventions.
+
+## Deployment
+
+The app is deployed to the cloud with [Netlify](https://www.netlify.com/).
+
+## Page analytics
+
+We use [Matomo](https://matomo.org/) for website analytics. Matomo is respectful of the users' privacy, the page visits are tracked anonymously.
+
+In the production environment, a `NEXT_PUBLIC_MATOMO_URL` and `NEXT_PUBLIC_MATOMO_SITE_ID` is configured for this purpose.
 
 ## Contributing
 
@@ -87,8 +139,6 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 ## Content Licensing
 
 Texts and content available as [CC BY](https://creativecommons.org/licenses/by/3.0/de/).
-
-Illustrations by {MARIA_MUSTERFRAU}, all rights reserved.
 
 ## Credits
 
