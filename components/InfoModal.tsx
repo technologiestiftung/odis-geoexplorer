@@ -160,7 +160,7 @@ export function InfoModal({ language }) {
                 </div>
               </div>
             </div>
-            <p className="flex md:flex-col justify-start gap-x-6 gap-y-3 flex-wrap font-bold text-odis-light mt-4">
+            <p className="flex md:flex-col justify-start gap-x-6 gap-y-3 flex-wrap font-bold text-odis-light my-8 md:mt-4">
               <a
                 href="https://www.technologiestiftung-berlin.de/de/datenschutz/"
                 target="_blank"

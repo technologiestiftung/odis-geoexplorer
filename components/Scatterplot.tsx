@@ -34,6 +34,8 @@ export function Scatterplot({
   const [hasZoomed, setHasZoomed] = useState(false) // Initial scale factor
   // set transform here
 
+  const [hasBeenDragged, setHasBeenDragged] = useState(false) // Initial scale factor
+
   const svgRef = useRef(null)
 
   const zoomIn = () => {
@@ -64,6 +66,7 @@ export function Scatterplot({
 
     const yScale = d3.scaleLinear().domain(minMaxY).range([height, 0])
     const xScale = d3.scaleLinear().domain(minMaxX).range([0, width])
+
     // const rScale = d3.scaleLinear().domain([1, 20]).range([1, 1])
 
     let newCenter = scatterPlotData.filter((d) => d[2] === slug)
@@ -78,7 +81,7 @@ export function Scatterplot({
       height / 2 - yScale(newCenter[1]) * scaleFactor
     }) scale(${scaleFactor})`
 
-    if (scaleFactor !== initScale || hasZoomed) {
+    if (scaleFactor !== initScale || hasZoomed || hasBeenDragged) {
       setHasZoomed(true)
       const currentTransform = d3.select(svgRef.current).select('g').attr('transform')
       const translate = currentTransform
@@ -113,6 +116,7 @@ export function Scatterplot({
 
         const newX = parseInt(translate[0]) + event.dx
         const newY = parseInt(translate[1]) + event.dy
+        setHasBeenDragged(true)
         d3.select(this)
           .select('g')
           .attr('transform', `translate(${newX},${newY}) scale(${scaleFactor})`)
