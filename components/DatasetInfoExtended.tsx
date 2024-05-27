@@ -200,7 +200,6 @@ export function DatasetInfoExtended({
       <span className="block md:hidden px-4 pt-4">
         <CopyInput url={contentDataset['Service URL']} type={contentDataset['Typ']} />
       </span>
-
       <div className="w-full my-4 border-y" ref={ref}>
         <div className="overflow-hidden flex bg-white border-odis-dark border w-fit absolute z-10 m-2 rounded-md">
           <button
@@ -229,34 +228,33 @@ export function DatasetInfoExtended({
           </button>
         </div>
 
-        {/* <div
-          className="bg-odis-extra-light absolute content-center text-center"
-          style={{ width: '100%', height: '400px' }}
-        >
-          <p className="content-center ">Geodaten werden geladen</p>
-        </div> */}
+        <div className="placeholder relative top-0" style={{ width: '100%', height: '400px' }}>
+          {showMap && (
+            <MapComponent
+              geojsonData={geoJSON}
+              setShowMap={setShowMap}
+              datasetTitle={contentDataset['Titel']}
+              maxFeatures={MAXFEATURES}
+            />
+          )}
 
-        {showMap && (
-          <MapComponent
-            geojsonData={geoJSON}
-            setShowMap={setShowMap}
-            datasetTitle={contentDataset['Titel']}
-            maxFeatures={MAXFEATURES}
-          />
-        )}
+          {showScatterplot && (
+            <Scatterplot
+              scatterPlotData={scatterPlotData}
+              width={visDimensions.width}
+              height={400}
+              setSimilarSearchText={setSimilarSearchText}
+              slug={contentDataset.slug}
+            />
+          )}
 
-        {showScatterplot && (
-          <Scatterplot
-            scatterPlotData={scatterPlotData}
-            width={visDimensions.width}
-            height={400}
-            setSimilarSearchText={setSimilarSearchText}
-            slug={contentDataset.slug}
-          />
-        )}
+          {error === 'map' && (
+            <span className="w-fit block relative top-1/2 left-1/2 -translate-x-1/2">
+              <WarningBox text={'Kartendaten konnten leider nicht geladen werden'} />
+            </span>
+          )}
+        </div>
       </div>
-      {error && <WarningBox text={'Kartendaten konnten leider nicht geladen werden'} />}
-
       {contentDataset['Attribute'] ? (
         <AttributeTable contentDataset={contentDataset} />
       ) : contentDataset['Typ'] === 'WFS' ? (
@@ -264,7 +262,6 @@ export function DatasetInfoExtended({
       ) : (
         <WarningBox text={'Attribute sind bei WMS nicht verfügbar'} />
       )}
-
       <AiText content={contentDataset} inputText={inputText} />
     </div>
   )

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { type Sketch } from '@p5-wrapper/react'
 import { NextReactP5Wrapper } from '@p5-wrapper/next'
+let setupFailed = false
 
 const sketch: Sketch = (p5) => {
   let labels = [] // Labels for each point
@@ -35,41 +36,48 @@ const sketch: Sketch = (p5) => {
   p5.setup = () => {
     let baseRadius = height / 2.5 // Base radius for positioning points
 
-    // use 0.75 to take up 3/3 of the available space vertically
-    p5.createCanvas(width * 0.75, height, p5.WEBGL)
-    p5.background(255)
-    p5.textFont(myFont, 10)
-    p5.textAlign(p5.CENTER, p5.CENTER) // Center the text around its coordinates
-    const loadingElem = document.getElementById('p5_loading')
-    if (loadingElem) {
-      loadingElem.remove()
-    }
-    if (width <= 700) {
-      // Initialize positions and variations for each point once
-      for (let i = 0; i < numPoints; i++) {
-        let angle = (p5.TWO_PI / numPoints) * i
-        let variation = p5.random(-20, 20) // Random variation in distance
-        let radius = baseRadius + variation
-        let x = p5.cos(angle) * radius
-        let y = p5.sin(angle) * (radius / 1.2)
-        let z = p5.random(-100, 100) // Random depth for 3D effect
-        points.push({ x: x, y: y, z: z })
+    try {
+      // use 0.75 to take up 3/3 of the available space vertically
+      p5.createCanvas(width * 0.75, height, p5.WEBGL)
+      p5.background(255)
+      p5.textFont(myFont, 10)
+      p5.textAlign(p5.CENTER, p5.CENTER) // Center the text around its coordinates
+      const loadingElem = document.getElementById('p5_loading')
+      if (loadingElem) {
+        loadingElem.remove()
       }
-    } else {
-      for (let i = 0; i < numPoints; i++) {
-        let angle = (p5.TWO_PI / numPoints) * i
-        // Adjust the radius based on the angle to stretch points horizontally
-        let radiusModifier = p5.map(p5.abs(p5.cos(angle)), 0, 1, 0, 1.5) // Scale factor between 0.5 and 1.5 based on the horizontal position
-        let radius = baseRadius * radiusModifier + p5.random(-20, 20) // Add some random variation to the radius
-        let x = p5.cos(angle) * radius
-        let y = p5.sin(angle) * radius
-        let z = p5.random(-50, 50) // Add depth variation for a more dynamic 3D effect
-        points.push({ x: x, y: y, z: z })
+      if (width <= 700) {
+        // Initialize positions and variations for each point once
+        for (let i = 0; i < numPoints; i++) {
+          let angle = (p5.TWO_PI / numPoints) * i
+          let variation = p5.random(-20, 20) // Random variation in distance
+          let radius = baseRadius + variation
+          let x = p5.cos(angle) * radius
+          let y = p5.sin(angle) * (radius / 1.2)
+          let z = p5.random(-100, 100) // Random depth for 3D effect
+          points.push({ x: x, y: y, z: z })
+        }
+      } else {
+        for (let i = 0; i < numPoints; i++) {
+          let angle = (p5.TWO_PI / numPoints) * i
+          // Adjust the radius based on the angle to stretch points horizontally
+          let radiusModifier = p5.map(p5.abs(p5.cos(angle)), 0, 1, 0, 1.5) // Scale factor between 0.5 and 1.5 based on the horizontal position
+          let radius = baseRadius * radiusModifier + p5.random(-20, 20) // Add some random variation to the radius
+          let x = p5.cos(angle) * radius
+          let y = p5.sin(angle) * radius
+          let z = p5.random(-50, 50) // Add depth variation for a more dynamic 3D effect
+          points.push({ x: x, y: y, z: z })
+        }
       }
+    } catch (error) {
+      console.error('error network animation: ', error)
+      setupFailed = true
+    } finally {
     }
   }
 
   p5.draw = () => {
+    if (setupFailed) return
     p5.background(255)
     // p5.ambientLight(100) // Adds soft white light to the scene
     // p5.pointLight(255, 255, 255, p5.width / 2, p5.height / 2, 255) // Bright white light from the center of the canvas
