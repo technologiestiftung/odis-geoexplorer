@@ -18,6 +18,8 @@ About text here
 
 more text about the data here
 
+The metadata comes from [Berlins Open Data Portal](https://daten.berlin.de/) and [Berlins Geo Data Portal (FisBroker)](https://fbinter.stadt-berlin.de/fb/).
+
 ## Tech stack
 
 This website is a NextJS app configured with:
@@ -64,7 +66,8 @@ If this version differs from the one specified in `.nvmrc`, please install the r
 nvm use
 ```
 
-With the correct Node version, install the dependencies:
+With the correct Node version, install the dependencies.
+NOTE: We use **pnpm** here not npm!
 
 ```bash
 pnpm install
@@ -82,9 +85,7 @@ pnpm dev
 
 ## Data
 
-The metadata comes from [Berlins Open Data Portal](https://daten.berlin.de/) and [Berlins Geo Data Portal (FisBroker)](https://fbinter.stadt-berlin.de/fb/).
-
-You can find the scraper script on Github:
+You can find more information about the data on the scraper script Github repo:
 https://github.com/technologiestiftung/odis-geoexplorer-scraper
 
 ## Backend
@@ -144,8 +145,15 @@ Texts and content available as [CC BY](https://creativecommons.org/licenses/by/3
 
 <table>
   <tr>
+      <td>
+      Made by: <a href="https://odis-berlin.de">
+        <br />
+        <br />
+        <img width="200" src="https://logos.citylab-berlin.org/logo-odis-berlin.svg" />
+      </a>
+    </td>
     <td>
-      Made by <a href="https://citylab-berlin.org/de/start/">
+       Together with: <a href="https://citylab-berlin.org/de/start/">
         <br />
         <br />
         <img width="200" src="https://logos.citylab-berlin.org/logo-citylab-berlin.svg" />
