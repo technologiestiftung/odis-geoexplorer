@@ -123,8 +123,8 @@ dependencies:
     specifier: ^9.0.1
     version: 9.0.1(@types/react@18.0.30)(react@18.2.0)
   react-tooltip:
-    specifier: ^5.8.3
-    version: 5.26.4(react-dom@18.2.0)(react@18.2.0)
+    specifier: 5.8.3
+    version: 5.8.3(react-dom@18.2.0)(react@18.2.0)
   remark:
     specifier: ^15.0.1
     version: 15.0.1
@@ -479,11 +479,10 @@ packages:
       '@floating-ui/utils': 0.2.2
     dev: false
 
-  /@floating-ui/dom@1.6.5:
-    resolution: {integrity: sha512-Nsdud2X65Dz+1RHjAIP0t8z5e2ff/IRbei6BqFrl1urT8sDVzM1HMQ+R0XcU5ceRfyO3I6ayeqIfh+6Wb8LGTw==}
+  /@floating-ui/dom@1.1.1:
+    resolution: {integrity: sha512-TpIO93+DIujg3g7SykEAGZMDtbJRrmnYRCNYSjJlvIbGhBjRSNTLVbNeDQBrzy9qDgUbiWdc7KA0uZHZ2tJmiw==}
     dependencies:
       '@floating-ui/core': 1.6.2
-      '@floating-ui/utils': 0.2.2
     dev: false
 
   /@floating-ui/utils@0.2.2:
@@ -5519,13 +5518,13 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /react-tooltip@5.26.4(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-5WyDrsfw1+6qNVSr3IjqElqJ+cCwE8+44b+HpJ8qRLv7v0a3mcKf8wvv+NfgALFS6QpksGFqTLV2JQ60c+okZQ==}
+  /react-tooltip@5.8.3(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-h7maAlm2Xeymc14gWKhhrzsENeB83N65EzZ+AcQIGrOpNE0yefVRJIHhNcWHEJ0FEtf7VZXxtsj5glVXKxEtvA==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@floating-ui/dom': 1.6.5
+      '@floating-ui/dom': 1.1.1
       classnames: 2.5.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
