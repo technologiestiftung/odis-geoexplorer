@@ -16,6 +16,9 @@ export type InteractionData = {
   xPos: number
   yPos: number
   name: string
+  slugName: string
+  transformOriginX: string
+  transformOriginY: string
 }
 
 export function Scatterplot({
@@ -71,10 +74,13 @@ export function Scatterplot({
 
     let newCenter = scatterPlotData.filter((d) => d[2] === slug)
     if (!newCenter[0]) return
+    // @ts-ignore
     let selectedName = newCenter[0][3]
+    // @ts-ignore
     newCenter = [Number(newCenter[0][0]), Number(newCenter[0][1])]
 
     scatterPlotData = scatterPlotData.filter((d) => d[2] !== slug)
+    // @ts-ignore
     scatterPlotData = [[...newCenter, slug, selectedName], ...scatterPlotData]
 
     let transform = `translate(${width / 2 - xScale(newCenter[0]) * scaleFactor}, ${
@@ -99,13 +105,6 @@ export function Scatterplot({
       setScaleDirection('')
     }
 
-    // if (
-    //   d3.select(svgRef.current) &&
-    //   d3.select(svgRef.current).select('g') &&
-    //   d3.select(svgRef.current).select('g')._groups[0] &&
-    //   d3.select(svgRef.current).select('g')._groups[0][0] &&
-    //   d3.select(svgRef.current).select('g')._groups[0][0].transform
-    // ) {
     const dragHandler = d3
       .drag()
       .on('drag', function (event) {
@@ -120,7 +119,6 @@ export function Scatterplot({
         d3.select(this)
           .select('g')
           .attr('transform', `translate(${newX},${newY}) scale(${scaleFactor})`)
-        // console.log('darg trabsform', `translate(${newX},${newY}) scale(${scaleFactor})`)
         setSearchText('')
         setHovered(null)
       })
@@ -136,7 +134,6 @@ export function Scatterplot({
       .attr('width', width)
       .attr('height', height)
       .style('background', 'white')
-      // .attr('transform', 'translate(0,0)')
       .on('mousedown', () => {
         d3.select(svgRef.current).style('cursor', 'grabbing')
       })
@@ -270,14 +267,7 @@ export function Scatterplot({
         </button>
       </div>
 
-      <svg
-        ref={svgRef}
-        // onClick={() => {
-        //   setSearchText('')
-        //   setHovered(null)
-        // }}
-        className="cursor-grab"
-      ></svg>
+      <svg ref={svgRef} className="cursor-grab"></svg>
 
       {hovered && (
         <div

@@ -16,7 +16,7 @@ export function SearchAI({ language }) {
   const [searchText, setSearchText] = useState<string>('')
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [searchResults, setSearchResults] = useState<Array<object>>([]) // @to  < Array<any> || false >
+  const [searchResults, setSearchResults] = useState<Array<{ id: number }>>([]) // @to  < Array<any> || false >
   // const [creativeSearch, setCreativeSearch] = useState(false)
   // const [showExamples, setShowExamples] = useState(true)
   const [typeFilterValue, setTypeFilterValue] = useState(['WFS'])
@@ -41,7 +41,9 @@ export function SearchAI({ language }) {
         rows.shift()
         rows.pop()
         rows.map((d) => {
+          // @ts-ignore
           d[0] = Number(d[0])
+          // @ts-ignore
           d[1] = Number(d[1])
         })
         setScatterPlotData(rows)

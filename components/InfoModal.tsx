@@ -218,10 +218,10 @@ export function InfoModal({ language }) {
               active={false}
               content={
                 <p>
-                  Für die WFS-Daten stellen wir einen Download bereit. WFS erlauben es, über einen
-                  Parameter die Rohdaten im JSON-Fomrat zu laden. Der Geoexplorer reprojiziert die
-                  Daten zusätzlich in das Projektionssystem 4326, welches am häufigsten in
-                  Anwendungen für die Zivilgesellschaft genutzt wird.
+                  Für die WFS-Daten stellen wir einen Download bereit im GeoJSON-Format bereit. WFS
+                  erlauben es, über einen Parameter die Rohdaten im GeoJSON-Format zu laden. Der
+                  Geoexplorer reprojiziert die Daten zusätzlich in das Projektionssystem 4326,
+                  welches am häufigsten in Anwendungen für die Zivilgesellschaft genutzt wird.
                 </p>
               }
             />
