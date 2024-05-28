@@ -34,7 +34,7 @@ export function InfoModal({ language }) {
       >
         <div className=" text-odis-dak">
           {/* text-center */}
-          <h1 className="text-2xl font-bold">
+          <h1 className="text-3xl font-bold">
             Geo<span className="text-odis-light">explorer</span>
           </h1>
           <h2 className=" text-sm">{text[language].subHeading || text['de'].subHeading}</h2>
@@ -45,12 +45,12 @@ export function InfoModal({ language }) {
         </div>
         <div className=" max-h-[100%] md:max-h-[80%] flex overflow-y-auto flex-col md:flex-row gap-[24px]">
           <section className="md:overflow-y-auto md:w-[75%] md:pr-4">
-            <p className="text-lg font-bold leading-6 mb-4">
-              Du möchtest die Folgen des Klimawandels für Bäume oder Vögel verstehen? Du planst den
-              Verkehr der Zukunft oder setzt dich für leichtere Teilhabe an Gesundheitseinrichtungen
-              oder Bildungsangeboten ein? In den offenen Geodatensätzen des Landes Berlin schlummert
-              eine Vielzahl an Wissen über unsere Stadt, das dir bei deinem Vorhaben helfen kann.
-              Unser prototypischer GeoExplorer sucht dir basierend auf deiner Anfrage dank
+            <p className="text-lg leading-6 mb-4">
+              Du möchtest die Folgen des Klimawandels verstehen? Du planst den Verkehr der Zukunft
+              oder setzt dich für leichtere Teilhabe an Gesundheitseinrichtungen oder
+              Bildungsangeboten ein? In den offenen Geodatensätzen des Landes Berlin schlummert eine
+              Vielzahl an Wissen über unsere Stadt, das dir bei deinem Vorhaben helfen kann. Unser
+              prototypischer GeoExplorer sucht dir basierend auf deiner Anfrage dank
               KI-Unterstützung passende oder naheliegende Datensätze für dein Projekt. Zusätzlich
               kannst du in jeden Datensatz genauer eintauchen und nach deinen Bedürfnissen
               weiternutzen. Egal, ob Umwelt, Infrastruktur oder Kultur – exploriere die Daten, die
@@ -98,14 +98,29 @@ export function InfoModal({ language }) {
               </p>
             </div>
             <Accordion
-              title="Weiter Infos"
+              title="Wie funktioniert die Suche?"
               active={true}
-              content={
-                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, veniam corporis. Quos deleniti non perspiciatis officiis ratione quod ducimus, at fuga praesentium rerum distinctio voluptatum! Doloribus nesciunt facilis odit a?'
-              }
+              content={`${''}
+                ${'Als erster Schritt wurden die Metadaten, also die Informationen die den Datensatz beschreiben, von [Berlins Open Data Portal](https://daten.berlin.de/) und [Berlins Geo Data Portal (FisBroker)](https://fbinter.stadt-berlin.de/fb/) gesammelt.'}
+                ${'Danach wurde für jeden Metadatensatz ein sogenannter Embedding erstellt und in einer Datenbank gespeichert. Ein Embedding ist quasi eine Arte Koordinate, die besagt wo diese Informationen (in unserem Fall die Metadaten) in der Logik der KI liegen.'}
+                ${'Bei der Suche wird basierend auf Ihrer Anfrage eine weiteres Embedding erstellt und mit den anderen Embedding in der Datenbank verglichen.'}
+                ${'Die Embeddings die eine gewisse Nähe zu ihrem Embedding haben, werden ihenen angezeigt '}
+
+                ${'Groß- und Kleinschreibung scheinen einen Unterschied zu machen bei den Suchergebnissen, was ich bei Suchmaschinen eher nicht erwarten würde'}
+
+                ${'Die Inhalte der Datensätze werden nicht von der KI untersucht sondern nur die Metadaten'}`}
             />
+            <Accordion
+              title="Platzhalter für mehr Info?"
+              active={true}
+              content={`${''}
+                ${''}
+                `}
+            />
+
             <p className="mt-6">
-              Letzter Datenabgleich mit dem{' '}
+              Der Geoexploror wird momentan (noch) händisch aktualisiert. Letzter Datenabgleich mit
+              dem{' '}
               <a className="text-odis-light" href="https://daten.berlin.de/datensaetze">
                 Berliner Datenportal
               </a>
