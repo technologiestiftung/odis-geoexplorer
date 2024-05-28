@@ -102,7 +102,7 @@ export function InfoModal({ language }) {
               active={false}
               content={
                 <p>
-                  1. Im ersten Schritt werden für jeden Datensatz sogenannte Metadaten von
+                  Für jeden Datensatz, wurden sogenannte Metadaten von{' '}
                   <a className="underline" href="https://daten.berlin.de/" target="blank">
                     Berlins Open Data Portal{' '}
                   </a>{' '}
@@ -119,7 +119,7 @@ export function InfoModal({ language }) {
                   <br />
                   Als Metadaten werden Daten bezeichnet, die einen Datensatz beschreiben, z.B. die
                   Attribute, die ein Datensatz hat, oder der von einem Menschen geschriebene
-                  Beschreibungstext. Das Script, um die Daten zu scrapen, findest du in unserem
+                  Beschreibungstext. Das Script, um die Daten zu scrapen, findest du in unserem{' '}
                   <a
                     className="underline"
                     href="https://github.com/technologiestiftung/odis-geoexplorer-scraper"
@@ -130,23 +130,21 @@ export function InfoModal({ language }) {
                   .
                   <br />
                   <br />
-                  2. Im zweiten Schritt wird für jeden einzelnen Metadatensatz ein sogenanntes
-                  Embedding erstellt, das einen speziellen Vektor enthält. Dieser ist eine Art
-                  multidimensionale Koordinate, die den Daten in der Logik der KI zugeschrieben
-                  wird.
+                  Danach wurden für jeden einzelnen Metadatensatz ein sogenanntes Embedding erstellt
+                  und in eine Datenbank geschrieben. Jedes Embedding enthält einen speziellen Vektor
+                  der auf den Inhalt der Metadaten basiert. Dieser Vektor ist wie eine Art
+                  multidimensionale Koordinate, die den Inhalt der Maétadaten in der Logik der KI
+                  verortet.
                   <br />
                   <br />
-                  z.B. wären die Vektoren für die Begriffe "Hund" und "Katze" näher aneinander als
-                  der Begriff "Auto", weil sie beide Tiere sind.
+                  z.B. wären die Vektoren für die Begriffe "Hund" und "Katze" näher verortet als der
+                  Begriff "Auto", weil sie beide Tiere sind.
                   <br />
                   <br />
-                  3. Im dritten Schritt werden die Embeddings in eine Datenbank geschrieben.
-                  <br />
-                  <br />
-                  4. Im vierten Schritt wird basierend auf der Suchanfrage ein Vektor erstellt und
-                  mit den vorhandenen Vektoren in der Datenbank verglichen. Falls die Vektoren eine
-                  gewisse Nähe zueinander aufweisen, werden die jeweiligen Embeddings im
-                  Suchergebnis angezeigt.
+                  Wenn du eine Suchanfrage eingibst, wir darauf ein Vektor erstellt und mit den
+                  vorhandenen Vektoren in der Datenbank verglichen. Falls die Vektoren eine gewisse
+                  Nähe zueinander aufweisen, werden die jeweiligen Embeddings im Suchergebnis
+                  angezeigt.
                   <br />
                   <br />
                   Hinweis: Beim Suchvorgang scheinen kleine Änderungen im Text, wie Groß- und
@@ -203,7 +201,30 @@ export function InfoModal({ language }) {
                 </p>
               }
             />
-
+            <Accordion
+              title="Hintergund - Warum ein Geoexplorer?"
+              active={false}
+              content={
+                <p>
+                  test für Open Data Suche + KI
+                  <br />
+                  <br />
+                  Warum Geodaten? Strukturierte Daten
+                </p>
+              }
+            />
+            <Accordion
+              title="Wie funktioniert der Download?"
+              active={false}
+              content={
+                <p>
+                  Für die WFS-Daten stellen wir einen Download bereit. WFS erlauben es, über einen
+                  Parameter die Rohdaten im JSON-Fomrat zu laden. Der Geoexplorer reprojiziert die
+                  Daten zusätzlich in das Projektionssystem 4326, welches am häufigsten in
+                  Anwendungen für die Zivilgesellschaft genutzt wird.
+                </p>
+              }
+            />
             <Accordion
               title={'Was ist Open Data?'}
               active={false}
@@ -233,15 +254,16 @@ export function InfoModal({ language }) {
                 </p>
               }
             />
-
-            <p className="mt-6">
-              Der Geoexplorer wird momentan unregelmäßig aktualisiert. Der letzte Datenabgleich
-              {/* mit dem{' '} */}
-              {/* <a className="text-odis-light" href="https://daten.berlin.de/datensaetze">
-                Berliner Datenportal
-              </a> */}
-              fand am 2. April 2024 statt.
-            </p>
+            <Accordion
+              title={'Wie oft werden die Daten aktualisiert?'}
+              active={false}
+              content={
+                <p>
+                  Der Geoexplorer wird momentan (noch) unregelmäßig aktualisiert. Der letzte
+                  Datenabgleich mit Berlines Datenportalen fand am 2. April 2024 statt.
+                </p>
+              }
+            />
           </section>
           <section className="flex-1">
             <div className="mt-4 md:mt-0 flex  gap-[24px] text-xs flex-col ">
