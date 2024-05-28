@@ -98,35 +98,149 @@ export function InfoModal({ language }) {
               </p>
             </div>
             <Accordion
-              title="Wie funktioniert die Suche?"
-              active={true}
-              content={`${''}
-                ${'Als erster Schritt wurden die Metadaten, also die Informationen die den Datensatz beschreiben, von [Berlins Open Data Portal](https://daten.berlin.de/) und [Berlins Geo Data Portal (FisBroker)](https://fbinter.stadt-berlin.de/fb/) gesammelt.'}
-                ${'Danach wurde für jeden Metadatensatz ein sogenannter Embedding erstellt und in einer Datenbank gespeichert. Ein Embedding ist quasi eine Arte Koordinate, die besagt wo diese Informationen (in unserem Fall die Metadaten) in der Logik der KI liegen.'}
-                ${'Bei der Suche wird basierend auf Ihrer Anfrage eine weiteres Embedding erstellt und mit den anderen Embedding in der Datenbank verglichen.'}
-                ${'Die Embeddings die eine gewisse Nähe zu ihrem Embedding haben, werden ihenen angezeigt '}
-
-                ${'Groß- und Kleinschreibung scheinen einen Unterschied zu machen bei den Suchergebnissen, was ich bei Suchmaschinen eher nicht erwarten würde'}
-
-                ${'Die Inhalte der Datensätze werden nicht von der KI untersucht sondern nur die Metadaten'}`}
+              title="Wie funktioniert die explorative Suche?"
+              active={false}
+              content={
+                <p>
+                  1. Im ersten Schritt werden für jeden Datensatz sogenannte Metadaten von
+                  <a className="underline" href="https://daten.berlin.de/" target="blank">
+                    Berlins Open Data Portal{' '}
+                  </a>{' '}
+                  und{' '}
+                  <a
+                    className="underline"
+                    href="https://fbinter.stadt-berlin.de/fb/"
+                    target="blank"
+                  >
+                    Berlins Geo Data Portal (FisBroker)
+                  </a>{' '}
+                  automatisiert gescraped (gesammelt).
+                  <br />
+                  <br />
+                  Als Metadaten werden Daten bezeichnet, die einen Datensatz beschreiben, z.B. die
+                  Attribute, die ein Datensatz hat, oder der von einem Menschen geschriebene
+                  Beschreibungstext. Das Script, um die Daten zu scrapen, findest du in unserem
+                  <a
+                    className="underline"
+                    href="https://github.com/technologiestiftung/odis-geoexplorer-scraper"
+                    target="blank"
+                  >
+                    Github-Repo
+                  </a>
+                  .
+                  <br />
+                  <br />
+                  2. Im zweiten Schritt wird für jeden einzelnen Metadatensatz ein sogenanntes
+                  Embedding erstellt, das einen speziellen Vektor enthält. Dieser ist eine Art
+                  multidimensionale Koordinate, die den Daten in der Logik der KI zugeschrieben
+                  wird.
+                  <br />
+                  <br />
+                  z.B. wären die Vektoren für die Begriffe "Hund" und "Katze" näher aneinander als
+                  der Begriff "Auto", weil sie beide Tiere sind.
+                  <br />
+                  <br />
+                  3. Im dritten Schritt werden die Embeddings in eine Datenbank geschrieben.
+                  <br />
+                  <br />
+                  4. Im vierten Schritt wird basierend auf der Suchanfrage ein Vektor erstellt und
+                  mit den vorhandenen Vektoren in der Datenbank verglichen. Falls die Vektoren eine
+                  gewisse Nähe zueinander aufweisen, werden die jeweiligen Embeddings im
+                  Suchergebnis angezeigt.
+                  <br />
+                  <br />
+                  Hinweis: Beim Suchvorgang scheinen kleine Änderungen im Text, wie Groß- und
+                  Kleinschreibung, die Suchergebnisse zu beeinflussen. Bei einer klassischen Suche
+                  würde man so etwas eher nicht erwarten.
+                </p>
+              }
             />
+
             <Accordion
-              title="Platzhalter für mehr Info?"
-              active={true}
-              content={`${''}
-                ${''}
-                `}
+              title="Wie werden die KI generierten Text erzeugt?"
+              active={false}
+              content={
+                <p>
+                  Die Texte werden von einem "Large Language Model" (LLM) generiert. Ein LLM ist ein
+                  hochentwickeltes KI-gestütztes System, das speziell dafür konzipiert ist,
+                  menschliche Sprache in ihrer Komplexität zu erfassen und zu simulieren. Diese
+                  Technologie basiert auf der Analyse und Verarbeitung einer immensen Menge an
+                  Textdaten, die aus einer Vielzahl von Quellen wie Büchern, Artikeln und
+                  Internetinhalten stammen. Durch maschinelles Lernen und komplexe Algorithmen
+                  entwickelt das Modell die Fähigkeit, Texte zu verstehen, zu generieren und in
+                  menschenähnlicher Weise zu interagieren. Es kann Aufgaben wie das Beantworten von
+                  Fragen, das Übersetzen von Sprachen und das Erstellen von Texten verschiedenster
+                  Art übernehmen. Trotz ihrer beeindruckenden Leistungsfähigkeit sind LLMs nicht
+                  fehlerfrei und ihre Interpretationen können gelegentlich von menschlichem
+                  Verständnis abweichen. Sie repräsentieren den aktuellen Stand der KI-Entwicklung
+                  im Bereich der natürlichen Sprachverarbeitung, aber sie bleiben ein Werkzeug,
+                  dessen Ergebnisse stets kritisch hinterfragt und kontextualisiert werden sollten.
+                  <br /> <br />
+                  Beim Geoexplorer stellen wir der KI bestimmte Fragen und geben ihr die Matadaten
+                  zu den Datensätzen mit.
+                </p>
+              }
+            />
+
+            <Accordion
+              title="Was ist eine WMS oder WFS?"
+              active={false}
+              content={
+                <p>
+                  WMS und WFS sind Abkürzungen für zwei verschiedene Arten von Diensten, die im
+                  Bereich der Geoinformationen verwendet werden. Beide Dienste helfen dabei,
+                  geografische Daten über das Internet zu teilen und zu nutzen.
+                  <br />
+                  <br />
+                  <i>WMS (Web Map Service)</i> liefert Bilder von Karten, die auf einem Server
+                  gespeichert sind. Diese Bilder können Straßenkarten, Luftbilder oder andere
+                  geografische Darstellungen sein.
+                  <br />
+                  <br />
+                  <i>WFS (Web Feature Service)</i> liefert keine fertigen Kartenbilder, sondern die
+                  eigentlichen geografischen Rodaten. Die Daten können weiterverarbeitet, analysiert
+                  und in verschiedenen Anwendungen verwendet werden.
+                </p>
+              }
+            />
+
+            <Accordion
+              title={'Was ist Open Data?'}
+              active={false}
+              content={
+                <p>
+                  Open Data zeichen sich dadurch aus, dass sie in einem offenen und
+                  maschinenlesbaren Format vorliegen, unter einer freien Lizenz nutzbar sind, der
+                  Zugang diskriminierungsfrei und kostenlos ist und die Daten an einem zentralen Ort
+                  dauerhaft auffindbar sind.
+                  <br />
+                  <br />
+                  Open Data ist heute ein wichtiger Bestandteil im Berliner Verwaltungshandeln und
+                  schafft nicht nur Transparenz und Offenheit, sondern ermöglicht auch datenbasierte
+                  Tools wie den
+                  <span className="italic"> Branchenpuls</span>. Auch Akteur:innen aus Wirtschaft,
+                  Wissenschaft und Zivilgesellschaft profitieren von offenen Daten und
+                  veröffentlichen zunehmend selbst offene Daten. Die{' '}
+                  <a className="font-medium text-primary" href="https://odis-berlin.de/">
+                    Open Data Informationsstelle Berlin (ODIS)
+                  </a>{' '}
+                  unterstützt Berliner Behörden und andere interessierte Akteur:innen bei der
+                  Nutzung und Bereit­stellung von offenen Daten. Mehr offene Daten findest Du im{' '}
+                  <a className="font-medium text-primary" href="https://daten.berlin.de/">
+                    Berliner Datenportal
+                  </a>{' '}
+                  .
+                </p>
+              }
             />
 
             <p className="mt-6">
-              Der Geoexploror wird momentan (noch) händisch aktualisiert. Letzter Datenabgleich mit
-              dem{' '}
-              <a className="text-odis-light" href="https://daten.berlin.de/datensaetze">
+              Der Geoexplorer wird momentan unregelmäßig aktualisiert. Der letzte Datenabgleich
+              {/* mit dem{' '} */}
+              {/* <a className="text-odis-light" href="https://daten.berlin.de/datensaetze">
                 Berliner Datenportal
-              </a>
-              :
-              <br />
-              2. April 2024
+              </a> */}
+              fand am 2. April 2024 statt.
             </p>
           </section>
           <section className="flex-1">
