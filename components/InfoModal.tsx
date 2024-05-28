@@ -239,7 +239,7 @@ export function InfoModal({ language }) {
                   Open Data ist heute ein wichtiger Bestandteil im Berliner Verwaltungshandeln und
                   schafft nicht nur Transparenz und Offenheit, sondern ermöglicht auch datenbasierte
                   Tools wie den
-                  <span className="italic"> Branchenpuls</span>. Auch Akteur:innen aus Wirtschaft,
+                  <span className="italic"> Geoexplorer</span>. Auch Akteur:innen aus Wirtschaft,
                   Wissenschaft und Zivilgesellschaft profitieren von offenen Daten und
                   veröffentlichen zunehmend selbst offene Daten. Die{' '}
                   <a className="font-medium text-primary" href="https://odis-berlin.de/">
