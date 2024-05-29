@@ -195,7 +195,7 @@ export function Scatterplot({
         setHovered({
           xPos: e.clientX + 10,
           yPos: e.clientY + 10,
-          name: d[3],
+          name: d[3].replace('"', ''),
           slugName: d[2],
           transformOriginX: transformOriginX,
           transformOriginY: transformOriginY,
