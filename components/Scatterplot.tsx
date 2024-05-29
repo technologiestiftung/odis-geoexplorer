@@ -272,7 +272,7 @@ export function Scatterplot({
       {hovered && (
         <div
           className={
-            'fixed p-1 rounded max-w-48 text-md z-20 px-2 border border-odis-dark ' +
+            'fixed p-1 rounded max-w-48 text-md z-20 px-2 border border-odis-dark overflow-hidden ' +
             (hovered.slugName === slug ? 'bg-active text-odis-dark' : 'bg-white text-odis-dark')
           }
           style={{
