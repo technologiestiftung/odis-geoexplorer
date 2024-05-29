@@ -25,8 +25,14 @@ const supabaseClient = createClient(supabaseUrl, supabaseServiceKey)
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { ApplicationError, UserError } from '@/lib/errors'
 
+interface QueryParams {
+  messages?: string
+  matchthreshold?: string
+  extended?: string
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  let { messages, matchthreshold, extended } = req.query
+  let { messages, matchthreshold, extended } = req.query as QueryParams
   let extendedQuery = ''
 
   // res.status(200).json({ embeddings: testEmbeddings.embeddings })

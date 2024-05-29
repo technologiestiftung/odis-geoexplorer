@@ -1,3 +1,4 @@
+// for development only
 export default {
   embeddings: [
     {

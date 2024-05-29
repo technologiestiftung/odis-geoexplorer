@@ -75,8 +75,8 @@ export const MapComponent = ({ geojsonData, setShowMap, datasetTitle, maxFeature
           }),
         },
       })
-      // @ts-ignore
 
+      // @ts-ignore
       map.current?.fitBounds(bbox(geojsonData), { padding: 30 })
 
       map.current?.on('click', 'geojson-layer', (e) => {
