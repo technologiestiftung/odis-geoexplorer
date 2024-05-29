@@ -11,6 +11,7 @@ import { toMarkdown } from 'mdast-util-to-markdown'
 import { toString } from 'mdast-util-to-string'
 import { mdxjs } from 'micromark-extension-mdxjs'
 import 'openai'
+// @ts-ignore
 import { Configuration, OpenAIApi } from 'openai'
 import { basename, dirname, join } from 'path'
 import { u } from 'unist-builder'
@@ -314,7 +315,6 @@ async function generateEmbeddings() {
     // console.log(embeddingSource)
     const { type, source, path, parentPath } = embeddingSource
 
-
     try {
       const { checksum, meta, sections } = await embeddingSource.load()
 
@@ -325,7 +325,7 @@ async function generateEmbeddings() {
         .filter('path', 'eq', path)
         .limit(1)
         .maybeSingle()
-      
+
       if (fetchPageError) {
         throw fetchPageError
       }
@@ -337,9 +337,10 @@ async function generateEmbeddings() {
       //   const existingParentPage = existingPage?.parentPage as Singular<
       //     typeof existingPage.parentPage
       //     >
-        
-        if (!shouldRefresh && existingPage !== null && existingPage.checksum === checksum) {
-        const existingParentPage = existingPage.parentPage?.length === 1 ? existingPage.parentPage[0] : undefined;
+
+      if (!shouldRefresh && existingPage !== null && existingPage.checksum === checksum) {
+        const existingParentPage =
+          existingPage.parentPage?.length === 1 ? existingPage.parentPage[0] : undefined
 
         // If parent page changed, update it
         if (existingParentPage?.path !== parentPath) {
@@ -438,7 +439,7 @@ async function generateEmbeddings() {
             input,
           })
 
-          console.log("embeddingResponse", embeddingResponse.status)
+          console.log('embeddingResponse', embeddingResponse.status)
 
           if (embeddingResponse.status !== 200) {
             throw new Error(inspect(embeddingResponse.data, false, 2))

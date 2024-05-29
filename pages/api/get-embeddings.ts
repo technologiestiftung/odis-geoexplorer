@@ -23,6 +23,7 @@ const openai = new OpenAIApi(config)
 const supabaseClient = createClient(supabaseUrl, supabaseServiceKey)
 
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { ApplicationError, UserError } from '@/lib/errors'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   let { messages, matchthreshold, extended } = req.query
