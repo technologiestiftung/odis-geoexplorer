@@ -16,8 +16,10 @@ export function TypeFilter({ selectedValues, setSelectedValues, searchResults })
       searchResults.forEach((d) => {
         if (d.parsedContent['Typ'] === 'WMS') {
           wmsCount++
-        } else {
+        } else if (d.parsedContent['Typ'] === 'WFS') {
           wfsCount++
+        } else {
+          console.log('! something other thank WMS/WFS: ', d.parsedContent['Typ'])
         }
       })
     }

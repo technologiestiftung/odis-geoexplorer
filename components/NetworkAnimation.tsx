@@ -94,7 +94,7 @@ const sketch: Sketch = (p5) => {
       // Draw the blue point
       p5.push()
       // p5.stroke(0, 0, 0)
-      p5.fill(53, 80, 171)
+      p5.fill('#4c68c7')
 
       p5.translate(point.x, point.y, point.z)
       p5.sphere(6)
@@ -109,7 +109,7 @@ const sketch: Sketch = (p5) => {
       p5.pop()
     })
 
-    p5.fill(0, 0, 0)
+    p5.fill('#1d2c5d')
 
     // points.forEach((point, index) => {
     //   p5.push()

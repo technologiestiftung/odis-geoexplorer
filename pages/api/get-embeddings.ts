@@ -29,11 +29,14 @@ interface QueryParams {
   messages?: string
   matchthreshold?: string
   extended?: string
+  matchcount?: string
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  let { messages, matchthreshold, extended } = req.query as QueryParams
+  let { messages, matchthreshold, extended, matchcount } = req.query as QueryParams
   let extendedQuery = ''
+
+  console.log(matchthreshold, matchcount)
 
   // res.status(200).json({ embeddings: testEmbeddings.embeddings })
   // return
@@ -113,9 +116,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       'match_page_sections',
       {
         embedding,
-        // match_threshold: matchthreshold ? matchthreshold : 0.78,
-        match_threshold: 0.8,
-        match_count: 40, // 15
+        match_threshold: matchthreshold ? matchthreshold : 0.8,
+        match_count: matchcount ? matchcount : 40, // 15
         min_content_length: 50,
       }
     )

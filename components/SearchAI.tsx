@@ -11,6 +11,9 @@ import { TypeFilter } from '@/components/TypeFilter'
 
 import { useMatomo } from '@/lib/useMatomo'
 
+const MATCHTHERSHOLD = 0.8
+const MATCHTCOUNT = 40
+
 export function SearchAI({ language }) {
   const [inputText, setInputText] = useState<string>('')
   const [searchText, setSearchText] = useState<string>('')
@@ -23,8 +26,9 @@ export function SearchAI({ language }) {
   const [hasSearched, setHasSearched] = useState(false)
   const [similarSearchText, setSimilarSearchText] = useState('')
   const [scatterPlotData, setScatterPlotData] = useState([])
-  const [showExtendedSearch, setShowExtendedSearch] = useState(false)
-  const [extendedQuery, setExtendedQuery] = useState('')
+  const [showMoreSearchResults, setShowMoreSearchResults] = useState(false)
+  const [matchThreshold, setMatchThreshold] = useState<number>(MATCHTHERSHOLD)
+  const [matchCount, setMatchCount] = useState<number>(MATCHTCOUNT)
 
   useMatomo()
 
@@ -53,7 +57,7 @@ export function SearchAI({ language }) {
       })
   }, [])
 
-  async function getSearchResults(inputText, extendedSearch) {
+  async function getSearchResults(inputText, matchThreshold?, newMatchCount?) {
     inputText = inputText // push WFS
     let data
     setIsLoading(true)
@@ -62,10 +66,8 @@ export function SearchAI({ language }) {
 
       res = await fetch(
         `/api/get-embeddings/?messages=${inputText}&matchthreshold=${
-          // creativeSearch ? 0.3 : 0.78
-          // 0.3
-          0.78
-        }&extended=${extendedSearch}`,
+          matchThreshold || MATCHTHERSHOLD
+        }&matchcount=${newMatchCount || MATCHTCOUNT}`,
         {
           cache: process.env.NODE_ENV === 'development' ? 'no-store' : 'default',
         }
@@ -83,10 +85,11 @@ export function SearchAI({ language }) {
     }
   }
 
+  // when one clicks a point in Datenraum / Scatterplot
   useEffect(() => {
     if (similarSearchText) {
       setInputText(similarSearchText)
-      searchForEmbedding(similarSearchText, '0')
+      searchForEmbedding(similarSearchText)
     }
   }, [similarSearchText])
 
@@ -94,8 +97,7 @@ export function SearchAI({ language }) {
     if (inputText === '') {
       setSearchResults([])
       setHasSearched(false)
-      setShowExtendedSearch(false)
-      setExtendedQuery('')
+      setShowMoreSearchResults(false)
     }
   }, [inputText])
 
@@ -117,6 +119,8 @@ export function SearchAI({ language }) {
           .replace(key + ': ', '')
           .replace('*   ', '')
           .trim()
+
+        value = value.replaceAll(/`/g, '')
       }
       if (key === 'Attribute' || key === 'Attribute Beschreibung') {
         value = value.split(',')
@@ -130,17 +134,18 @@ export function SearchAI({ language }) {
     return parsedInfo
   }
 
-  async function searchForEmbedding(inputText, extendedSearch) {
+  async function searchForEmbedding(inputText) {
     if (isLoading || inputText === '') {
       return
     }
-    setExtendedQuery('')
     setSearchText(inputText)
 
     setSearchResults([])
     setHasSearched(false)
+    setMatchThreshold(MATCHTHERSHOLD)
+    setMatchCount(MATCHTCOUNT)
 
-    const { embeddings } = await getSearchResults(inputText, extendedSearch)
+    const { embeddings } = await getSearchResults(inputText)
     console.log('embeddings: ', embeddings)
     setHasSearched(true)
 
@@ -150,42 +155,54 @@ export function SearchAI({ language }) {
     })
 
     setSearchResults(embeddings)
-    setShowExtendedSearch(true)
+    setShowMoreSearchResults(true)
   }
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
-    searchForEmbedding(inputText, '0')
+    searchForEmbedding(inputText)
   }
 
-  async function extendSearch() {
+  async function getMoreSearchResults() {
     if (isLoading || inputText === '') {
       return
     }
-    setShowExtendedSearch(false)
+    const newMatchThreshold = matchThreshold - 0.02
+    if (newMatchThreshold < 0) {
+      setShowMoreSearchResults(false)
+      return
+    }
+    setMatchThreshold(newMatchThreshold)
+    const newMatchCount = matchCount + 10
+    setMatchCount(newMatchCount)
 
-    const { embeddings, extendedQuery } = await getSearchResults(inputText, '1')
+    const { embeddings } = await getSearchResults(inputText, newMatchThreshold, newMatchCount)
     embeddings.forEach((embedding) => {
       let parsedContent = embedding.content ? parseEmbeddingContent(embedding.content) : {}
       embedding.parsedContent = parsedContent
     })
 
-    setHasSearched(true)
-    setExtendedQuery(extendedQuery)
+    console.log('embeddings: ', embeddings)
 
-    function mergeUniqueArrays(arr1, arr2, key) {
-      const mergedArray = [...arr1, ...arr2]
-      const uniqueObjects = mergedArray.filter(
-        (obj, index, self) => index === self.findIndex((t) => t[key] === obj[key])
-      )
-      return uniqueObjects
+    setHasSearched(true)
+
+    if (embeddings.length === searchResults.length) {
+      setShowMoreSearchResults(false)
     }
 
-    console.log('embeddingsembeddings', embeddings)
+    // function mergeUniqueArrays(arr1, arr2, key) {
+    //   const mergedArray = [...arr1, ...arr2]
+    //   const uniqueObjects = mergedArray.filter(
+    //     (obj, index, self) => index === self.findIndex((t) => t[key] === obj[key])
+    //   )
+    //   return uniqueObjects
+    // }
 
-    const allResults = mergeUniqueArrays(searchResults, embeddings, 'id')
+    // console.log('embeddingsembeddings', embeddings)
 
-    setSearchResults(allResults)
+    // const allResults = mergeUniqueArrays(searchResults, embeddings, 'id')
+
+    setSearchResults(embeddings)
   }
 
   return (
@@ -262,25 +279,25 @@ export function SearchAI({ language }) {
         </div>
       )}
 
-      {showExtendedSearch && (
+      {showMoreSearchResults && (
         <button
-          className="-translate-x-2/4 left-1/2 absolute underline text-odis-light  pt-2 text-sm"
-          onClick={extendSearch}
+          className="flex items-center -translate-x-2/4 left-1/2 absolute underline text-odis-light  pt-2 text-sm"
+          onClick={getMoreSearchResults}
         >
           Suche erweitern
+          {isLoading && (
+            <span className="pl-2 w-6 scale-50">
+              <LoaderIcon />
+            </span>
+          )}
         </button>
       )}
-      {extendedQuery !== '' && (
-        <p className=" w-full text-center relative italic mt-4 text-sm">
-          Die Suche wurde durch den Begriff "<span className="italic ">{extendedQuery}</span>"
-          erweitert.
-          {searchResults.length == 0 && (
-            <>
-              <br></br>Es wurden keine weiteren Datensätze gefunden.
-            </>
-          )}
+
+      {!showMoreSearchResults && searchResults.length ? (
+        <p className="flex items-center -translate-x-2/4 left-1/2 absolute text-gray-500  pt-2 text-sm">
+          keine weiteren Ergebnisse
         </p>
-      )}
+      ) : null}
     </div>
   )
 }
