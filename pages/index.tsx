@@ -4,7 +4,7 @@ import Head from 'next/head'
 import { LogoHeader } from '@/components/LogoHeader'
 import { IntroText } from '@/components/IntroText'
 import { InfoModal } from '@/components/InfoModal'
-import { LanguageSwitcher } from '@/components/LanguageSwitcher'
+// import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import NetworkAnimation from '@/components/NetworkAnimation'
 import { useDimensions } from '@/lib/useDimensions'
 
@@ -34,13 +34,13 @@ export default function Home() {
         <meta property="og:locale" content="de_DE" />
         <meta
           property="og:image"
-          content="https://geoexplorer.odis-berlin.de/open-graph-800x600.png"
+          content="https://geoexplorer.odis-berlin.de/images/open-graph-800x600.png"
         />
         <meta property="og:image:width" content="800" />
         <meta property="og:image:height" content="600" />
         <meta
           property="og:image"
-          content="https://geoexplorer.odis-berlin.de/open-graph-1800x1600.png"
+          content="https://geoexplorer.odis-berlin.de/images/open-graph-1800x1600.png"
         />
         <meta property="og:image:width" content="1800" />
         <meta property="og:image:height" content="1600" />
@@ -51,7 +51,7 @@ export default function Home() {
         <meta name="twitter:description" content="" />
         <meta
           name="twitter:image"
-          content="https://geoexplorer.odis-berlin.de/social-image-1280x640.png"
+          content="https://geoexplorer.odis-berlin.de/images/social-image-1280x640.png"
         />
       </Head>
       <main
