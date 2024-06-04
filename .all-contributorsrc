@@ -1,5 +1,5 @@
 {
-  "projectName": "template-default",
+  "projectName": "odis-geoexplorer",
   "projectOwner": "technologiestiftung",
   "repoType": "github",
   "repoHost": "https://github.com",
@@ -10,7 +10,19 @@
   "commit": true,
   "commitConvention": "angular",
   "contributors": [
+    {
+      "login": "alsino",
+      "name": "alsino",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8008434?v=4",
+      "profile": "http://alsino.io",
+      "contributions": [
+        "code",
+        "content",
+        "data"
+      ]
+    }
   ],
   "contributorsPerLine": 7,
-  "skipCi": true
+  "skipCi": true,
+  "commitType": "docs"
 }
