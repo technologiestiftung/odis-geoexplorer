@@ -12,11 +12,11 @@
 
 About text here
 
-![screenshot](/public/screenshot.png)
+![screenshot](/public/images/social_image_1280_x_640.png)
 
 ## Context
 
-more text about the data here
+Perform vector similarity search to find the content that's relevant to the question.
 
 The metadata comes from [Berlins Open Data Portal](https://daten.berlin.de/) and [Berlins Geo Data Portal (FisBroker)](https://fbinter.stadt-berlin.de/fb/).
 
@@ -85,8 +85,7 @@ pnpm dev
 
 ## Data
 
-You can find more information about the data on the scraper script Github repo:
-https://github.com/technologiestiftung/odis-geoexplorer-scraper
+You can find more information about the data on this [Github repo](https://github.com/technologiestiftung/odis-geoexplorer-scraper).
 
 ## Backend
 
