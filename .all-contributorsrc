@@ -52,6 +52,16 @@
       "contributions": [
         "design"
       ]
+    },
+    {
+      "login": "KlemensM",
+      "name": "Klemens",
+      "avatar_url": "https://avatars.githubusercontent.com/u/98896505?v=4",
+      "profile": "https://github.com/KlemensM",
+      "contributions": [
+        "content",
+        "projectManagement"
+      ]
     }
   ],
   "contributorsPerLine": 7,
