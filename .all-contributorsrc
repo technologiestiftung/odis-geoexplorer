@@ -22,6 +22,17 @@
         "doc",
         "projectManagement"
       ]
+    },
+    {
+      "login": "alsino",
+      "name": "alsino",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8008434?v=4",
+      "profile": "http://alsino.io",
+      "contributions": [
+        "code",
+        "content",
+        "data"
+      ]
     }
   ],
   "contributorsPerLine": 7,
