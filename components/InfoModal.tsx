@@ -29,21 +29,16 @@ export function InfoModal({ language }) {
         <InfoIcon />
       </DialogTrigger>
       <DialogContent
-        className="sm:h-max text-odis-dark  max-h-[100%] md:max-h-[80%] flex overflow-y-auto"
+        className="sm:h-max text-odis-dark  h-[100%] md:h-[80%] flex overflow-y-auto"
         style={{ flexFlow: 'column' }}
       >
         <div className=" text-odis-dak">
-          {/* text-center */}
           <h1 className="text-3xl font-bold">
             Geo<span className="text-odis-light">explorer</span>
           </h1>
           <h2 className=" text-sm">{text[language].subHeading || text['de'].subHeading}</h2>
-          {/* <span className="inline-block text-odis-dark  scale-75">
-            {' '}
-            <LoaderCrossIcon animate={false} />
-          </span> */}
         </div>
-        <div className=" max-h-[100%] md:max-h-[80%] flex overflow-y-auto flex-col md:flex-row gap-[24px]">
+        <div className=" flex overflow-y-auto flex-col md:flex-row gap-[24px]">
           <section className="md:overflow-y-auto md:w-[75%] md:pr-4">
             <p className="text-lg leading-6 mb-4">
               Du möchtest die Folgen des Klimawandels verstehen? Du planst den Verkehr der Zukunft

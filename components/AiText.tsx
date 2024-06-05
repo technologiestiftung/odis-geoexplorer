@@ -70,7 +70,7 @@ export function AiText({ content, inputText }) {
           'text-odis-light pb-2  flex items-center' + (message ? '' : ' hover:text-odis-dark')
         }
       >
-        <StarsIcon /> <span className="pl-1">Mit K.I. Antwort generieren</span>
+        <StarsIcon /> <span className="pl-1">Mit KI Antwort generieren</span>
         {isLoading && (
           <span className="pl-2 w-6 scale-50">
             <LoaderIcon />

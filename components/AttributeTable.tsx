@@ -88,36 +88,13 @@ export function AttributeTable({ contentDataset }) {
             <th className="p-2 pl-4">Datenattribut</th>
             <th className="p-2 pl-4  items-center block sm:flex">
               Beschreibung
-              {/* {!hasFullDescription ? (
-              <>
-                <button
-                  onClick={() => generateDescriptions(contentDataset['rawContent'])}
-                  className={`flex ml-2 p-1 bg-odis-light text-white rounded-md font-light hover:bg-active ${
-                    aiGeneratedDescriptions ? ' opacity-40' : ''
-                  }`}
-                  disabled={aiGeneratedDescriptions}
-                >
-                  {aiGeneratedDescriptions ? (
-                    <span onClick={() => generateDescriptions(contentDataset['rawContent'])}>
-                      Antwort mit K.I. generieren
-                    </span>
-                  ) : (
-                    ''
-                  )}
-
-                  {isLoading && <LoaderIcon />}
-                </button>
-              </>
-            ) : (
-              ''
-            )} */}
               {!hasFullDescription && !aiGeneratedDescriptions ? (
                 <button
                   className="font-normal pl-2 text-odis-light  hover:text-odis-dark flex items-center"
                   onClick={() => generateDescriptions(contentDataset)}
                 >
                   <StarsIcon /> <span className="pl-1"></span>
-                  mit K.I. generieren
+                  mit KI generieren
                   {isLoading && (
                     <span className="scale-50">
                       <LoaderIcon />
@@ -127,7 +104,7 @@ export function AttributeTable({ contentDataset }) {
               ) : !hasFullDescription ? (
                 <p className="font-normal sm:pl-2 text-odis-light flex items-center">
                   <StarsIcon /> <span className="pl-1"></span>
-                  Beschreibung wurde mit K.I. generiert
+                  Beschreibung wurde mit KI generiert
                 </p>
               ) : null}
             </th>
