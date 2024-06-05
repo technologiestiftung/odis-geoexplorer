@@ -20,15 +20,24 @@ export default function Home() {
     <>
       <Head>
         <title>GeoExplorer Berlin</title>
-        <meta name="description" content="" />
+        <meta
+          name="description"
+          content="Finde passende oder ähnliche Geodatensätze aus dem Geodatenangebot Berlins dank KI-Unterstützung."
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
-        <meta name="description" content="" />
+        <meta
+          name="description"
+          content="Finde passende oder ähnliche Geodatensätze aus dem Geodatenangebot Berlins dank KI-Unterstützung."
+        />
         <meta name="keywords" content="ODIS,Technologiestiftung Berlin,CityLAB,Open Data,geo," />
         <meta name="theme-color" content="#4c68c7" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <meta property="og:title" content="GeoExplorer Berlin" />
-        <meta property="og:description" content="" />
+        <meta
+          property="og:description"
+          content="Finde passende oder ähnliche Geodatensätze aus dem Geodatenangebot Berlins dank KI-Unterstützung."
+        />
         <meta property="og:url" content="https://geoexplorer.odis-berlin.de/" />
         <meta property="og:site_name" content="geoexplorer.odis-berlin.de" />
         <meta property="og:locale" content="de_DE" />
@@ -48,7 +57,10 @@ export default function Home() {
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="GeoExplorer Berlin" />
-        <meta name="twitter:description" content="" />
+        <meta
+          name="twitter:description"
+          content="Finde passende oder ähnliche Geodatensätze aus dem Geodatenangebot Berlins dank KI-Unterstützung."
+        />
         <meta
           name="twitter:image"
           content="https://geoexplorer.odis-berlin.de/images/social-image-1280x640.png"
