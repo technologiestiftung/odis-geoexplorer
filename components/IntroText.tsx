@@ -9,11 +9,10 @@ export function IntroText({ language }) {
           Geo<span className="text-odis-light">explorer</span>
         </h1>
         <h2>
-          Entdecke und erkunde die Geodaten des Landes Berlin. Suche nach Stichwörtern oder stell
-          eine Frage, um passende und naheliegende Datensätze zu finden. Zahlreiche Informationen zu
-          jedem Datensatz helfen dir die Daten zu ergründen und weiter zu nutzen.
-          <br />
-          Viel Spaß!
+          Die Berliner Verwaltung erhebt und veröffentlicht eine Vielzahl an Informationen über die
+          Stadt. Diese prototypische KI-Suche soll dir helfen, Geodaten zu finden und schnell zu
+          verstehen. Suche nach Stichwörtern oder stell eine Frage, um passende und potenziell
+          relevante Datensätze für dein Vorhaben zu entdecken.
         </h2>
       </span>
     </div>

@@ -40,16 +40,30 @@ export function InfoModal({ language }) {
         </div>
         <div className=" flex overflow-y-auto flex-col md:flex-row gap-[24px]">
           <section className="md:overflow-y-auto md:w-[75%] md:pr-4">
-            <p className="text-lg leading-6 mb-4">
-              Du möchtest die Folgen des Klimawandels verstehen? Du planst den Verkehr der Zukunft
-              oder setzt dich für leichtere Teilhabe an Gesundheitseinrichtungen oder
-              Bildungsangeboten ein? In den offenen Geodatensätzen des Landes Berlin schlummert eine
-              Vielzahl an Wissen über unsere Stadt, das dir bei deinem Vorhaben helfen kann. Unser
-              prototypischer GeoExplorer sucht dir basierend auf deiner Anfrage dank
-              KI-Unterstützung passende oder naheliegende Datensätze für dein Projekt. Zusätzlich
-              kannst du in jeden Datensatz genauer eintauchen und nach deinen Bedürfnissen
-              weiternutzen. Egal, ob Umwelt, Infrastruktur oder Kultur – exploriere die Daten, die
-              dich interessieren.
+            <p className=" leading-6 mb-4">
+              Du hast ein Projektvorhaben und willst
+              <br />
+              <br />
+              <i>
+                … für ein Forschungsprojekt die Folgen des Klimawandels verstehen?
+                <br /> <br />
+                … für die Arbeit im Stadtplanungsamt die Verkehrsinfrastruktur auf einer Karte
+                präsentieren?
+                <br /> <br />
+                … für ein Beteiligungsvorhaben die Zusammensetzung der Bevölkerung im Kiez
+                analysieren?
+                <br /> <br />… für eine Kunstinstallation die Geometrien aller Berliner
+                Bezirksregionen auf ein Poster drucken?
+              </i>
+              <br />
+              <br />
+              Für diese und ähnliche Vorhaben benötigst du Daten! In den offenen Datensätzen des
+              Landes Berlin schlummert eine Vielzahl an Wissen über unsere Stadt, dass für dein
+              Projekt nützlich sein könnte. Kann KI helfen diese Daten schneller zu finden, zu
+              verstehen, ihre Relevanz für ein Vorhaben zu bewerten und vielleicht sogar ganz neue
+              Ideen zu kreieren? Aus dieser Fragestellung heraus wurde der GeoExplorer entwickelt.
+              Er ist ein Teil einer Machbarkeitsanalyse rund um Open Data und KI, durchgeführt durch
+              die Open Data Informationsstelle Berlin.
             </p>
             <div className="relative bg-odis-extra-light text-odis-light border-odis-light mt-8 overflow-auto rounded-md border border-input p-4">
               <span className="absolute">
@@ -122,21 +136,45 @@ export function InfoModal({ language }) {
                   >
                     Github-Repo
                   </a>
-                  .
+                  Für jeden Datensatz, wurden sogenannte Metadaten von{' '}
+                  <a className="underline" href="https://daten.berlin.de/" target="blank">
+                    Berlins Open Data Portal{' '}
+                  </a>{' '}
+                  und{' '}
+                  <a
+                    className="underline"
+                    href="https://fbinter.stadt-berlin.de/fb/"
+                    target="blank"
+                  >
+                    Berlins Geodatenportal (FIS-Broker)
+                  </a>{' '}
+                  automatisiert gescraped (gesammelt).
+                  <br />
+                  <br />
+                  Als Metadaten werden Daten bezeichnet, die einen Datensatz beschreiben, z.B. die
+                  Attribute, die ein Datensatz hat, oder der von einem Menschen geschriebene
+                  Beschreibungstext. Das Skript, um die Daten zu scrapen, findest du in unserem
+                  <a
+                    className="underline"
+                    href="https://github.com/technologiestiftung/odis-geoexplorer-data"
+                    target="blank"
+                  >
+                    Github-Repo{' '}
+                  </a>{' '}
                   <br />
                   <br />
                   Danach wurden für jeden einzelnen Metadatensatz ein sogenanntes Embedding erstellt
-                  und in eine Datenbank geschrieben. Jedes Embedding enthält einen speziellen Vektor
-                  der auf den Inhalt der Metadaten basiert. Dieser Vektor ist wie eine Art
-                  multidimensionale Koordinate, die den Inhalt der Maétadaten in der Logik der KI
+                  und in eine Datenbank geschrieben. Jedes Embedding enthält einen speziellen
+                  Vektor, der auf dem Inhalt der Metadaten basiert. Dieser Vektor ist wie eine Art
+                  multidimensionale Koordinate, die den Inhalt der Metadaten in der Logik der KI
                   verortet.
                   <br />
                   <br />
-                  z.B. wären die Vektoren für die Begriffe "Hund" und "Katze" näher verortet als der
-                  Begriff "Auto", weil sie beide Tiere sind.
+                  Beispiel: Die Vektoren für die Begriffe "Hund" und "Katze" wären näher verortet
+                  als der Begriff "Auto", weil beides Tiere sind.
                   <br />
                   <br />
-                  Wenn du eine Suchanfrage eingibst, wir darauf ein Vektor erstellt und mit den
+                  Wenn du eine Suchanfrage eingibst, wird darauf ein Vektor erstellt und mit den
                   vorhandenen Vektoren in der Datenbank verglichen. Falls die Vektoren eine gewisse
                   Nähe zueinander aufweisen, werden die jeweiligen Embeddings im Suchergebnis
                   angezeigt.
@@ -150,7 +188,7 @@ export function InfoModal({ language }) {
             />
 
             <Accordion
-              title="Wie werden die KI generierten Text erzeugt?"
+              title="Wie werden die KI-generierten Texte erzeugt?"
               active={false}
               content={
                 <p>
@@ -164,19 +202,20 @@ export function InfoModal({ language }) {
                   menschenähnlicher Weise zu interagieren. Es kann Aufgaben wie das Beantworten von
                   Fragen, das Übersetzen von Sprachen und das Erstellen von Texten verschiedenster
                   Art übernehmen. Trotz ihrer beeindruckenden Leistungsfähigkeit sind LLMs nicht
-                  fehlerfrei und ihre Interpretationen können gelegentlich von menschlichem
+                  fehlerfrei und ihre Interpretationen können gelegentlich vom menschlichen
                   Verständnis abweichen. Sie repräsentieren den aktuellen Stand der KI-Entwicklung
                   im Bereich der natürlichen Sprachverarbeitung, aber sie bleiben ein Werkzeug,
                   dessen Ergebnisse stets kritisch hinterfragt und kontextualisiert werden sollten.
-                  <br /> <br />
-                  Beim Geoexplorer stellen wir der KI bestimmte Fragen und geben ihr die Matadaten
+                  <br />
+                  <br />
+                  Beim GeoExplorer stellen wir der KI bestimmte Fragen und geben ihr die Metadaten
                   zu den Datensätzen mit.
                 </p>
               }
             />
 
             <Accordion
-              title="Was ist eine WMS oder WFS?"
+              title="Was ist ein WMS oder WFS?"
               active={false}
               content={
                 <p>
@@ -191,20 +230,34 @@ export function InfoModal({ language }) {
                   <br />
                   <br />
                   <i>WFS (Web Feature Service)</i> liefert keine fertigen Kartenbilder, sondern die
-                  eigentlichen geografischen Rodaten. Die Daten können weiterverarbeitet, analysiert
-                  und in verschiedenen Anwendungen verwendet werden.
+                  eigentlichen geografischen Rohdaten. Die Daten können weiterverarbeitet,
+                  analysiert und in verschiedenen Anwendungen verwendet werden.
                 </p>
               }
             />
             <Accordion
-              title="Hintergund - Warum ein Geoexplorer?"
+              title="Hintergrund - Warum ein GeoExplorer und woher kommen die Daten?"
               active={false}
               content={
                 <p>
-                  test für Open Data Suche + KI
+                  Unser prototypischer GeoExplorer sucht dir basierend auf deiner Anfrage dank
+                  KI-Unterstützung passende oder naheliegende Geodatensätze für dein Projekt.
+                  Zusätzlich kannst du in jeder Datensatzbeschreibung genauer eintauchen und dir
+                  Inhalte durch die KI erklären lassen.
                   <br />
                   <br />
-                  Warum Geodaten? Strukturierte Daten
+                  Die offenen Geodaten liegen in der Berliner Geodateninfrastruktur, die von der
+                  Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen (SenSBW) betrieben wird.
+                  Der GeoExplorer greift nur auf die Beschreibungen der Daten zu. Er stellt
+                  keinerlei Alternative zum FIS-Broker oder zum Berliner Open Data Portal dar,
+                  sondern soll eine Möglichkeit für Anwender:innen bieten, die sich bisher wenig mit
+                  Geodaten aus der Berliner Verwaltung auskennen. Es geht also darum neue
+                  Zielgruppen zu erschließen.
+                  <br />
+                  <br />
+                  Weitere, nicht räumliche Daten aus dem Open Data Portal, wurden für den Explorer
+                  zum jetzigen Zeitpunkt nicht berücksichtigt, da diese im Regelfall deutlich
+                  weniger gute Metadaten besitzen.
                 </p>
               }
             />
@@ -214,8 +267,8 @@ export function InfoModal({ language }) {
               content={
                 <p>
                   Für die WFS-Daten findet du einen Download im GeoJSON-Format. WFS erlauben es,
-                  über einen Parameter die Rohdaten im GeoJSON-Format zu laden. Der Geoexplorer
-                  reprojiziert die Daten zusätzlich in das Projektionssystem 4326, welches am
+                  über einen Parameter die Rohdaten im GeoJSON-Format zu laden. Der GeoExplorer
+                  reprojiziert die Daten zusätzlich in das Projektionssystem EPSG:4326, welches am
                   häufigsten in Anwendungen für die Zivilgesellschaft genutzt wird.
                 </p>
               }
@@ -254,8 +307,8 @@ export function InfoModal({ language }) {
               active={false}
               content={
                 <p>
-                  Der Geoexplorer wird momentan (noch) unregelmäßig aktualisiert. Der letzte
-                  Datenabgleich mit Berlines Datenportalen fand am 2. April 2024 statt.
+                  Der GeoExplorer wird momentan (noch) unregelmäßig aktualisiert. Der letzte
+                  Datenabgleich mit Berlins Datenportalen fand am 2. April 2024 statt.
                 </p>
               }
             />
