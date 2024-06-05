@@ -52,7 +52,6 @@ export function InfoModal({ language }) {
                   für ein Forschungsprojekt die Folgen des Klimawandels verstehen?
                 </span>
               </span>
-              <br />
               <span className="flex">
                 <Arrow />
                 <span className="flex-1">
