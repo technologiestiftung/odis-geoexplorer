@@ -9,6 +9,8 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 
+import { Arrow } from '@/components/ui/icons/arrow'
+
 import { InfoIcon } from '@/components/ui/icons/info'
 import { text } from '@/lib/text'
 import { LoaderCrossIcon } from '@/components/ui/icons/loaderCross'
@@ -40,22 +42,39 @@ export function InfoModal({ language }) {
         </div>
         <div className=" flex overflow-y-auto flex-col md:flex-row gap-[24px]">
           <section className="md:overflow-y-auto md:w-[75%] md:pr-4">
-            <p className=" leading-6 mb-4">
+            <p className="leading-6 mb-4">
               Du hast ein Projektvorhaben und willst
               <br />
               <br />
-              <i>
-                … für ein Forschungsprojekt die Folgen des Klimawandels verstehen?
-                <br /> <br />
-                … für die Arbeit im Stadtplanungsamt die Verkehrsinfrastruktur auf einer Karte
-                präsentieren?
-                <br /> <br />
-                … für ein Beteiligungsvorhaben die Zusammensetzung der Bevölkerung im Kiez
-                analysieren?
-                <br /> <br />… für eine Kunstinstallation die Geometrien aller Berliner
-                Bezirksregionen auf ein Poster drucken?
-              </i>
+              <span className="flex">
+                <Arrow />
+                <span className="flex-1">
+                  für ein Forschungsprojekt die Folgen des Klimawandels verstehen?
+                </span>
+              </span>
               <br />
+              <span className="flex">
+                <Arrow />
+                <span className="flex-1">
+                  für die Arbeit im Stadtplanungsamt die Verkehrsinfrastruktur auf einer Karte
+                  präsentieren?{' '}
+                </span>
+              </span>
+              <span className="flex">
+                <Arrow />
+                <span className="flex-1">
+                  für ein Beteiligungsvorhaben die Zusammensetzung der Bevölkerung im Kiez
+                  analysieren?{' '}
+                </span>
+              </span>
+              <span className="flex">
+                <Arrow />
+                <span className="flex-1">
+                  {' '}
+                  für eine Kunstinstallation die Geometrien aller Berliner Bezirksregionen auf ein
+                  Poster drucken?{' '}
+                </span>
+              </span>
               <br />
               Für diese und ähnliche Vorhaben benötigst du Daten! In den offenen Datensätzen des
               Landes Berlin schlummert eine Vielzahl an Wissen über unsere Stadt, dass für dein

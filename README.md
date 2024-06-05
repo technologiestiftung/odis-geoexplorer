@@ -1,22 +1,39 @@
 ![](https://img.shields.io/badge/Built%20with%20%E2%9D%A4%EF%B8%8F-at%20Technologiestiftung%20Berlin-blue)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 # Geoexplorer
 
 **This application is a prototype. It may contain errors and small bugs. If you notice something you can report an Issue. Thank you!**
 
-About text here
+Geo data is required for a large number of projects. A wealth of knowledge about Berlin lies dormant in the open datasets. Can AI help to find and understand this data more quickly, evaluate its relevance for a project and perhaps even create completely new ideas? The GeoExplorer was developed based on these questions. It is part of a feasibility study on open data and AI carried out by the [Open Data Informationsstelle Berlin](https://odis-berlin.de/).
 
 ![screenshot](/public/images/social_image_1280_x_640.png)
 
 ## Context
 
-Perform vector similarity search to find the content that's relevant to the question.
+The prototype tool GeoExplorer is designed to help you find and quickly understand geo data. Thanks to AI support, the tool searches for suitable or nearby geodata sets based on your query. You can also delve deeper into each dataset description and have a AI explain the content to you.
 
-The metadata comes from [Berlins Open Data Portal](https://daten.berlin.de/) and [Berlins Geo Data Portal (FisBroker)](https://fbinter.stadt-berlin.de/fb/).
+The open geo data is stored in the Berlin geo data infrastructure, which is operated by the Senate Department for Urban Development, Building and Housing (SenSBW). GeoExplorer only accesses the metadata. It is not an alternative the other open data portals of Berlin such as the FIS-Broker or the Berlin Open Data Portal, but is intended to provide an opportunity for users who are not yet familiar with geo data from the Berlin administration.
+
+Other, non-spatial data from the Open Data Portal has not yet been taken into account for the Explorer at this point in time, as these generally have significantly less good metadata.
+
+## How does the search work?
+
+For each dataset, metadata was automatically scraped (collected) from [Berlins Open Data Portal](https://daten.berlin.de/) and [Berlins Geo Data Portal (FisBroker)](https://fbinter.stadt-berlin.de/fb/).
+
+> Metadata is data that describes a dataset, e.g. the attributes that a dataset has or the descriptive text written by a human.
+
+Afterwards, a so-called embedding was created for each individual metadata set and written to a database. Each embedding contains a special vector based on the content of the metadata.
+
+> A vector is like a kind of multidimensional coordinate that locates the content of the metadata in the logic of the AI.
+> Example: The vectors for the terms “dog” and “cat” would be located closer than the term “car” because both are animals.
+
+When you enter a search query, a vector is created and compared with the existing vectors in the database. If the vectors have a certain proximity to each other, the respective embeddings are displayed in the search result.
 
 ## Tech stack
 
