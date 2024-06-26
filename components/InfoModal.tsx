@@ -139,7 +139,7 @@ export function InfoModal({ language }) {
                     href="https://fbinter.stadt-berlin.de/fb/"
                     target="blank"
                   >
-                    Berlins Geo Data Portal (FisBroker)
+                    Berlins Geo Data Portal
                   </a>{' '}
                   automatisiert gescraped (gesammelt).
                   <br />
@@ -152,7 +152,7 @@ export function InfoModal({ language }) {
                     href="https://github.com/technologiestiftung/odis-geoexplorer-scraper"
                     target="blank"
                   >
-                    Github-Repo
+                    Github-Repo. 
                   </a>
                   Für jeden Datensatz, wurden sogenannte Metadaten von{' '}
                   <a className="underline" href="https://daten.berlin.de/" target="blank">
@@ -164,7 +164,7 @@ export function InfoModal({ language }) {
                     href="https://fbinter.stadt-berlin.de/fb/"
                     target="blank"
                   >
-                    Berlins Geodatenportal (FIS-Broker)
+                    Berlins Geodatenportal
                   </a>{' '}
                   automatisiert gescraped (gesammelt).
                   <br />
@@ -267,7 +267,8 @@ export function InfoModal({ language }) {
                   Die offenen Geodaten liegen in der Berliner Geodateninfrastruktur, die von der
                   Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen (SenSBW) betrieben wird.
                   Der GeoExplorer greift nur auf die Beschreibungen der Daten zu. Er stellt
-                  keinerlei Alternative zum FIS-Broker oder zum Berliner Open Data Portal dar,
+                  keinerlei Alternative zur Geodatensuche der Senatsverwaltung für Stadtentwicklung, bauen und Wohnen 
+                  oder zum Berliner Open Data Portal dar,
                   sondern soll eine Möglichkeit für Anwender:innen bieten, die sich bisher wenig mit
                   Geodaten aus der Berliner Verwaltung auskennen. Es geht also darum neue
                   Zielgruppen zu erschließen.
