@@ -154,33 +154,6 @@ export function InfoModal({ language }) {
                   >
                     Github-Repo. 
                   </a>
-                  Für jeden Datensatz, wurden sogenannte Metadaten von{' '}
-                  <a className="underline" href="https://daten.berlin.de/" target="blank">
-                    Berlins Open Data Portal{' '}
-                  </a>{' '}
-                  und{' '}
-                  <a
-                    className="underline"
-                    href="https://fbinter.stadt-berlin.de/fb/"
-                    target="blank"
-                  >
-                    Berlins Geodatenportal
-                  </a>{' '}
-                  automatisiert gescraped (gesammelt).
-                  <br />
-                  <br />
-                  Als Metadaten werden Daten bezeichnet, die einen Datensatz beschreiben, z.B. die
-                  Attribute, die ein Datensatz hat, oder der von einem Menschen geschriebene
-                  Beschreibungstext. Das Skript, um die Daten zu scrapen, findest du in unserem
-                  <a
-                    className="underline"
-                    href="https://github.com/technologiestiftung/odis-geoexplorer-data"
-                    target="blank"
-                  >
-                    Github-Repo{' '}
-                  </a>{' '}
-                  <br />
-                  <br />
                   Danach wurden für jeden einzelnen Metadatensatz ein sogenanntes Embedding erstellt
                   und in eine Datenbank geschrieben. Jedes Embedding enthält einen speziellen
                   Vektor, der auf dem Inhalt der Metadaten basiert. Dieser Vektor ist wie eine Art
