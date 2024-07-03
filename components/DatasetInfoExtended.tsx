@@ -196,7 +196,7 @@ export function DatasetInfoExtended({
             }
           >
             <LinkOutIcon />
-            <span className="pl-2">weiter Informationen</span>
+            <span className="pl-2">weitere Informationen</span>
           </a>
         )}
         <span className="hidden md:block w-80">
