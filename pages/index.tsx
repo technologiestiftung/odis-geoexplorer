@@ -68,7 +68,7 @@ export default function Home() {
       </Head>
       <main
         className="bg-cover bg-fixed bg-odis-light-2 flex flex-col min-h-screen 
-         py-8 px-10 text-odis-dark"
+         py-8 px-2 sm:px-10 text-odis-dark"
         style={{ backgroundImage: "url('/images/vector.svg')" }}
       >
         {/* <LanguageSwitcher setLanguage={setLanguage} language={language} /> */}
