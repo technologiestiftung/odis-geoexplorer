@@ -299,7 +299,7 @@ export function InfoModal({ language }) {
               content={
                 <p>
                   Der GeoExplorer wird momentan (noch) unregelmäßig aktualisiert. Der letzte
-                  Datenabgleich mit Berlins Datenportalen fand am 2. July 2024 statt.
+                  Datenabgleich mit Berlins Datenportalen fand am 3. July 2024 statt.
                 </p>
               }
             />
