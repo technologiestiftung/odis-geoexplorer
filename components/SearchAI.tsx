@@ -150,7 +150,8 @@ export function SearchAI({ language }) {
     setHasSearched(true)
 
     embeddings.forEach((embedding) => {
-      let parsedContent = embedding.content ? parseEmbeddingContent(embedding.content) : {}
+      let parsedContent = embedding.dataset_info ? embedding.dataset_info : {}
+
       embedding.parsedContent = parsedContent
     })
 
@@ -178,7 +179,8 @@ export function SearchAI({ language }) {
 
     const { embeddings } = await getSearchResults(inputText, newMatchThreshold, newMatchCount)
     embeddings.forEach((embedding) => {
-      let parsedContent = embedding.content ? parseEmbeddingContent(embedding.content) : {}
+      let parsedContent = embedding.dataset_info ? embedding.dataset_info : {}
+
       embedding.parsedContent = parsedContent
     })
 
@@ -279,7 +281,7 @@ export function SearchAI({ language }) {
         </div>
       )}
 
-      {showMoreSearchResults && (
+      {hasSearched && showMoreSearchResults && (
         <button
           className="flex items-center -translate-x-2/4 left-1/2 absolute underline text-odis-light  pt-2 text-sm"
           onClick={getMoreSearchResults}

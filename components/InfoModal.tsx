@@ -152,7 +152,7 @@ export function InfoModal({ language }) {
                     href="https://github.com/technologiestiftung/odis-geoexplorer-scraper"
                     target="blank"
                   >
-                    Github-Repo. 
+                    Github-Repo.
                   </a>
                   Danach wurden für jeden einzelnen Metadatensatz ein sogenanntes Embedding erstellt
                   und in eine Datenbank geschrieben. Jedes Embedding enthält einen speziellen
@@ -240,11 +240,10 @@ export function InfoModal({ language }) {
                   Die offenen Geodaten liegen in der Berliner Geodateninfrastruktur, die von der
                   Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen (SenSBW) betrieben wird.
                   Der GeoExplorer greift nur auf die Beschreibungen der Daten zu. Er stellt
-                  keinerlei Alternative zur Geodatensuche der Senatsverwaltung für Stadtentwicklung, bauen und Wohnen 
-                  oder zum Berliner Open Data Portal dar,
-                  sondern soll eine Möglichkeit für Anwender:innen bieten, die sich bisher wenig mit
-                  Geodaten aus der Berliner Verwaltung auskennen. Es geht also darum neue
-                  Zielgruppen zu erschließen.
+                  keinerlei Alternative zur Geodatensuche der Senatsverwaltung für Stadtentwicklung,
+                  bauen und Wohnen oder zum Berliner Open Data Portal dar, sondern soll eine
+                  Möglichkeit für Anwender:innen bieten, die sich bisher wenig mit Geodaten aus der
+                  Berliner Verwaltung auskennen. Es geht also darum neue Zielgruppen zu erschließen.
                   <br />
                   <br />
                   Weitere, nicht räumliche Daten aus dem Open Data Portal, wurden für den Explorer
@@ -300,7 +299,7 @@ export function InfoModal({ language }) {
               content={
                 <p>
                   Der GeoExplorer wird momentan (noch) unregelmäßig aktualisiert. Der letzte
-                  Datenabgleich mit Berlins Datenportalen fand am 2. April 2024 statt.
+                  Datenabgleich mit Berlins Datenportalen fand am 3. July 2024 statt.
                 </p>
               }
             />

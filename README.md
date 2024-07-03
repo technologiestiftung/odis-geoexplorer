@@ -100,7 +100,9 @@ pnpm dev
 
 ## Data
 
-You can find more information about the data on this [Github repo](https://github.com/technologiestiftung/odis-geoexplorer-scraper).
+You can explore 1662 datasets (as at 3 July 2024). WMS that exist as WFS (except arial images) have no been included in the search.
+
+You can find more information about the data on this [Github repo](https://github.com/technologiestiftung/odis-geoexplorer-data).
 
 ## Backend
 
