@@ -181,18 +181,24 @@ export function DatasetInfoExtended({
           <DownloadIcon />
           <span className="pl-2">JSON Download</span>
         </button>
-        <a
-          className={
-            buttonClass +
-            (contentDataset['Fisbroker URL'] === 'null' ? ' pointer-events-none !bg-gray-300' : '')
-          }
-          target="_blank"
-          href={contentDataset['Fisbroker URL']}
-        >
-          <LinkOutIcon />
-          <span className="pl-2"> FIS-Broker-Eintrag</span>
-        </a>
-
+        {contentDataset['guid'] && (
+          <a
+            className={
+              buttonClass +
+              (contentDataset['Fisbroker URL'] === 'null'
+                ? ' pointer-events-none !bg-gray-300'
+                : '')
+            }
+            target="_blank"
+            href={
+              'https://gdi.berlin.de/geonetwork/srv/ger/catalog.search#/metadata/' +
+              contentDataset['guid']
+            }
+          >
+            <LinkOutIcon />
+            <span className="pl-2">weiter Informationen</span>
+          </a>
+        )}
         <span className="hidden md:block w-80">
           <CopyInput url={contentDataset['Service URL']} type={contentDataset['Typ']} />
         </span>
