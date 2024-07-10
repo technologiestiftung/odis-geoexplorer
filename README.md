@@ -8,7 +8,7 @@
 
 # Geoexplorer
 
-**This application is a prototype. It may contain errors and small bugs. If you notice something you can report an Issue. Thank you!**
+**This application is a prototype. It may contain errors and small bugs. If you notice something you can report an issue. Thank you!**
 
 Geo data is required for a large number of projects. A wealth of knowledge about Berlin lies dormant in the open datasets. Can AI help to find and understand this data more quickly, evaluate its relevance for a project and perhaps even create completely new ideas? The GeoExplorer was developed based on these questions. It is part of a feasibility study on open data and AI carried out by the [Open Data Informationsstelle Berlin](https://odis-berlin.de/).
 
