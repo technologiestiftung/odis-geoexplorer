@@ -124,6 +124,20 @@ export function DatasetInfoExtended({
             }
           }
 
+          // check if there are any features with no geom
+          let hasNoGeom = false
+          if (data.features) {
+            data.features.forEach((feat) => {
+              if (!feat.geometry) {
+                hasNoGeom = true
+              }
+            })
+          }
+          if (hasNoGeom) {
+            setError('map')
+            return
+          }
+
           setGeoJSON(data)
           setShowMap(true)
           setIsLoading('')
