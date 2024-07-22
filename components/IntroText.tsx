@@ -6,7 +6,7 @@ export function IntroText({ language }) {
     <div className="relative  w-full sm:w-1/2 text-odis-dark z-20">
       <span>
         <h1 className="text-3xl font-bold">
-          Geo<span className="text-odis-light">explorer</span>
+          Geo<span className="text-odis-light">Explorer</span>
         </h1>
         <h2>
           Die Berliner Verwaltung erhebt und veröffentlicht eine Vielzahl an Informationen über die
