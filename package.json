@@ -19,7 +19,7 @@
     "sqlKeywordCase": "lower"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.18",
+    "@headlessui/react": "^2.0.0",
     "@heroicons/react": "^2.1.1",
     "@p5-wrapper/next": "^1.0.3",
     "@p5-wrapper/react": "^4.4.0",
