@@ -6,7 +6,7 @@
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-# Geoexplorer
+# GeoExplorer
 
 **This application is a prototype. It may contain errors and small bugs. If you notice something you can report an issue. Thank you!**
 
