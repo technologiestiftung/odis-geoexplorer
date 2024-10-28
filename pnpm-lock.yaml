@@ -39,8 +39,8 @@ dependencies:
     specifier: ^6.5.0
     version: 6.5.0
   '@types/node':
-    specifier: 18.15.10
-    version: 18.15.10
+    specifier: 20.17.2
+    version: 20.17.2
   '@types/react':
     specifier: 18.0.30
     version: 18.0.30
@@ -1548,12 +1548,18 @@ packages:
   /@types/node-fetch@2.6.11:
     resolution: {integrity: sha512-24xFj9R5+rfQJLRyM56qh+wnVSYhyXC2tkoBndtY0U+vubqNsYXGjufB2nn8Q6gt0LrARwL6UBtMCSVCwl4B1g==}
     dependencies:
-      '@types/node': 18.15.10
+      '@types/node': 20.17.2
       form-data: 4.0.0
     dev: false
 
   /@types/node@18.15.10:
     resolution: {integrity: sha512-9avDaQJczATcXgfmMAW3MIWArOO7A+m90vuCFLr8AotWf8igO/mRoYukrk2cqZVtv38tHs33retzHEilM7FpeQ==}
+    dev: false
+
+  /@types/node@20.17.2:
+    resolution: {integrity: sha512-OOHK4sjXqkL7yQ7VEEHcf6+0jSvKjWqwnaCtY7AKD/VLEvRHMsxxu7eI8ErnjxHS8VwmekD4PeVCpu4qZEZSxg==}
+    dependencies:
+      undici-types: 6.19.8
     dev: false
 
   /@types/pbf@3.0.5:
@@ -1602,7 +1608,7 @@ packages:
   /@types/ws@8.5.10:
     resolution: {integrity: sha512-vmQSUcfalpIq0R9q7uTo2lXs6eGIpt9wtnLdMv9LVpIjCA/+ufZRozlVoVelIYixx1ugCBKDhn89vnsEGOCx9A==}
     dependencies:
-      '@types/node': 18.15.10
+      '@types/node': 20.17.2
     dev: false
 
   /@types/yargs-parser@21.0.3:
@@ -6285,6 +6291,10 @@ packages:
       has-bigints: 1.0.2
       has-symbols: 1.0.3
       which-boxed-primitive: 1.0.2
+    dev: false
+
+  /undici-types@6.19.8:
+    resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
     dev: false
 
   /unified@11.0.4:
