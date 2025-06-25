@@ -11,7 +11,7 @@ import { TypeFilter } from '@/components/TypeFilter'
 
 import { useMatomo } from '@/lib/useMatomo'
 
-const MATCHTHERSHOLD = 0.76
+const MATCHTHERSHOLD = 0.26
 const MATCHTCOUNT = 40
 
 export function SearchAI({ language }) {

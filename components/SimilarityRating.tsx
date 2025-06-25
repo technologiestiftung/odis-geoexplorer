@@ -5,11 +5,11 @@ import { CheckIcon } from '@/components/ui/icons/check'
 export function SimilarityRating({ similarity }) {
   let activeIcons = 0
 
-  if (similarity < 0.8) {
+  if (similarity < 0.6) {
     activeIcons = 1
-  } else if (similarity >= 0.8 && similarity < 0.84) {
+  } else if (similarity >= 0.6 && similarity < 0.64) {
     activeIcons = 2
-  } else if (similarity >= 0.84) {
+  } else if (similarity >= 0.64) {
     activeIcons = 3
   }
 

@@ -14,6 +14,7 @@ import { MapComponent } from '@/components/Map'
 import { Scatterplot } from '@/components/Scatterplot'
 import { WarningBox } from '@/components/WarningBox'
 import { CopyInput } from '@/components/CopyInput'
+import { WFSExplorer } from '@/components/WFSExplorer'
 
 export const listOfProjection = {
   'EPSG:25833': '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
@@ -32,8 +33,6 @@ async function getWFSFeature(url, typeName, purpose) {
   if (purpose === 'download') {
     downloadUrl = `${url}?service=WFS&version=1.1.0&request=GetFeature&typeName=${typeName}&outputFormat=application/json`
   }
-
-  console.log('downloadUrldownloadUrl', downloadUrl)
 
   // Return the promise chain
   return fetch(downloadUrl)
@@ -178,7 +177,12 @@ export function DatasetInfoExtended({
 
   return (
     <div>
+      {contentDataset['Anmerkung Layer'] &&
+        contentDataset['Anmerkung Layer'] !== contentDataset['Anmerkung'] && (
+          <div className="px-4 mb-4 italic font-light">{contentDataset['Anmerkung Layer']}</div>
+        )}
       <div className="px-4 mb-4 italic font-light">{contentDataset['Anmerkung']}</div>
+
       <div className="px-4 flex">
         <button
           onClick={() => getGeoData('download', contentDataset['Titel'])}
@@ -214,11 +218,19 @@ export function DatasetInfoExtended({
           </a>
         )}
         <span className="hidden md:block w-80">
-          <CopyInput url={contentDataset['Service URL']} type={contentDataset['Typ']} />
+          {contentDataset['Typ'] === 'WFS' ? (
+            <WFSExplorer url={contentDataset['Service URL']} layer={contentDataset['Layer Name']} />
+          ) : (
+            <CopyInput url={contentDataset['Service URL']} type={contentDataset['Typ']} />
+          )}{' '}
         </span>
       </div>
       <span className="block md:hidden px-4 pt-4">
-        <CopyInput url={contentDataset['Service URL']} type={contentDataset['Typ']} />
+        {contentDataset['Typ'] === 'WFS' ? (
+          <WFSExplorer url={contentDataset['Service URL']} layer={contentDataset['Layer Name']} />
+        ) : (
+          <CopyInput url={contentDataset['Service URL']} type={contentDataset['Typ']} />
+        )}{' '}
       </span>
       <div className="w-full my-4 border-y" ref={ref}>
         <div className="overflow-hidden flex bg-white border-odis-dark border w-fit absolute z-10 m-2 rounded-md">

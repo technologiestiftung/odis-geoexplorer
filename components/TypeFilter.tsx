@@ -14,6 +14,10 @@ export function TypeFilter({ selectedValues, setSelectedValues, searchResults })
 
     if (searchResults) {
       searchResults.forEach((d) => {
+        if (typeof d.parsedContent === 'string') {
+          d.parsedContent = JSON.parse(d.parsedContent)
+        }
+
         if (d.parsedContent['Typ'] === 'WMS') {
           wmsCount++
         } else if (d.parsedContent['Typ'] === 'WFS') {

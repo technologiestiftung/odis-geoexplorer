@@ -4,13 +4,46 @@ import React, { useState, useEffect } from 'react'
 import { LoaderIcon } from '@/components/ui/icons/loader'
 import { StarsIcon } from '@/components/ui/icons/StarsIcon'
 
+function areAllValuesEmpty(obj) {
+  return Object.values(obj).every((value) => {
+    // Check for null, undefined, empty string, empty array, or empty object
+    if (value === null || value === undefined) return true
+    if (typeof value === 'string' && value.trim() === '') return true
+    if (Array.isArray(value) && value.length === 0) return true
+    if (typeof value === 'object' && !Array.isArray(value) && Object.keys(value).length === 0)
+      return true
+    return false
+  })
+}
+
 export function AttributeTable({ contentDataset }) {
-  const [attr, setAttr] = useState(contentDataset['Attribute'])
-  const [attrDesc, setAttrDesc] = useState(contentDataset['Attribute Beschreibung'])
+  const [attr, setAttr] = useState([])
+  const [attrDesc, setAttrDesc] = useState([])
   const [hasFullDescription, setHasFullDescription] = useState(false)
   const [aiGeneratedDescriptions, setAiGeneratedDescriptions] = useState(false)
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  useEffect(() => {
+    const attrValues = contentDataset['Attribute']
+
+    if (Array.isArray(attrValues)) {
+      setAttr(attrValues)
+    } else if (
+      typeof attrValues === 'object' &&
+      attrValues !== null &&
+      !Array.isArray(attrValues)
+    ) {
+      setAttr(Object.keys(attrValues))
+
+      if (!areAllValuesEmpty(attrValues)) {
+        setAttrDesc(Object.values(attrValues))
+        setHasFullDescription(true)
+      }
+    } else {
+      setAttr([])
+    }
+  }, [])
 
   async function generateDescriptions(contentDataset) {
     let data
@@ -52,33 +85,15 @@ export function AttributeTable({ contentDataset }) {
     }
   }
 
-  useEffect(() => {
-    if (!attr || !attrDesc) return
-    const attrWithoutGeom = attr.filter((d) => d !== 'geom')
-    console.log(attrWithoutGeom.length, attrDesc.length)
+  // useEffect(() => {
+  //   if (!attr || !attrDesc) return
+  //   const attrWithoutGeom = attr.filter((d) => d !== 'geom')
+  //   console.log(attrWithoutGeom.length, attrDesc.length)
 
-    if (attrWithoutGeom.length === attrDesc.length) {
-      setHasFullDescription(true)
-    }
-  }, [attrDesc])
-
-  //   useEffect(() => {
-  //     console.log('aiGeneratedDescriptions', aiGeneratedDescriptions)
-  //     if (aiGeneratedDescriptions['geom']) {
-  //       delete aiGeneratedDescriptions['geom']
-  //     }
-
-  //     const descriptionArray = attr.map((key) => aiGeneratedDescriptions[key] || '')
-
-  //     console.log('descriptionArray  ', descriptionArray)
-  //     setAttrDesc(descriptionArray)
-  //   }, [aiGeneratedDescriptions])
-
-  //   useEffect(() => {
-  //     console.log('aiGeneratedDescriptions', aiGeneratedDescriptions)
-  //   }, [aiGeneratedDescriptions])
-
-  aiGeneratedDescriptions
+  //   if (attrWithoutGeom.length === attrDesc.length) {
+  //     setHasFullDescription(true)
+  //   }
+  // }, [attrDesc])
 
   return (
     <>

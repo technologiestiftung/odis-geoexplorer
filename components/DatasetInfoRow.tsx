@@ -42,7 +42,10 @@ export function DatasetInfoRow(props) {
 
   const [showExtraInfo, setShowExtraInfo] = useState<boolean>(false)
   let content = result.parsedContent ? result.parsedContent : {}
-  // content['rawContent'] = result.content
+  if (typeof content === 'string') {
+    content = JSON.parse(content)
+  }
+
   content['slug'] = result.slug
 
   // Return the JSX for your component

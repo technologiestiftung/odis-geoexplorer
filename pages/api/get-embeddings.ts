@@ -10,10 +10,11 @@ import {
 
 import { oneLine } from 'common-tags'
 
-import testEmbeddings from './testEmbeddings.js'
+// import testEmbeddings from './testEmbeddings.js'
 
 const openAiKey = process.env.OPENAI_KEY
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
 const config = new Configuration({
@@ -35,11 +36,6 @@ interface QueryParams {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   let { messages, matchthreshold, extended, matchcount } = req.query as QueryParams
   let extendedQuery = ''
-
-  console.log(matchthreshold, matchcount)
-
-  // res.status(200).json({ embeddings: testEmbeddings.embeddings })
-  // return
 
   try {
     if (!openAiKey) {
@@ -102,7 +98,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
     // Create embedding from query
     const embeddingResponse = await openai.createEmbedding({
-      model: 'text-embedding-ada-002',
+      model: 'text-embedding-3-small',
       input: sanitizedQuery.replaceAll('\n', ' '),
     })
     if (embeddingResponse.status !== 200) {
@@ -113,12 +109,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }: CreateEmbeddingResponse = await embeddingResponse.json()
 
     const { error: matchError, data: pageSections } = await supabaseClient.rpc(
-      'match_page_sections',
+      'match_page_sections_v2',
       {
-        embedding,
-        match_threshold: matchthreshold ? matchthreshold : 0.8,
+        query_embedding: embedding,
+        match_threshold: matchthreshold ? matchthreshold : 0.26,
         match_count: matchcount ? matchcount : 40, // 15
-        min_content_length: 50,
       }
     )
     if (matchError) {
