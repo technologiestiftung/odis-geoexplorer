@@ -10,7 +10,7 @@ export function WFSExplorer({ url, layer }) {
   return (
     <a className={buttonClass} target="_blank" href={link}>
       <LinkOutIcon />
-      <span className="pl-2">Daten Explorieren</span>
+      <span className="pl-2">Daten explorieren</span>
     </a>
   )
 }
