@@ -6,7 +6,7 @@ const buttonClass =
   'text-center  md:w-48  flex bg-odis-light !text-white p-2 mr-2 rounded-md hover:bg-active hover:!text-odis-dark items-center'
 
 export function WFSExplorer({ url, layer }) {
-  const link = `https://wfsexplorer.netlify.app/?wfs=${url}${layer ? '&layer=' + layer : ''}`
+  const link = `https://wfsexplorer.odis-berlin.de/?wfs=${url}${layer ? '&layer=' + layer : ''}`
   return (
     <a className={buttonClass} target="_blank" href={link}>
       <LinkOutIcon />
