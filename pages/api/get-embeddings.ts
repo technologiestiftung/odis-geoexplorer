@@ -1,6 +1,3 @@
-// import type { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-
 import {
   Configuration,
   OpenAIApi,
@@ -10,18 +7,13 @@ import {
 
 import { oneLine } from 'common-tags'
 
-// import testEmbeddings from './testEmbeddings.js'
-
 const openAiKey = process.env.OPENAI_KEY
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+const hasuraEndpoint = process.env.HASURA_GRAPHQL_ENDPOINT
 
 const config = new Configuration({
   apiKey: openAiKey,
 })
 const openai = new OpenAIApi(config)
-const supabaseClient = createClient(supabaseUrl, supabaseServiceKey)
 
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { ApplicationError, UserError } from '@/lib/errors'
@@ -33,6 +25,36 @@ interface QueryParams {
   matchcount?: string
 }
 
+const matchQuery = `
+  query MatchPageSections($args: geoexplorer_match_page_sections_v2_args!) {
+    geoexplorer_match_page_sections_v2(args: $args) {
+      id
+      slug
+      heading
+      similarity
+      dataset_info
+    }
+  }
+`
+
+async function fetchGraphQL(query: string, variables: Record<string, unknown> = {}) {
+  const response = await fetch(hasuraEndpoint as string, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ query, variables }),
+  })
+
+  const result = await response.json()
+
+  if (!response.ok || result.errors) {
+    throw new ApplicationError('Failed to match page sections', result.errors ?? result)
+  }
+
+  return result.data
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   let { messages, matchthreshold, extended, matchcount } = req.query as QueryParams
   let extendedQuery = ''
@@ -41,15 +63,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (!openAiKey) {
       throw new ApplicationError('Missing environment variable OPENAI_KEY')
     }
-    console.log('embeddings-search2')
-    if (!supabaseUrl) {
-      throw new ApplicationError('Missing environment variable SUPABASE_URL')
+    if (!hasuraEndpoint) {
+      throw new ApplicationError('Missing environment variable HASURA_GRAPHQL_ENDPOINT')
     }
-    console.log('embeddings-search3')
-    if (!supabaseServiceKey) {
-      throw new ApplicationError('Missing environment variable SUPABASE_SERVICE_ROLE_KEY')
-    }
-
     if (!messages) {
       throw new UserError('Missing messages data')
     }
@@ -67,7 +83,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           messages: [
             {
               role: 'system',
-              // content: oneLine`Deine Rolle ist es, im Geodatenportal der Stadt Berlin Datensätze zu finden. Du erhälts einen Begriff oder einen Satz. Nenne EINEN einzigen neuen Begriff der helfen könnte mehr zu dem Thema des Users zu finden. Geben folgende Begriffe NICHT zurück: Berlin`,
               content: oneLine`Deine Rolle ist es, im Geodatenportal der Stadt Berlin Datensätze zu finden. Nennen EIN Wort das die Eingabe des Users Thematisch beschreibt.`,
             },
             { role: 'user', content: oneLine`${query}` },
@@ -108,17 +123,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       data: [{ embedding }],
     }: CreateEmbeddingResponse = await embeddingResponse.json()
 
-    const { error: matchError, data: pageSections } = await supabaseClient.rpc(
-      'match_page_sections_v2',
-      {
-        query_embedding: embedding,
-        match_threshold: matchthreshold ? matchthreshold : 0.26,
-        match_count: matchcount ? matchcount : 40, // 15
-      }
-    )
-    if (matchError) {
-      throw new ApplicationError('Failed to match page sections', matchError)
-    }
+    const data = await fetchGraphQL(matchQuery, {
+      args: {
+        // pgvector expects a string-encoded array, e.g. "[0.1,0.2,...]"
+        query_embedding: JSON.stringify(embedding),
+        match_threshold: matchthreshold ? Number(matchthreshold) : 0.26,
+        match_count: matchcount ? Number(matchcount) : 40, // 15
+      },
+    })
+
+    const pageSections = data.geoexplorer_match_page_sections_v2
+
     res.status(200).json({ embeddings: pageSections, extendedQuery: extendedQuery })
-  } catch (error) {}
+  } catch (error) {
+    if (error instanceof UserError) {
+      return res.status(400).json({ error: error.message, data: error.data })
+    }
+    if (error instanceof ApplicationError) {
+      console.error(`${error.message}: ${JSON.stringify(error.data)}`)
+    } else {
+      console.error(error)
+    }
+    return res.status(500).json({ error: 'There was an error processing your request' })
+  }
 }
