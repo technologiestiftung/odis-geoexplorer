@@ -1,22 +1,9 @@
-import {
-  Configuration,
-  OpenAIApi,
-  CreateModerationResponse,
-  CreateEmbeddingResponse,
-} from 'openai-edge'
-
 import { oneLine } from 'common-tags'
-
-const openAiKey = process.env.OPENAI_KEY
-const hasuraEndpoint = process.env.HASURA_GRAPHQL_ENDPOINT
-
-const config = new Configuration({
-  apiKey: openAiKey,
-})
-const openai = new OpenAIApi(config)
-
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { ApplicationError, UserError } from '@/lib/errors'
+
+const mistralKey = process.env.MISTRAL_KEY
+const hasuraEndpoint = process.env.HASURA_GRAPHQL_ENDPOINT
 
 interface QueryParams {
   messages?: string
@@ -26,8 +13,8 @@ interface QueryParams {
 }
 
 const matchQuery = `
-  query MatchPageSections($args: geoexplorer_match_page_sections_v2_args!) {
-    geoexplorer_match_page_sections_v2(args: $args) {
+  query MatchPageSections($args: geoexplorer_match_embeddings_args!) {
+    geoexplorer_match_embeddings(args: $args) {
       id
       slug
       heading
@@ -41,7 +28,7 @@ async function fetchGraphQL(query: string, variables: Record<string, unknown> = 
   const response = await fetch(hasuraEndpoint as string, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ query, variables }),
   })
@@ -55,13 +42,64 @@ async function fetchGraphQL(query: string, variables: Record<string, unknown> = 
   return result.data
 }
 
+async function createMistralChatCompletion(prompt: string, query: string, apiKey: string) {
+  const response = await fetch('https://api.mistral.ai/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: 'open-mistral-7b',
+      messages: [
+        { role: 'system', content: prompt },
+        { role: 'user', content: query },
+      ],
+    }),
+  })
+
+  if (!response.ok) {
+    const errText = await response.text()
+    throw new ApplicationError(`Mistral Chat Completion failed: ${response.status}`, { error: errText })
+  }
+
+  const data = await response.json()
+  return data?.choices?.[0]?.message?.content
+}
+
+async function createMistralEmbedding(input: string, apiKey: string): Promise<number[]> {
+  const response = await fetch('https://api.mistral.ai/v1/embeddings', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: 'mistral-embed',
+      input: [input],
+    }),
+  })
+
+  if (!response.ok) {
+    const errText = await response.text()
+    throw new ApplicationError(`Mistral Embedding failed: ${response.status}`, { error: errText })
+  }
+
+  const result = await response.json()
+  const embedding = result?.data?.[0]?.embedding
+  if (!embedding) {
+    throw new ApplicationError('Mistral response did not contain embedding', { result })
+  }
+  return embedding
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   let { messages, matchthreshold, extended, matchcount } = req.query as QueryParams
   let extendedQuery = ''
 
   try {
-    if (!openAiKey) {
-      throw new ApplicationError('Missing environment variable OPENAI_KEY')
+    if (!mistralKey) {
+      throw new ApplicationError('Missing environment variable MISTRAL_KEY')
     }
     if (!hasuraEndpoint) {
       throw new ApplicationError('Missing environment variable HASURA_GRAPHQL_ENDPOINT')
@@ -77,62 +115,33 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (extended === '1') {
       try {
-        const response = await openai.createChatCompletion({
-          model: 'gpt-3.5-turbo',
-          stream: false,
-          messages: [
-            {
-              role: 'system',
-              content: oneLine`Deine Rolle ist es, im Geodatenportal der Stadt Berlin Datensätze zu finden. Nennen EIN Wort das die Eingabe des Users Thematisch beschreibt.`,
-            },
-            { role: 'user', content: oneLine`${query}` },
-          ],
-        })
-        // wait for the response to be completed and save the result in a varibale
-        const completion = await response.json()
-        extendedQuery = completion?.choices[0]?.message?.content
-        console.log('extended search', extendedQuery)
-        query = extendedQuery ? extendedQuery : query
+        const systemPrompt = oneLine`Deine Rolle ist es, im Geodatenportal der Stadt Berlin Datensätze zu finden. Nennen EIN Wort das die Eingabe des Users Thematisch beschreibt.`
+        const result = await createMistralChatCompletion(systemPrompt, oneLine`${query}`, mistralKey)
+        if (result) {
+          extendedQuery = result
+          console.log('extended search', extendedQuery)
+          query = extendedQuery
+        }
       } catch (error) {
         console.error('error in completion', error)
       }
     }
 
-    // Moderate the content to comply with OpenAI T&C
     const sanitizedQuery = query.trim()
-    const moderationResponse: CreateModerationResponse = await openai
-      .createModeration({ input: sanitizedQuery })
-      .then((res) => res.json())
 
-    const [results] = moderationResponse.results
-    if (results.flagged) {
-      throw new UserError('Flagged content', {
-        flagged: true,
-        categories: results.categories,
-      })
-    }
-    // Create embedding from query
-    const embeddingResponse = await openai.createEmbedding({
-      model: 'text-embedding-3-small',
-      input: sanitizedQuery.replaceAll('\n', ' '),
-    })
-    if (embeddingResponse.status !== 200) {
-      throw new ApplicationError('Failed to create embedding for question', embeddingResponse)
-    }
-    const {
-      data: [{ embedding }],
-    }: CreateEmbeddingResponse = await embeddingResponse.json()
+    // Create embedding from query using Mistral
+    const embedding = await createMistralEmbedding(sanitizedQuery.replaceAll('\n', ' '), mistralKey)
 
     const data = await fetchGraphQL(matchQuery, {
       args: {
         // pgvector expects a string-encoded array, e.g. "[0.1,0.2,...]"
         query_embedding: JSON.stringify(embedding),
         match_threshold: matchthreshold ? Number(matchthreshold) : 0.26,
-        match_count: matchcount ? Number(matchcount) : 40, // 15
+        match_count: matchcount ? Number(matchcount) : 40,
       },
     })
 
-    const pageSections = data.geoexplorer_match_page_sections_v2
+    const pageSections = data.geoexplorer_match_embeddings
 
     res.status(200).json({ embeddings: pageSections, extendedQuery: extendedQuery })
   } catch (error) {
