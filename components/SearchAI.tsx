@@ -213,6 +213,12 @@ export function SearchAI({ language }) {
         </button>
       </form>
 
+      {scatterPlotData && scatterPlotData.length > 0 && (
+        <div className="text-xs text-gray-400 mt-1 pl-1 font-medium">
+          {scatterPlotData.length} {text[language].availableDatasets}
+        </div>
+      )}
+
       <div className="suggestions mt-4 text-xs text-odis-dark ">
         {text[language]?.exampleQuestions.map((item, index) => (
           <button
