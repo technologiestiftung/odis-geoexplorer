@@ -1,18 +1,40 @@
-import OpenAI from 'openai'
-
-const openAiKey = process.env.OPENAI_KEY
-const openai = new OpenAI({
-  apiKey: openAiKey,
-})
-
 import { codeBlock, oneLine } from 'common-tags'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { ApplicationError } from '@/lib/errors'
 
+const mistralKey = process.env.MISTRAL_KEY
+
+async function createMistralChatCompletion(promptSystem: string, promptUser: string, apiKey: string) {
+  const response = await fetch('https://api.mistral.ai/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: 'open-mistral-7b',
+      messages: [
+        { role: 'system', content: promptSystem },
+        { role: 'user', content: promptUser },
+      ],
+    }),
+  })
+
+  if (!response.ok) {
+    const errText = await response.text()
+    throw new ApplicationError(`Mistral Chat Completion failed: ${response.status}`, { error: errText })
+  }
+  const d = await response.json()
+  console.log('response.json()',d);
+  
+
+  return d
+}
+
 export default async function POST(req: NextApiRequest, res: NextApiResponse) {
   try {
-    if (!openAiKey) {
-      throw new ApplicationError('Missing environment variable OPENAI_KEY')
+    if (!mistralKey) {
+      throw new ApplicationError('Missing environment variable MISTRAL_KEY')
     }
 
     let { initialQuestion, contentDataset, promptType } = req.body
@@ -26,6 +48,7 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
       Dem Leser liegt bereits eine Tabelle vor, die alle Attribute enthält. Du sollt alle Fachbegriffe, Fremdwörter, Konzepte, Methoden und Abkürzungen, die für den Datensatz relevant sind, erklären. Nutze die ganze Zeit einfache Sprache, als würdest du dich an junge Personen richten.
       Nenne beispielhaft Nutzungsmöglichkeiten für diesen Datensatz. Mache keine Aufzählung, sondern nutze nur Fließtext. 
       Antworte anschließend auf die Frage: Warum ist dieser Datensatz relevant im Zusammenhang mit der *Frage*?
+      Fasse dich kurz. Du darfst mit maximal 800 Zeichen Antworten! Erkläre NICHT die Begriffe WFS und WMS! Nutze KEINE Markdown-Formatierung wie "**" oder "*"!!.
       `
       promptUser = codeBlock`${oneLine`*Beschreibung*: ${contentDataset}`} ${oneLine`*Frage*:${initialQuestion}`}.`
     }
@@ -52,15 +75,15 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
     console.log('promptSystem: ', promptSystem)
     console.log('promptUser: ', promptUser)
 
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
-      messages: [
-        { role: 'system', content: promptSystem },
-        { role: 'user', content: promptUser },
-      ],
-      stream: false,
-    })
+    const completion = await createMistralChatCompletion(promptSystem, promptUser, mistralKey)
 
     res.status(200).json({ result: completion.choices[0] })
-  } catch (error) {}
+  } catch (error) {
+    if (error instanceof ApplicationError) {
+      console.error(`${error.message}: ${JSON.stringify(error.data)}`)
+    } else {
+      console.error(error)
+    }
+    return res.status(500).json({ error: 'There was an error processing your request' })
+  }
 }

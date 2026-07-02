@@ -191,6 +191,8 @@ export function Scatterplot({
     hasBeenDraggedRef.current = false
     dragStartRef.current = { x: e.clientX, y: e.clientY }
     panStartRef.current = { x: panX, y: panY }
+    const canvas = canvasRef.current
+    if (canvas) canvas.style.cursor = 'grabbing'
   }
 
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -209,9 +211,13 @@ export function Scatterplot({
       setPanY(panStartRef.current.y + dy)
       setSearchText((prev) => (prev !== '' ? '' : prev))
       setHovered((prev) => (prev !== null ? null : prev))
+      canvas.style.cursor = 'grabbing'
     } else {
       // Hover hit testing
-      if (searchText) return
+      if (searchText) {
+        canvas.style.cursor = 'default'
+        return
+      }
 
       const rect = canvas.getBoundingClientRect()
       const mouseX = e.clientX - rect.left
@@ -231,8 +237,10 @@ export function Scatterplot({
           transformOriginX,
           transformOriginY,
         })
+        canvas.style.cursor = 'pointer'
       } else {
         setHovered((prev) => (prev !== null ? null : prev))
+        canvas.style.cursor = 'grab'
       }
     }
   }
@@ -240,9 +248,17 @@ export function Scatterplot({
   const handleMouseUp = (e: React.MouseEvent<HTMLCanvasElement>) => {
     isDraggingRef.current = false
 
+    const canvas = canvasRef.current
+    if (canvas) {
+      const rect = canvas.getBoundingClientRect()
+      const mouseX = e.clientX - rect.left
+      const mouseY = e.clientY - rect.top
+      const point = getPointAtPosition(mouseX, mouseY)
+      canvas.style.cursor = point ? 'pointer' : 'grab'
+    }
+
     if (!hasBeenDraggedRef.current) {
       // Click hit testing
-      const canvas = canvasRef.current
       if (canvas) {
         const rect = canvas.getBoundingClientRect()
         const mouseX = e.clientX - rect.left
@@ -267,6 +283,8 @@ export function Scatterplot({
     if (!searchText) {
       setHovered(null)
     }
+    const canvas = canvasRef.current
+    if (canvas) canvas.style.cursor = 'grab'
   }
 
   useEffect(() => {

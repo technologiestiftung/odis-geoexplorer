@@ -71,11 +71,13 @@ export function AttributeTable({ contentDataset }) {
     } finally {
       setIsLoading(false)
 
-      console.log('datadatadatadata', data)
-
-      data = JSON.parse(data.result.message.content)
-
-      console.log('datadata', data)
+      let content = data?.result?.message?.content || ''
+        let cleanedContent = content.trim()
+        if (cleanedContent.startsWith('```')) {
+          cleanedContent = cleanedContent.replace(/^```(?:json)?\s*/i, '')
+          cleanedContent = cleanedContent.replace(/\s*```$/, '')
+        }
+        data = JSON.parse(cleanedContent)
 
       if (data) {
         // const descriptionArray = data.attribute.map((key) => aiGeneratedDescriptions[key] || '')

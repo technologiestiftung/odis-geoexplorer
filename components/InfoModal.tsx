@@ -90,18 +90,18 @@ export function InfoModal({ language }) {
               <p className="font-bold pl-6">Hinweis zum KI-Modell</p>
               <br />
               <p className="pl-6">
-                Bitte beachte, dass der GeoExplorer das KI-Modell von ChatGPT nutzt, das heißt
-                Anfragen werden an OpenAI weitergeleitet, die das Unternehmen nach eigenen{' '}
+                Bitte beachte, dass der GeoExplorer das KI-Modell von Mistral nutzt, das heißt
+                Anfragen werden an Mistral weitergeleitet, die das Unternehmen nach eigenen{' '}
                 <a
                   target="_blank"
                   className="underline"
-                  href="https://openai.com/policies/privacy-policy"
+                  href="https://legal.mistral.ai/terms/privacy-policy?language=de-DE"
                 >
                   Datenschutzrichtlinien
                 </a>{' '}
                 verarbeitet. Eine Speicherung der Anfragen durch uns erfolgt nicht. Darüber hinaus
                 fallen bei jeder Abfrage geringfügige Kosten aus Mitteln der öffentlichen Hand für
-                die Nutzung von ChatGPT an und jede Anfrage ist mit einem erhöhten Stromverbrauch im
+                die Nutzung von Mistral an und jede Anfrage ist mit einem erhöhten Stromverbrauch im
                 Vergleich zu üblichen Suchmaschinen verbunden.
               </p>
             </div>
@@ -114,7 +114,7 @@ export function InfoModal({ language }) {
               <p className="ml-6">
                 Die auf dieser Website präsentierten Ergebnisse sind abhängig von der konkreten
                 Suchanfrage (dem Prompt). Es ist wichtig zu beachten, dass Large Language Models wie
-                ChatGPT gelegentlich Informationen ausgeben, die zwar plausibel klingen aber dennoch
+                Mistral gelegentlich Informationen ausgeben, die zwar plausibel klingen aber dennoch
                 falsch sein können. Daher sollten die bereitgestellten Informationen mit Vorsicht
                 betrachtet werden.
                 <br />
