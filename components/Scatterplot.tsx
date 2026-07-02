@@ -288,7 +288,14 @@ export function Scatterplot({
   }
 
   useEffect(() => {
-    const handleClick = () => {
+    const handleClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      if (
+        (canvasRef.current && canvasRef.current.contains(target)) ||
+        target.closest('.scatterplot-tooltip')
+      ) {
+        return
+      }
       setSearchText('')
       setHovered(null)
     }
@@ -340,7 +347,7 @@ export function Scatterplot({
       {hovered && (
         <div
           className={
-            'fixed p-1 rounded max-w-48 text-md z-20 px-2 border border-odis-dark overflow-hidden ' +
+            'fixed p-1 rounded max-w-48 text-md z-20 px-2 border border-odis-dark overflow-hidden scatterplot-tooltip ' +
             (hovered.slugName === slug ? 'bg-active text-odis-dark' : 'bg-white text-odis-dark')
           }
           style={{
@@ -356,7 +363,11 @@ export function Scatterplot({
           {searchText && (
             <button
               onClick={(e) => {
+                e.stopPropagation()
+                e.preventDefault()
                 setSimilarSearchText(searchText)
+                setSearchText('')
+                setHovered(null)
               }}
               className={
                 'relative m-2 text-center  bg-odis-light !text-white p-2 mr-2 rounded-md hover:bg-active hover:!text-odis-dark items-center w-40 truncate overflow-hidden'
