@@ -130,10 +130,6 @@ export function InfoModal({ language }) {
               content={
                 <p>
                   Für jeden Datensatz, wurden sogenannte Metadaten von{' '}
-                  <a className="underline" href="https://daten.berlin.de/" target="blank">
-                    Berlins Open Data Portal{' '}
-                  </a>{' '}
-                  und{' '}
                   <a
                     className="underline"
                     href="https://fbinter.stadt-berlin.de/fb/"
@@ -152,7 +148,7 @@ export function InfoModal({ language }) {
                     href="https://github.com/technologiestiftung/odis-geoexplorer-scraper"
                     target="blank"
                   >
-                    Github-Repo.
+                    Github-Repo.{' '}
                   </a>
                   Danach wurden für jeden einzelnen Metadatensatz ein sogenanntes Embedding erstellt
                   und in eine Datenbank geschrieben. Jedes Embedding enthält einen speziellen
