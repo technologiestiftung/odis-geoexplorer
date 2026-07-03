@@ -90,7 +90,7 @@ export function InfoModal({ language }) {
               <p className="font-bold pl-6">Hinweis zum KI-Modell</p>
               <br />
               <p className="pl-6">
-                Bitte beachte, dass der GeoExplorer das KI-Modell von Mistral nutzt, das heißt
+                Bitte beachte, dass der GeoExplorer ein KI-Modell von Mistral nutzt, das heißt
                 Anfragen werden an Mistral weitergeleitet, die das Unternehmen nach eigenen{' '}
                 <a
                   target="_blank"
