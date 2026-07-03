@@ -1,30 +1,9 @@
-// import type { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-
-import {
-  Configuration,
-  OpenAIApi,
-  CreateModerationResponse,
-  CreateEmbeddingResponse,
-} from 'openai-edge'
-
 import { oneLine } from 'common-tags'
-
-// import testEmbeddings from './testEmbeddings.js'
-
-const openAiKey = process.env.OPENAI_KEY
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-
-const config = new Configuration({
-  apiKey: openAiKey,
-})
-const openai = new OpenAIApi(config)
-const supabaseClient = createClient(supabaseUrl, supabaseServiceKey)
-
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { ApplicationError, UserError } from '@/lib/errors'
+
+const mistralKey = process.env.MISTRAL_KEY
+const hasuraEndpoint = process.env.HASURA_GRAPHQL_ENDPOINT
 
 interface QueryParams {
   messages?: string
@@ -33,23 +12,98 @@ interface QueryParams {
   matchcount?: string
 }
 
+const matchQuery = `
+  query MatchPageSections($args: geoexplorer_match_embeddings_args!) {
+    geoexplorer_match_embeddings(args: $args) {
+      id
+      slug
+      heading
+      similarity
+      dataset_info
+    }
+  }
+`
+
+async function fetchGraphQL(query: string, variables: Record<string, unknown> = {}) {
+  const response = await fetch(hasuraEndpoint as string, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ query, variables }),
+  })
+
+  const result = await response.json()
+
+  if (!response.ok || result.errors) {
+    throw new ApplicationError('Failed to match page sections', result.errors ?? result)
+  }
+
+  return result.data
+}
+
+async function createMistralChatCompletion(prompt: string, query: string, apiKey: string) {
+  const response = await fetch('https://api.mistral.ai/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: 'open-mistral-7b',
+      messages: [
+        { role: 'system', content: prompt },
+        { role: 'user', content: query },
+      ],
+    }),
+  })
+
+  if (!response.ok) {
+    const errText = await response.text()
+    throw new ApplicationError(`Mistral Chat Completion failed: ${response.status}`, { error: errText })
+  }
+
+  const data = await response.json()
+  return data?.choices?.[0]?.message?.content
+}
+
+async function createMistralEmbedding(input: string, apiKey: string): Promise<number[]> {
+  const response = await fetch('https://api.mistral.ai/v1/embeddings', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: 'mistral-embed',
+      input: [input],
+    }),
+  })
+
+  if (!response.ok) {
+    const errText = await response.text()
+    throw new ApplicationError(`Mistral Embedding failed: ${response.status}`, { error: errText })
+  }
+
+  const result = await response.json()
+  const embedding = result?.data?.[0]?.embedding
+  if (!embedding) {
+    throw new ApplicationError('Mistral response did not contain embedding', { result })
+  }
+  return embedding
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   let { messages, matchthreshold, extended, matchcount } = req.query as QueryParams
   let extendedQuery = ''
 
   try {
-    if (!openAiKey) {
-      throw new ApplicationError('Missing environment variable OPENAI_KEY')
+    if (!mistralKey) {
+      throw new ApplicationError('Missing environment variable MISTRAL_KEY')
     }
-    console.log('embeddings-search2')
-    if (!supabaseUrl) {
-      throw new ApplicationError('Missing environment variable SUPABASE_URL')
+    if (!hasuraEndpoint) {
+      throw new ApplicationError('Missing environment variable HASURA_GRAPHQL_ENDPOINT')
     }
-    console.log('embeddings-search3')
-    if (!supabaseServiceKey) {
-      throw new ApplicationError('Missing environment variable SUPABASE_SERVICE_ROLE_KEY')
-    }
-
     if (!messages) {
       throw new UserError('Missing messages data')
     }
@@ -61,64 +115,44 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (extended === '1') {
       try {
-        const response = await openai.createChatCompletion({
-          model: 'gpt-3.5-turbo',
-          stream: false,
-          messages: [
-            {
-              role: 'system',
-              // content: oneLine`Deine Rolle ist es, im Geodatenportal der Stadt Berlin Datensätze zu finden. Du erhälts einen Begriff oder einen Satz. Nenne EINEN einzigen neuen Begriff der helfen könnte mehr zu dem Thema des Users zu finden. Geben folgende Begriffe NICHT zurück: Berlin`,
-              content: oneLine`Deine Rolle ist es, im Geodatenportal der Stadt Berlin Datensätze zu finden. Nennen EIN Wort das die Eingabe des Users Thematisch beschreibt.`,
-            },
-            { role: 'user', content: oneLine`${query}` },
-          ],
-        })
-        // wait for the response to be completed and save the result in a varibale
-        const completion = await response.json()
-        extendedQuery = completion?.choices[0]?.message?.content
-        console.log('extended search', extendedQuery)
-        query = extendedQuery ? extendedQuery : query
+        const systemPrompt = oneLine`Deine Rolle ist es, im Geodatenportal der Stadt Berlin Datensätze zu finden. Nennen EIN Wort das die Eingabe des Users Thematisch beschreibt.`
+        const result = await createMistralChatCompletion(systemPrompt, oneLine`${query}`, mistralKey)
+        if (result) {
+          extendedQuery = result
+          console.log('extended search', extendedQuery)
+          query = extendedQuery
+        }
       } catch (error) {
         console.error('error in completion', error)
       }
     }
 
-    // Moderate the content to comply with OpenAI T&C
     const sanitizedQuery = query.trim()
-    const moderationResponse: CreateModerationResponse = await openai
-      .createModeration({ input: sanitizedQuery })
-      .then((res) => res.json())
 
-    const [results] = moderationResponse.results
-    if (results.flagged) {
-      throw new UserError('Flagged content', {
-        flagged: true,
-        categories: results.categories,
-      })
-    }
-    // Create embedding from query
-    const embeddingResponse = await openai.createEmbedding({
-      model: 'text-embedding-3-small',
-      input: sanitizedQuery.replaceAll('\n', ' '),
+    // Create embedding from query using Mistral
+    const embedding = await createMistralEmbedding(sanitizedQuery.replaceAll('\n', ' '), mistralKey)
+
+    const data = await fetchGraphQL(matchQuery, {
+      args: {
+        // pgvector expects a string-encoded array, e.g. "[0.1,0.2,...]"
+        query_embedding: JSON.stringify(embedding),
+        match_threshold: matchthreshold ? Number(matchthreshold) : 0.26,
+        match_count: matchcount ? Number(matchcount) : 40,
+      },
     })
-    if (embeddingResponse.status !== 200) {
-      throw new ApplicationError('Failed to create embedding for question', embeddingResponse)
-    }
-    const {
-      data: [{ embedding }],
-    }: CreateEmbeddingResponse = await embeddingResponse.json()
 
-    const { error: matchError, data: pageSections } = await supabaseClient.rpc(
-      'match_page_sections_v2',
-      {
-        query_embedding: embedding,
-        match_threshold: matchthreshold ? matchthreshold : 0.26,
-        match_count: matchcount ? matchcount : 40, // 15
-      }
-    )
-    if (matchError) {
-      throw new ApplicationError('Failed to match page sections', matchError)
-    }
+    const pageSections = data.geoexplorer_match_embeddings
+
     res.status(200).json({ embeddings: pageSections, extendedQuery: extendedQuery })
-  } catch (error) {}
+  } catch (error) {
+    if (error instanceof UserError) {
+      return res.status(400).json({ error: error.message, data: error.data })
+    }
+    if (error instanceof ApplicationError) {
+      console.error(`${error.message}: ${JSON.stringify(error.data)}`)
+    } else {
+      console.error(error)
+    }
+    return res.status(500).json({ error: 'There was an error processing your request' })
+  }
 }

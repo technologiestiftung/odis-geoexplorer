@@ -170,19 +170,35 @@ export function DatasetInfoExtended({
     }
   }
 
-  console.log('contentDataset', contentDataset)
-
   const buttonClass =
     'text-center  md:w-48  flex bg-odis-light !text-white p-2 mr-2 rounded-md hover:bg-active hover:!text-odis-dark items-center'
 
+  const layerNote = contentDataset['Anmerkung Layer']?.trim()
+  const datasetNote = contentDataset['Anmerkung']?.trim()
+
+  const showLayerNote = layerNote && layerNote !== datasetNote
+
   return (
     <div>
-      {contentDataset['Anmerkung Layer'] &&
-        contentDataset['Anmerkung Layer'] !== contentDataset['Anmerkung'] && (
-          <div className="px-4 mb-4 italic font-light">{contentDataset['Anmerkung Layer']}</div>
-        )}
-      <div className="px-4 mb-4 italic font-light">{contentDataset['Anmerkung']}</div>
+      {(showLayerNote || datasetNote) && (
+        <div className="space-y-5 px-4 mb-5 ">
+          {showLayerNote && (
+            <div>
+              <div className="mb-1 font-semibold">Kurzbeschreibung</div>
 
+              <p className="leading-relaxed first-letter:uppercase">{layerNote}</p>
+            </div>
+          )}
+
+          {datasetNote && (
+            <div>
+              <div className="mb-1 font-semibold">Weitere Informationen</div>
+
+              <p className="max-w-5xl leading-relaxed first-letter:uppercase">{datasetNote}</p>
+            </div>
+          )}
+        </div>
+      )}
       <div className="px-4 flex">
         <button
           onClick={() => getGeoData('download', contentDataset['Titel'])}

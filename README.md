@@ -88,7 +88,7 @@ NOTE: We use **pnpm** here not npm!
 pnpm install
 ```
 
-The app queries data from the [Supabase DB API](https://www.supabase.com/) and [Open AI](https://www.openai.com/). You will need to provide connection details in your environment. In this repository you can find a file `.env.example`. Duplicate this file and name it `.env`.
+The app queries data from the [Hasura GraphQL Engine](https://hasura.io/) and [Mistral AI](https://mistral.ai/). You will need to provide connection details in your environment. In this repository you can find a file `.env.example`. Duplicate this file and name it `.env`.
 
 In `.env` you must enter the connection details suggested in `.env.example`. If you do not know how to obtain the necessary details, please ask a repository maintainer for access.
 
@@ -106,7 +106,7 @@ You can find more information about the data on this [Github repo](https://githu
 
 ## Backend
 
-The embeddings are hosted on [Supabase](https://www.supabase.com/) - a service that allows you to host a PostgreSQL database and query it via an API.
+The embeddings and database are queried via [Hasura GraphQL Engine](https://hasura.io/) which connects to our PostgreSQL database containing the pgvector embeddings.
 
 ## Workflow
 

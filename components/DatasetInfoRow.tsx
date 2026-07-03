@@ -1,8 +1,6 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { InfoIcon } from '@/components/ui/icons/info'
-
 import { DatasetInfoExtended } from '@/components/DatasetInfoExtended'
 import { SimilarityRating } from '@/components/SimilarityRating'
 
@@ -69,9 +67,20 @@ export function DatasetInfoRow(props) {
               <div className="w-12 font-bold  border !border-odis-dark rounded-full p-1 px-2 h-max mr-4 self-center text-xs">
                 {content['Typ']}
               </div>
-              <span className="">
-                {content['Titel'].replace(' - \\[WMS]', '').replace(' - \\[WFS]', '')}
-              </span>
+              <div className="flex flex-col gap-1">
+                <span className="text-base font-semibold capitalize text-odis-dark">
+                  {content['Titel'].replace(' - \\[WMS]', '').replace(' - \\[WFS]', '')}
+                </span>
+
+                {content['Service Name'] && (
+                  <span className="text-sm font-normal tracking-wide text-odis-dark/65">
+                    Teildatensatz von{' '}
+                    <span className="font-medium text-odis-dark/90 first-letter:uppercase">
+                      {content['Service Name'].replace('(Umweltatlas)', '')}
+                    </span>
+                  </span>
+                )}
+              </div>
             </div>
             <div className="m-4 md:basis-2/6 sm:basis-1/4 sm:flex hidden">
               <span className="basis-1/2 ml-2">

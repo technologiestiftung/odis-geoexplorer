@@ -1,9 +1,9 @@
 'use client'
 import * as d3 from 'd3'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import { InfoIcon } from '@/components/ui/icons/info'
 
-type ElementType = [number, number, string]
+type ElementType = [number, number, string, string] // [tsne_x, tsne_y, slug, heading]
 
 type ScatterplotProps = {
   scatterPlotData: Array<ElementType>
@@ -12,6 +12,7 @@ type ScatterplotProps = {
   setSimilarSearchText: any
   slug: string
 }
+
 export type InteractionData = {
   xPos: number
   yPos: number
@@ -32,210 +33,277 @@ export function Scatterplot({
 
   const [hovered, setHovered] = useState<InteractionData | null>(null)
   const [searchText, setSearchText] = useState<string>('')
-  const [scaleFactor, setScaleFactor] = useState(initScale) // Initial scale factor
-  const [scaleDirection, setScaleDirection] = useState('') // Initial scale factor
-  const [hasZoomed, setHasZoomed] = useState(false) // Initial scale factor
-  // set transform here
+  const [scaleFactor, setScaleFactor] = useState(initScale)
+  const [panX, setPanX] = useState(0)
+  const [panY, setPanY] = useState(0)
 
-  const [hasBeenDragged, setHasBeenDragged] = useState(false) // Initial scale factor
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  const isDraggingRef = useRef(false)
+  const dragStartRef = useRef({ x: 0, y: 0 })
+  const panStartRef = useRef({ x: 0, y: 0 })
+  const hasBeenDraggedRef = useRef(false)
 
-  const svgRef = useRef(null)
+  // 1. Calculate Scales based on the data boundaries
+  const { xScale, yScale, newCenter } = useMemo(() => {
+    const xVals = scatterPlotData.map((d) => Number(d[0]) ?? d[0])
+    const yVals = scatterPlotData.map((d) => Number(d[1]) ?? d[1])
+
+    const minMaxY = d3.extent(yVals) as [number, number]
+    const minMaxX = d3.extent(xVals) as [number, number]
+
+    const yScale = d3.scaleLinear().domain(minMaxY).range([height, 0])
+    const xScale = d3.scaleLinear().domain(minMaxX).range([0, width])
+
+    const centerPoint = scatterPlotData.find((d) => d[2] === slug)
+    let centerCoords = [0, 0]
+    if (centerPoint) {
+      centerCoords = [Number(centerPoint[0]), Number(centerPoint[1])]
+    }
+
+    return { xScale, yScale, newCenter: centerCoords }
+  }, [scatterPlotData, width, height, slug])
+
+  // 2. Align viewport to the selected node on mount or slug change
+  useEffect(() => {
+    if (newCenter) {
+      const initialX = width / 2 - xScale(newCenter[0]) * scaleFactor
+      const initialY = height / 2 - yScale(newCenter[1]) * scaleFactor
+      setPanX(initialX)
+      setPanY(initialY)
+    }
+  }, [slug, width, height, xScale, yScale, newCenter])
+
+  // 3. Zoom triggers pan adjustment to keep it centered
+  const adjustZoom = (newScale: number) => {
+    const oldScale = scaleFactor
+    setScaleFactor(newScale)
+    
+    // Zoom relative to the center of the viewport
+    const centerX = width / 2
+    const centerY = height / 2
+    
+    setPanX((prev) => centerX - ((centerX - prev) * newScale) / oldScale)
+    setPanY((prev) => centerY - ((centerY - prev) * newScale) / oldScale)
+    setSearchText('')
+    setHovered(null)
+  }
 
   const zoomIn = () => {
-    if (scaleFactor < 20) {
-      setScaleFactor(scaleFactor + 1)
-      setScaleDirection('in')
-      setSearchText('')
-      setHovered(null)
+    if (scaleFactor < 25) {
+      adjustZoom(scaleFactor + 1)
     }
   }
 
   const zoomOut = () => {
     if (scaleFactor > 1) {
-      setScaleFactor(scaleFactor - 1)
-      setScaleDirection('out')
-      setSearchText('')
-      setHovered(null)
+      adjustZoom(scaleFactor - 1)
     }
   }
 
+  // Helper to find data point under screen space coordinates
+  const getPointAtPosition = (mouseX: number, mouseY: number): ElementType | null => {
+    let closestPoint: ElementType | null = null
+    let minDistance = 10 // hit test radius in pixels
+
+    for (const d of scatterPlotData) {
+      const px = xScale(Number(d[0])) * scaleFactor + panX
+      const py = yScale(Number(d[1])) * scaleFactor + panY
+      const dx = mouseX - px
+      const dy = mouseY - py
+      const dist = dx * dx + dy * dy
+      if (dist < minDistance * minDistance) {
+        minDistance = Math.sqrt(dist)
+        closestPoint = d
+      }
+    }
+    return closestPoint
+  }
+
+  // 4. Render canvas loop
   useEffect(() => {
-    // Scales
-    const xVals = scatterPlotData.map((d) => Number(d[0]) ?? d[0])
-    const yVals = scatterPlotData.map((d) => Number(d[1]) ?? d[1])
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
 
-    const minMaxY = [Math.min(...yVals), Math.max(...yVals)]
-    const minMaxX = [Math.min(...xVals), Math.max(...xVals)]
+    const dpr = window.devicePixelRatio || 1
+    canvas.width = width * dpr
+    canvas.height = height * dpr
+    canvas.style.width = `${width}px`
+    canvas.style.height = `${height}px`
+    ctx.scale(dpr, dpr)
 
-    const yScale = d3.scaleLinear().domain(minMaxY).range([height, 0])
-    const xScale = d3.scaleLinear().domain(minMaxX).range([0, width])
+    ctx.clearRect(0, 0, width, height)
 
-    // const rScale = d3.scaleLinear().domain([1, 20]).range([1, 1])
+    // A. Draw lines from center to all other points
+    const cx = xScale(newCenter[0]) * scaleFactor + panX
+    const cy = yScale(newCenter[1]) * scaleFactor + panY
 
-    let newCenter = scatterPlotData.filter((d) => d[2] === slug)
-    if (!newCenter[0]) return
-    // @ts-ignore
-    let selectedName = newCenter[0][3]
-    // @ts-ignore
-    newCenter = [Number(newCenter[0][0]), Number(newCenter[0][1])]
+    ctx.beginPath()
+    ctx.strokeStyle = 'rgba(179, 242, 224, 0.5)'
+    ctx.lineWidth = 0.5
+    for (const d of scatterPlotData) {
+      // Don't draw line to itself
+      if (d[2] === slug) continue
+      const px = xScale(Number(d[0])) * scaleFactor + panX
+      const py = yScale(Number(d[1])) * scaleFactor + panY
+      ctx.moveTo(cx, cy)
+      ctx.lineTo(px, py)
+    }
+    ctx.stroke()
 
-    scatterPlotData = scatterPlotData.filter((d) => d[2] !== slug)
-    // @ts-ignore
-    scatterPlotData = [[...newCenter, slug, selectedName], ...scatterPlotData]
+    // B. Draw circles (non-selected first)
+    for (const d of scatterPlotData) {
+      if (d[2] === slug) continue
+      const px = xScale(Number(d[0])) * scaleFactor + panX
+      const py = yScale(Number(d[1])) * scaleFactor + panY
 
-    let transform = `translate(${width / 2 - xScale(newCenter[0]) * scaleFactor}, ${
-      height / 2 - yScale(newCenter[1]) * scaleFactor
-    }) scale(${scaleFactor})`
-
-    if (scaleFactor !== initScale || hasZoomed || hasBeenDragged) {
-      setHasZoomed(true)
-      const currentTransform = d3.select(svgRef.current).select('g').attr('transform')
-      const translate = currentTransform
-        .substring(currentTransform.indexOf('(') + 1, currentTransform.indexOf(')'))
-        .split(',')
-
-      const oldZoom = !scaleDirection
-        ? scaleFactor
-        : scaleDirection === 'in'
-        ? scaleFactor - 1
-        : scaleFactor + 1
-      const newX = -(((-parseInt(translate[0]) + width / 2) * scaleFactor) / oldZoom - width / 2)
-      const newY = -(((-parseInt(translate[1]) + height / 2) * scaleFactor) / oldZoom - height / 2)
-      transform = `translate(${newX},${newY}) scale(${scaleFactor})`
-      setScaleDirection('')
+      ctx.beginPath()
+      ctx.arc(px, py, 5, 0, 2 * Math.PI)
+      ctx.fillStyle = '#1d2c5d'
+      ctx.globalAlpha = 0.15
+      ctx.fill()
+      
+      ctx.globalAlpha = 1.0
+      ctx.lineWidth = 0.5
+      ctx.strokeStyle = '#1d2c5d'
+      ctx.stroke()
     }
 
-    const dragHandler = d3
-      .drag()
-      .on('drag', function (event) {
-        const currentTransform = d3.select(this).select('g').attr('transform')
-        const translate = currentTransform
-          .substring(currentTransform.indexOf('(') + 1, currentTransform.indexOf(')'))
-          .split(',')
+    // C. Draw the selected center circle on top
+    const px = xScale(newCenter[0]) * scaleFactor + panX
+    const py = yScale(newCenter[1]) * scaleFactor + panY
 
-        const newX = parseInt(translate[0]) + event.dx
-        const newY = parseInt(translate[1]) + event.dy
-        setHasBeenDragged(true)
-        d3.select(this)
-          .select('g')
-          .attr('transform', `translate(${newX},${newY}) scale(${scaleFactor})`)
-        setSearchText('')
-        setHovered(null)
-      })
-      .on('end', () => {
-        d3.select(svgRef.current).style('cursor', 'grab')
-      })
+    ctx.beginPath()
+    ctx.arc(px, py, 4, 0, 2 * Math.PI)
+    ctx.fillStyle = '#B3F2E0'
+    ctx.fill()
 
-    d3.select(svgRef.current).select('g').remove()
+    ctx.lineWidth = 1
+    ctx.strokeStyle = '#ffffff'
+    ctx.stroke()
 
-    // Initial render of the scatterplot
-    const svg = d3
-      .select(svgRef.current)
-      .attr('width', width)
-      .attr('height', height)
-      .style('background', 'white')
-      .on('mousedown', () => {
-        d3.select(svgRef.current).style('cursor', 'grabbing')
-      })
-      .on('mouseup', () => {
-        d3.select(svgRef.current).style('cursor', 'grab')
-      })
-      .call(dragHandler)
+  }, [width, height, scaleFactor, panX, panY, scatterPlotData, slug, newCenter, xScale, yScale])
 
-    const group = svg.append('g').attr('transform', transform)
+  // 5. Mouse Interaction Handlers
+  const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    isDraggingRef.current = true
+    hasBeenDraggedRef.current = false
+    dragStartRef.current = { x: e.clientX, y: e.clientY }
+    panStartRef.current = { x: panX, y: panY }
+    const canvas = canvasRef.current
+    if (canvas) canvas.style.cursor = 'grabbing'
+  }
 
-    group
-      .selectAll('line')
-      .data(scatterPlotData)
-      .join('line')
-      .attr('x1', (d) => xScale(newCenter[0]))
-      .attr('y1', (d) => yScale(newCenter[1]))
-      .attr('x2', (d) => xScale(d[0]))
-      .attr('y2', (d) => yScale(d[1]))
-      .attr('stroke', '#B3F2E0')
-      .attr('stroke-width', (d) => 0.5 / scaleFactor)
-      .attr('stroke-opacity', 0.5)
+  const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current
+    if (!canvas) return
 
-    // Render circles
-    group
-      .selectAll('circle')
-      .data(scatterPlotData)
-      .join('circle')
-      .attr('cx', (d) => xScale(d[0]))
-      .attr('cy', (d) => yScale(d[1]))
-      .attr('r', (d) => {
-        return (d[2] === slug ? 2 : 1) * 1
-      })
+    if (isDraggingRef.current) {
+      const dx = e.clientX - dragStartRef.current.x
+      const dy = e.clientY - dragStartRef.current.y
+      
+      if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
+        hasBeenDraggedRef.current = true
+      }
 
-      .attr('fill', (d) => (d[2] === slug ? '#B3F2E0' : '#1d2c5d'))
-      .attr('fill-opacity', (d) => {
-        return d[2] === slug ? 1 : 0.1
-      })
-      .attr('stroke', (d) => {
-        return d[2] === slug ? '#fff' : '#1d2c5d'
-      })
-      .attr('stroke-width', (d) => 1 / scaleFactor)
-      .on('mouseenter', (e, d) => {
-        if (searchText) return
+      setPanX(panStartRef.current.x + dx)
+      setPanY(panStartRef.current.y + dy)
+      setSearchText((prev) => (prev !== '' ? '' : prev))
+      setHovered((prev) => (prev !== null ? null : prev))
+      canvas.style.cursor = 'grabbing'
+    } else {
+      // Hover hit testing
+      if (searchText) {
+        canvas.style.cursor = 'default'
+        return
+      }
 
-        e.stopPropagation()
-        e.preventDefault()
+      const rect = canvas.getBoundingClientRect()
+      const mouseX = e.clientX - rect.left
+      const mouseY = e.clientY - rect.top
 
-        const svgRect = e.currentTarget.ownerSVGElement.getBoundingClientRect()
-        let xPos = e.clientX - svgRect.left
-        let yPos = e.clientY - svgRect.top
-
-        // Determine which quadrant of the SVG we're in
-        const horizontalHalf = svgRect.width / 2
-        const verticalHalf = svgRect.height / 2
-
-        let transformOriginX = xPos < horizontalHalf ? 'left' : 'right'
-        let transformOriginY = yPos < verticalHalf ? 'top' : 'bottom'
+      const point = getPointAtPosition(mouseX, mouseY)
+      if (point) {
+        // Determine quadrant
+        const transformOriginX = mouseX < width / 2 ? 'left' : 'right'
+        const transformOriginY = mouseY < height / 2 ? 'top' : 'bottom'
 
         setHovered({
           xPos: e.clientX + 10,
           yPos: e.clientY + 10,
-          name: d[3].replace('"', ''),
-          slugName: d[2],
-          transformOriginX: transformOriginX,
-          transformOriginY: transformOriginY,
+          name: point[3].replace('"', ''),
+          slugName: point[2],
+          transformOriginX,
+          transformOriginY,
         })
-      })
-      .on('mouseleave', (e) => {
-        searchText ? null : setHovered(null)
-      })
-      .attr('class', (d) => {
-        return `${searchText ? '' : 'cursor-pointer'} ${d[2] === slug ? '' : 'z-20'}`
-      })
-      .on('click', (e, d) => {
-        e.stopPropagation()
-        e.preventDefault()
-        if (searchText) {
-          setSearchText('')
-          setHovered(null)
-        } else {
-          setSearchText(d[3])
+        canvas.style.cursor = 'pointer'
+      } else {
+        setHovered((prev) => (prev !== null ? null : prev))
+        canvas.style.cursor = 'grab'
+      }
+    }
+  }
+
+  const handleMouseUp = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    isDraggingRef.current = false
+
+    const canvas = canvasRef.current
+    if (canvas) {
+      const rect = canvas.getBoundingClientRect()
+      const mouseX = e.clientX - rect.left
+      const mouseY = e.clientY - rect.top
+      const point = getPointAtPosition(mouseX, mouseY)
+      canvas.style.cursor = point ? 'pointer' : 'grab'
+    }
+
+    if (!hasBeenDraggedRef.current) {
+      // Click hit testing
+      if (canvas) {
+        const rect = canvas.getBoundingClientRect()
+        const mouseX = e.clientX - rect.left
+        const mouseY = e.clientY - rect.top
+
+        const point = getPointAtPosition(mouseX, mouseY)
+        if (point) {
+          e.stopPropagation()
+          if (searchText) {
+            setSearchText('')
+            setHovered(null)
+          } else {
+            setSearchText(point[3])
+          }
         }
-      })
-  }, [width, height, scaleFactor, searchText]) // Only re-render when data or size changes
+      }
+    }
+  }
+
+  const handleMouseLeave = () => {
+    isDraggingRef.current = false
+    if (!searchText) {
+      setHovered(null)
+    }
+    const canvas = canvasRef.current
+    if (canvas) canvas.style.cursor = 'grab'
+  }
 
   useEffect(() => {
-    const handleClick = () => {
+    const handleClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      if (
+        (canvasRef.current && canvasRef.current.contains(target)) ||
+        target.closest('.scatterplot-tooltip')
+      ) {
+        return
+      }
       setSearchText('')
       setHovered(null)
     }
-
-    // Add event listener
     window.addEventListener('click', handleClick)
-
-    // Clean up the event listener on component unmount
     return () => {
       window.removeEventListener('click', handleClick)
     }
-  }, []) // Empty dependency array ensures this runs only on mount and unmount
-
-  const buttonClass =
-    'absolute m-2 text-center w-48 bg-odis-light !text-white p-2 mr-2 rounded-md hover:bg-active hover:!text-odis-dark items-center w-40 truncate overflow-hidden'
+  }, [])
 
   return (
     <div style={{ position: 'relative' }} className="">
@@ -267,12 +335,19 @@ export function Scatterplot({
         </button>
       </div>
 
-      <svg ref={svgRef} className="cursor-grab"></svg>
+      <canvas
+        ref={canvasRef}
+        className="cursor-grab active:cursor-grabbing"
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseLeave}
+      />
 
       {hovered && (
         <div
           className={
-            'fixed p-1 rounded max-w-48 text-md z-20 px-2 border border-odis-dark overflow-hidden ' +
+            'fixed p-1 rounded max-w-48 text-md z-20 px-2 border border-odis-dark overflow-hidden scatterplot-tooltip ' +
             (hovered.slugName === slug ? 'bg-active text-odis-dark' : 'bg-white text-odis-dark')
           }
           style={{
@@ -288,7 +363,11 @@ export function Scatterplot({
           {searchText && (
             <button
               onClick={(e) => {
+                e.stopPropagation()
+                e.preventDefault()
                 setSimilarSearchText(searchText)
+                setSearchText('')
+                setHovered(null)
               }}
               className={
                 'relative m-2 text-center  bg-odis-light !text-white p-2 mr-2 rounded-md hover:bg-active hover:!text-odis-dark items-center w-40 truncate overflow-hidden'

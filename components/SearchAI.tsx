@@ -33,24 +33,15 @@ export function SearchAI({ language }) {
   useMatomo()
 
   useEffect(() => {
-    fetch('./data/tsne_data.csv')
+    fetch('/api/get-graph-data')
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok')
         }
-        return response.text()
+        return response.json()
       })
-      .then((csvData) => {
-        let rows = csvData.split('\n').map((row) => row.split(','))
-        rows.shift()
-        rows.pop()
-        rows.map((d) => {
-          // @ts-ignore
-          d[0] = Number(d[0])
-          // @ts-ignore
-          d[1] = Number(d[1])
-        })
-        setScatterPlotData(rows)
+      .then((data) => {
+        setScatterPlotData(data)
       })
       .catch((error) => {
         console.error('There was a problem with the fetch operation:', error)
@@ -221,6 +212,12 @@ export function SearchAI({ language }) {
           {isLoading ? <LoaderCrossIcon animate={isLoading} /> : <SearchIcon />}
         </button>
       </form>
+
+      {scatterPlotData && scatterPlotData.length > 0 && (
+        <div className="text-xs text-gray-400 mt-1 pl-1 font-medium">
+          {scatterPlotData.length} {text[language].availableDatasets}
+        </div>
+      )}
 
       <div className="suggestions mt-4 text-xs text-odis-dark ">
         {text[language]?.exampleQuestions.map((item, index) => (
