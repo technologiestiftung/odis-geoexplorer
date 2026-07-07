@@ -18,13 +18,13 @@ Geo data is required for a large number of projects. A wealth of knowledge about
 
 The prototype tool GeoExplorer is designed to help you find and quickly understand geo data. Thanks to AI support, the tool searches for suitable or nearby geodata sets based on your query. You can also delve deeper into each dataset description and have a AI explain the content to you.
 
-The open geo data is stored in the Berlin geo data infrastructure, which is operated by the Senate Department for Urban Development, Building and Housing (SenSBW). GeoExplorer only accesses the metadata. It is not an alternative the other open data portals of Berlin such as the FIS-Broker or the Berlin Open Data Portal, but is intended to provide an opportunity for users who are not yet familiar with geo data from the Berlin administration.
+The open geo data is stored in the Berlin geo data infrastructure, which is operated by the Senate Department for Urban Development, Building and Housing (SenSBW). GeoExplorer only accesses the metadata. It is not an alternative the other open data portals of Berlin such as the Geo Portal or the Berlin Open Data Portal, but is intended to provide an opportunity for users who are not yet familiar with geo data from the Berlin administration.
 
 Other, non-spatial data from the Open Data Portal has not yet been taken into account for the Explorer at this point in time, as these generally have significantly less good metadata.
 
 ## How does the search work?
 
-For each dataset, metadata was automatically scraped (collected) from [Berlins Open Data Portal](https://daten.berlin.de/) and [Berlins Geo Data Portal (FisBroker)](https://fbinter.stadt-berlin.de/fb/).
+For each dataset, metadata was automatically scraped (collected) from Berlin’s CSW (Catalogue Service for the Web), a catalogue containing metadata for all geospatial datasets. Metadata for the corresponding WMS and WFS services was also scraped.
 
 > Metadata is data that describes a dataset, e.g. the attributes that a dataset has or the descriptive text written by a human.
 
@@ -100,9 +100,7 @@ pnpm dev
 
 ## Data
 
-You can explore 1662 datasets (as at 3 July 2024). WMS that exist as WFS (except arial images) have no been included in the search.
-
-You can find more information about the data on this [Github repo](https://github.com/technologiestiftung/odis-geoexplorer-data-v2).
+The Data is scraped and synced using an [Airflow DAG](./geoexplorer_data/README.md).
 
 ## Backend
 
@@ -200,3 +198,5 @@ Texts and content available as [CC BY](https://creativecommons.org/licenses/by/3
 </table>
 
 ## Related Projects
+
+- [WFS-Explorer](https://wfsexplorer.odis-berlin.de/)

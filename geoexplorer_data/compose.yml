@@ -1,0 +1,170 @@
+x-common: &common
+  restart: unless-stopped
+  networks:
+    - geoexplorer-net
+
+x-airflow-common-env: &airflow-common-env
+  AIRFLOW__CORE__EXECUTION_API_SERVER_URL: 'http://api-server:8080/execution/'
+  AIRFLOW__CORE__AUTH_MANAGER: airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager
+  AIRFLOW__API_AUTH__JWT_SECRET: ${AIRFLOW_JWT_SECRET}
+  AIRFLOW__CORE__EXECUTOR: LocalExecutor
+  AIRFLOW__DEBUG__FAIL_FAST: "true"
+  AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${POSTGRES_AIRFLOW_USER}:${POSTGRES_AIRFLOW_PASSWORD}@postgres-airflow:5432/${POSTGRES_AIRFLOW_DB}
+  AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+  AIRFLOW__API__SECRET_KEY: ${AIRFLOW_SECRET_KEY}
+  # # DB connection
+  AIRFLOW_CONN_POSTGRES_CONN_GEODATA: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres-sebweb-ib:5432/${POSTGRES_DB}
+  # Variables
+  AIRFLOW_VAR_GENESIS_API_TOKEN: ${GENESIS_API_TOKEN}
+  # Python
+  PYTHONPATH: /opt/airflow
+
+x-airflow-volumes: &airflow-volumes
+  - ./requirements.txt:/opt/airflow/dags/requirements.txt
+  - ./scripts/:/opt/airflow/dags/scripts/
+  - ./utils/:/opt/airflow/dags/utils/
+  - ./:/opt/airflow/dags/
+
+x-airflow-build: &airflow-build
+  build:
+    context: .
+    dockerfile: Dockerfile.airflow
+
+services:
+  # ---------- PostgreSQL:
+  postgres-sebweb-ib:
+    <<: *common
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      retries: 5
+    volumes:
+      - postgres-sebweb-ib-data:/var/lib/postgresql/data
+    ports:
+      - "5431:5432"
+    mem_limit: 2000m
+
+  # ---------- PostgreSQL: Airflow metadata
+  postgres-airflow:
+    <<: *common
+    image: postgres:17
+    environment:
+      POSTGRES_DB: ${POSTGRES_AIRFLOW_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_AIRFLOW_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_AIRFLOW_USER}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_AIRFLOW_USER} -d ${POSTGRES_AIRFLOW_DB}"]
+      interval: 10s
+      retries: 5
+    volumes:
+      - postgres-airflow-data:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+    mem_limit: 512m
+
+  # ---------- Airflow init (one-shot)
+  airflow-init:
+    <<: *airflow-build
+    networks:
+      - geoexplorer-net
+    depends_on:
+      postgres-airflow:
+        condition: service_healthy
+    environment:
+      <<: *airflow-common-env
+    command: bash -c "airflow db migrate && airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com"
+
+  # ----------Airflow DAG porcessor
+  dag-processor:
+    <<: [*common, *airflow-build]
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+      postgres-airflow:
+        condition: service_healthy
+    environment:
+      <<: *airflow-common-env
+    command: dag-processor
+    volumes: *airflow-volumes
+
+  # ---------- Airflow scheduler
+  scheduler:
+    <<: [*common, *airflow-build]
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+      dag-processor:
+        condition: service_started
+      postgres-airflow:
+        condition: service_healthy
+    environment:
+      <<: *airflow-common-env
+    command: scheduler
+    volumes: *airflow-volumes
+    healthcheck:
+      test: ["CMD-SHELL", "airflow jobs check --job-type SchedulerJob || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    mem_limit: 4000m
+
+  # ---------- Airflow webserver
+  api-server:
+    <<: [*common, *airflow-build]
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+      dag-processor:
+        condition: service_started
+      postgres-airflow:
+        condition: service_healthy
+      scheduler:
+        condition: service_started
+    environment:
+      <<: *airflow-common-env
+    command: api-server
+    volumes: *airflow-volumes
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/api/v2/monitor/health"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 60s
+    mem_limit: 1000m
+
+  # ---------- pgAdmin
+  pgadmin:
+    <<: *common
+    image: dpage/pgadmin4:latest
+    depends_on:
+      postgres-sebweb-ib:
+        condition: service_healthy
+      postgres-airflow:
+        condition: service_healthy
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@local.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+      - ./pgadmin-servers.json:/pgadmin4/servers.json
+
+volumes:
+  postgres-sebweb-ib-data:
+  postgres-airflow-data:
+  pgadmin-data:
+
+networks:
+  geoexplorer-net:
+    driver: bridge

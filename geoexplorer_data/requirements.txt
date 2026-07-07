@@ -1,0 +1,15 @@
+pendulum
+apache-airflow
+apache-airflow-providers-amazon
+apache-airflow-providers-postgres
+pandas
+requests
+xmltodict
+owslib
+html2text
+mistralai>=1.0.0
+scikit-learn
+numpy
+pgvector
+python-dotenv
+pyproj
