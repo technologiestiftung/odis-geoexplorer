@@ -13,8 +13,8 @@ interface QueryParams {
 }
 
 const matchQuery = `
-  query MatchPageSections($args: geoexplorer_match_embeddings_args!) {
-    geoexplorer_match_embeddings(args: $args) {
+  query MatchPageSections($args: geoexplorer_brandenburg_match_embeddings_args!) {
+    geoexplorer_brandenburg_match_embeddings(args: $args) {
       id
       slug
       heading
@@ -141,7 +141,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       },
     })
 
-    const pageSections = data.geoexplorer_match_embeddings
+    const pageSections = data.geoexplorer_brandenburg_match_embeddings
 
     res.status(200).json({ embeddings: pageSections, extendedQuery: extendedQuery })
   } catch (error) {

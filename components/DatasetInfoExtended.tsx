@@ -225,7 +225,7 @@ export function DatasetInfoExtended({
             }
             target="_blank"
             href={
-              'https://gdi.berlin.de/geonetwork/srv/ger/catalog.search#/metadata/' +
+              'https://geoportal.brandenburg.de/detailansichtdienst/render?url=https://geoportal.brandenburg.de/gs-json/xml?fileid=' +
               contentDataset['guid']
             }
           >
