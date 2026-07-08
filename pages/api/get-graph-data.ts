@@ -5,7 +5,7 @@ const hasuraEndpoint = process.env.HASURA_GRAPHQL_ENDPOINT
 
 const graphQuery = `
   query GetGeoExplorerGraph {
-    geoexplorer_embeddings(where: {tsne_x: {_is_null: false}}) {
+    geoexplorer_brandenburg_embeddings(where: {tsne_x: {_is_null: false}}) {
       Dimension_1: tsne_x
       Dimension_2: tsne_y
       Slug: slug
@@ -39,7 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     const data = await fetchGraphQL(graphQuery)
-    const rawPoints = data.geoexplorer_embeddings || []
+    const rawPoints = data.geoexplorer_brandenburg_embeddings || []
 
     // Map to the array format [number, number, string, string] expected by Scatterplot component
     const points = rawPoints.map((item: any) => [
