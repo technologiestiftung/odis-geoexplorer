@@ -1,7 +1,7 @@
 #requirements to specify pipeline code requirements inside Airflow dev container
 # Target: apache/airflow:3.1.7-python3.12
 
-pandas==3.0.3
+pandas==3.0.5
 numpy==2.2.5
 pyarrow==19.0.1
 SQLAlchemy==2.0.49
